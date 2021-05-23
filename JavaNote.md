@@ -44,4 +44,5 @@ double salary = 1000;
 成员变量|类内部，方法外部|对象|跟随对象
 静态变量|类外部，static修饰|类|类的加载和卸载
 
-fasjdfl 
+fasjdfl fas
+asdf
