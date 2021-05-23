@@ -39,3 +39,38 @@ git remote -v //查看远程库信息
 git remote rm origin //接触本地与远程的绑定关系
 git clone git@github.com:michaelliao/gitskills.git //从远程库克隆
 ```
+## 合并其他分支代码至master分支
+下面以dev分支为例来讲解。
+1. 当前分支所有代码提交
+先将dev分支上所有有代码提交至git上，提交的命令一般就是这几个，先复习下：
+```
+# 将所有代码提交
+git add .
+# 编写提交备注
+git commit -m "修改bug"
+# 提交代码至远程分支
+git push origin dev
+```
+2. 切换当前分支至主干（master）
+```
+# 切换分支
+git checkout master 
+
+# 如果多人开发建议执行如下命令,拉取最新的代码
+git pull origin master
+```
+3. 合并（merge)分支代码
+```
+git merge dev
+# merge完成后可执行如下命令，查看是否有冲突
+git status
+```
+4. 提交代码至主干（master）
+```
+git push origin master
+```
+5. 最后切换回原开发分支
+
+```
+git checkout dev
+```
