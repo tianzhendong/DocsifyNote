@@ -74,3 +74,12 @@ git push origin master
 ```
 git checkout dev
 ```
+
+## 删除分支
+```
+// delete branch locally
+git branch -d localBranchName
+
+// delete branch remotely
+git push origin --delete remoteBranchName
+```
