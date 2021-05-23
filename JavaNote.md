@@ -45,4 +45,5 @@ double salary = 1000;
 静态变量|类外部，static修饰|类|类的加载和卸载
 
 fasjdfl fas
-asdf
+asdf   
+sdfass
