@@ -83,3 +83,20 @@ git branch -d localBranchName
 // delete branch remotely
 git push origin --delete remoteBranchName
 ```
+
+## 重命名文件
+
+第一种方法：使用mv命令
+
+``mv readme README.md``
+
+这个时候，如果使用git status查看工作区的状态，Git会提示，readme文件被删除,README.md文件未被跟踪。git add进行提交到暂存区的时候，需要把这个两个文件一起提交，即：
+
+``git add readme README.md``
+
+第二中方法：直接使用Git的 git mv命令。
+``
+git mv readme README.md``
+
+此时，我们不需要再使用git add 命令把两个文件一起提交，直接使用git commit即可。
+也就是说，git mv命令比linux的mv命令，省去了git add提交文件到暂存区这个步骤。
