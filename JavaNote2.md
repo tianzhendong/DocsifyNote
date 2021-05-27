@@ -1,3 +1,10 @@
+---
+title: JavaNote2
+tags: code
+notebook: JAVA
+---
+
+
 # 面向对象
 
 >**类和对象、内存底层、面向对象三个特征、特殊类**
