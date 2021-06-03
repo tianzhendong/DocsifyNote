@@ -5,7 +5,7 @@ notebook: JAVA
 ---
 
 # MathMethod
-![MathMethod](pics/MathMethod.png)
+![MathMethod](https://gitee.com/tianzhendong/my-note.git)
 
 
 
