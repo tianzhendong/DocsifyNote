@@ -1,7 +1,7 @@
 ---
 title: TimeClass
 tags: java
-notebook: Java
+notebook: JAVA
 ---
 
 # 用long变量的值表示时间。
