@@ -903,4 +903,23 @@ public int compareTo(Object obj){
 
 
 # 异常
+程序运行过程中出现的非正常情况
+```java
+try{
+    ...
+}catch(Exception e){
+    e.printStackTrace();
+}
+```
+java采用面向对象的方式来进行异常处理：
 
+1. 抛出异常：如果发生异常，则这个方法生成代表该异常的一个对象，停止当前执行路径，并把异常对象提交给jre
+2. 捕获异常：jre得到该异常后，寻找相应的代码来处理该异常
+
+
+## 异常的分类
+
+java对异常进行了分类，不同的异常用不同的java类表示，所有异常类的根类为java.lang . Throwable,Throwable下面派生了两个子类：error和exception
+
+
+exception分为checkedexception和uncheckedexception异常，前者在编译时就能发现，后者需要在运行时发现。
