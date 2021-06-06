@@ -641,5 +641,91 @@ void setCharAt(int index，char ch)：将给定索引处的字符设置为ch
 其余方法和String类型的方法大致相同。
 
 
+# 数组
+
+数组是相同类型数据的有序集合
+数组特点：
+
+1. 长度是固定的，一旦创建，大小就是不可改变的；
+2. 元素类型必须相同；
+3. 数组变量属于引用类型 ，数组也是对象。
+
+数组的生命（一维数组）
+```
+//  type[] arr_name;
+
+int[] s = null; //声明数组
+s = new int[10 ];   //分配空间
+
+//数组的初始化：三种
+默认、动态、静态
+
+//数组的遍历
+for(int i = 0; i<s.length;i++){
+    ...
+}
+for(s i:s){
+    ...
+}
+
+//数组的拷贝 arraycopy（）
+static void arraycopy（object s1, int srcpos, object s2, int destpos ,int length)
+```
+
+```java
+package JavaStudy;
+
+import java.util.Arrays;
+
+/**
+ * test arrays methods
+ */
+
+public class Test {
+    public static void main(String[] args) {
+        int[] s = new int[10];  //creat array
+        int[] s1 ={1,3,2,5,1};  // init array s1
+        System.out.println(Arrays.toString(s1));  //toString method
+        System.arraycopy(s1,0,s,0,5);   //copy method
+        System.out.println(Arrays.toString(s));
+        Arrays.sort(s1);        //sort method
+        System.out.println(Arrays.toString(s1));
+        //二分法查找，使用该方法前，必须先使用sort进行排序
+        Arrays.sort(s);
+        System.out.println(Arrays.toString(s));
+        System.out.println("位置为："+Arrays.binarySearch(s,3));        //该方法返回下标，如果未找到，则返回负数
+    }
+}
+```
+
+# 多维数组
+
+```
+int[][] a = new int[3][];
+int[][] b = {{1,2,3},{1},{3,2}};
+```
+
+
+# comparable接口
+
+对某个类的对象进行比较，设置比较规则；
+
+
+Comparable接口只有一个方法：
+`public int compareTo(Object obj)//obj为要进行比较的对象`
+
+```
+public int compareTo(Object obj){
+    Man man = (Man)o;
+    if(this.age<man.age){
+        return -1;
+    }
+    if(this.age>man.age){
+        return 1;
+    }
+    return 0;
+}
+
+```
 
 
