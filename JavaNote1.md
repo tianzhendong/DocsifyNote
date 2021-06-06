@@ -435,7 +435,7 @@ void animalShout（Animal a）{
 
 向下转型：把animal转换成cat。
 
-```
+```java
 Animal a = new Dog();
 Dog d2 = (Dog) a;
 ```
@@ -450,7 +450,7 @@ Dog d2 = (Dog) a;
 
 包含抽象方法的类就是抽象类，通过abstract方法定义规范，要求子类必须定义具体实现，通过抽象类，可以做到严格限制子类的设计，使子类之间更加通用。
 
-```
+```java
 //抽象类
 abstract class Animal{
     public abstract void shout();//抽象方法
@@ -479,7 +479,7 @@ class Dog extends Animal{
    从接口的调用者角度看，接口定义了实现者能提供那些服务。
    接口是两个模块之间通信的标准，通信的规范。如果能把你要设计的系统之间模块之间的接口定义好，就相当于完成了系统的设计大纲，剩下的就是添砖加瓦的具体实现了。大家在工作以后，做系统时往往就是使用“面向接口”的思想来设计系统。
 
-```
+```java
 //定义接口
 interface Volant{
     int a = 100; //总是：public static final类型的；
@@ -519,7 +519,8 @@ java8及以后，i允许再接口里定义默认方法和类方法。
 
 类只能单继承，但是接口可以多继承
 
-```interface C extends A ,B{
+```java
+interface C extends A ,B{
 
 }
 ```
@@ -540,7 +541,7 @@ java8及以后，i允许再接口里定义默认方法和类方法。
 创建一个String对象，并初始化一个值。
 String类是不可改变的，一旦创建了一个String对象，它的值就不能改变了。
 如果想对字符串做修改，需要使用StringBuffer&StringBuilder类。
-```
+```java
 //直接创建方式
 String str1 = "abc";
 //提供一个 字符数组 参数来初始化字符串
@@ -552,13 +553,13 @@ String str2 = new String(strarray);
 ### 字符串长度获取
 
 int length()方法：返回字符串对象包含的字符数。
-```
+```java
 int len = str.length();
 ```
 ## 连接字符串
 String concat(String str)：连接两个字符串的方法
 或者直接用‘+’操作符来连接
-```
+```java
 //String对象的连接
 str1.concat(str2);
 
@@ -570,7 +571,7 @@ int indexOf(String s)：字符串s在指定字符串中首次出现的索引位�
 int lastIndexOf(String s)：字符串s在指定字符串中最后一次出现的索引位置，如果没有检索到字符串s，该方法返回-1；
 
 如果s是空字符串，则返回的结果与length方法的返回结果相同，即返回整个字符串的长度。
-```
+```java
 int idx = str.indexOf("a");//字符a在str中首次出现的位置
 int idx = str.lastIndexOf("a");
 
@@ -578,7 +579,7 @@ int idx = str.lastIndexOf("a");
 
 ## 获取指定位置的字符串
 char charAt(int index)方法：返回指定索引出的字符
-```
+```java
 String str = "abcde";
 char thischar = str.charAt(3);//索引为3的thischar是"d"
 
@@ -588,7 +589,7 @@ String substring()方法：实现截取字符串，利用字符串的下标索�
 
 substring(int beginIndex)：截取从指定索引位置开始到字符串结尾的子串
 substring(int beginIndex, int endIndex)：从beginIndex开始，到endIndex结束(不包括endIndex)
-```
+```java
 String str = "abcde";
 String substr1 = str.substring(2);//substr1为"cde"
 String substr2 = str.substring(2,4);//substr2为"cd"
@@ -599,7 +600,7 @@ String substr2 = str.substring(2,4);//substr2为"cd"
 
 String trim()方法
 
-```
+```java
 String str = " ab cde ";
 String str1 = str.trim();//str1为"ab cde"
 ```
@@ -609,7 +610,7 @@ String str1 = str.trim();//str1为"ab cde"
 2. String replaceAll(String regex, String replacement)：使用给定的参数 replacement替换字符串所有匹配给定的正则表达式的子字符串
 3. String replaceFirst(String regex, String replacement)：使用给定replacement 替换此字符串匹配给定的正则表达式的第一个子字符串
 regex是正则表达式，替换成功返回替换的字符串，替换失败返回原字符串
-```
+```java
 String str = "abcde";
 String newstr = str.replace("a","A");//newstr为"Abcde"
 ```
@@ -621,7 +622,7 @@ boolean startsWith()
 1. boolean startsWith(String prefix)：判断此字符串是否以指定的后缀prefix开始
 2. boolean startsWith(String prefix, int beginidx)：判断此字符串中从beginidx开始的子串是否以指定的后缀prefix开始
 boolean endsWith(String suffix)：判断此字符串是否以指定的后缀suffix结束
-```
+```java
 String str = "abcde";
 boolean res = str.startsWith("ab");//res为true
 boolean res = str.StartsWith("bc",1);//res为true
@@ -630,7 +631,7 @@ boolean res = str.endsWith("de");//res为true
 ## 判断字符串是否相等
 boolean equals(Object anObject)：将此字符串与指定的对象比较，区分大小写
 boolean equalsIgnoreCase(String anotherString)：将此 String 与另一个 String 比较，不考虑大小写
-```
+```java
 String str1 = "abcde";
 String str2 = str1;//字符串str1和str2都是一个字符串对象
 String str3 = "ABCDE";
@@ -644,7 +645,7 @@ boolean isEqualed = str1.equlasIgnoreCase(str3);//返回true
 int compareTo(Object o)：把这个字符串和另一个对象比较。
 int compareTo(String anotherString)：按字典顺序比较两个字符串。
 比较对应字符的大小(ASCII码顺序)，如果参数字符串等于此字符串，则返回值 0；如果此字符串小于字符串参数，则返回一个小于 0 的值；如果此字符串大于字符串参数，则返回一个大于 0 的值。
-```
+```java
 String str1 = "abcde";
 String str2 = "abcde123";
 String str3 = str1;
@@ -656,7 +657,7 @@ int res = str2.compareTo(str1);//res = 3
 ## 把字符串转换为相应的数值
 
 String转int型：
-```
+```java
 //第一种
 int i = Integer.parseInt(String str)
 //第二种
@@ -666,13 +667,13 @@ int i = Integer.valueOf(s).intValue();
 
 String转long型：
 
-```
+```java
 long l = Long.parseLong(String str);
 1
 ```
 String转double型：
 
-```
+```java
 double d = Double.valueOf(String str).doubleValue();//doubleValue()不要也可
 double d = Double.parseDouble(str);
 
@@ -680,7 +681,7 @@ double d = Double.parseDouble(str);
 
 int转string型：
 
-```
+```java
 //第一种
 String s = String.valueOf(i)；
 //第二种
@@ -695,7 +696,7 @@ String s = "" + i;
 String toLowerCase()：将字符串中的所有字符从大写字母改写为小写字母
 String toUpperCase()：将字符串中的所有字符从小写字母改写为大写字母
 
-```
+```java
 String str1 = "abcde";
 String str2 = str1.toUpperCase();//str2 = "ABCDE";
 String str3 = str2.toLowerCase();//str3 = "abcde";
@@ -708,7 +709,7 @@ String[] split()：根据匹配给定的正则表达式来拆分字符串，将�
 
 String[] split(String regex)：regex为正则表达式分隔符, . 、 $、 | 和 * 等转义字符，必须得加 \\；多个分隔符，可以用 | 作为连字符。
 String[] split(String regex, int limit)：limit为分割份数
-```
+```java
 String str = "Hello World A.B.C"
 String[] res = str.split(" ");//res = {"Hello","World","A.B.C"}
 String[] res = str.split(" ",2);//res = {"Hello","World A.B.C"}
@@ -723,7 +724,7 @@ String[] res = str.split("and|or");//res = {"A=1 "," B=2 "," C=3"}
 public String(char[] value) ：通过char[]数组来创建字符串
 char[] toCharArray()：将此字符串转换为一个新的字符数组。
 
-```
+```java
 String str = "abcde";
 char mychar[] = str.toCharArray();//char[0] = 'a'; char[1] = 'b'...
 
@@ -735,7 +736,7 @@ byte[] getBytes()
 
 byte[] getBytes()：使用平台的默认字符集将此 String 编码为 byte 序列，并将结果存储到一个新的 byte 数组中。
 byte[] getBytes(String charsetName)：使用指定的字符集将此 String 编码为 byte 序列，并将结果存储到一个新的 byte 数组中。
-```
+```java
 byte[] Str2 = Str1.getBytes();
 
 
@@ -747,14 +748,14 @@ byte[] Str2 = Str1.getBytes();
 StringBuilder相较StringBuffer来说速度较快，多数情况下使用StringBuilder，但是StringBuilder的方法不是线性安全的（不能同步访问），所以在应用程序要求线程安全的情况下，必须使用StringBuffer。
 
 ## 创建StringBuffer字符串
-```
+```java
 StringBuffer str = new StringBuffer("");
 ```
 
 ## 添加字符(最常用方法)
 
 public StringBuffer append(String s)：将指定的字符串追加到字符序列中
-```
+```java
 
 str.append("abc");//此时str为“abc”
 ```
@@ -762,7 +763,7 @@ str.append("abc");//此时str为“abc”
 public delete(int start,int end)：移除此序列中的子字符串的内容
 
 public deleteCharAt(int i)：删除指定位置的字符
-```
+```java
 str.delete(0,1);//此时str为“c”
 str.deleteCharAt(str.length()-1);//删除最后一个字符
 
@@ -770,7 +771,7 @@ str.deleteCharAt(str.length()-1);//删除最后一个字符
 ## 翻转字符串
 public StringBuffer reverse()
 
-```
+```java
 str.reverse();
 
 ```
@@ -778,7 +779,7 @@ str.reverse();
 
 replace(int start,int end,String str)：用String类型的字符串str替换此字符串的子字符串中的内容
 
-```
+```java
 String s = "1";
 str.replace(1,1,s);//此时str为"a1c"
 
@@ -786,7 +787,7 @@ str.replace(1,1,s);//此时str为"a1c"
 ## 插入字符
 
 public insert(int offset, int i)：将int参数形式的字符串表示形式插入此序列中
-```
+```java
 str.insert(1,2);
 ```
 ## 字符串长度
@@ -800,12 +801,12 @@ str.setLength(4);
 ## 当前容量
 int capacity()：获取当前容量
 void ensureCapacity(int minimumCapacity)：确保容量小于指定的最小值
-```
+```java
 str.capacity();
 ```
 ## 将其转变为String
 String toString()
-```
+```java
 str.toString();//将StringBuffer类型的序列转变为String类型的字符串
 ```
 ## 设置指定索引处的字符
@@ -824,7 +825,7 @@ void setCharAt(int index，char ch)：将给定索引处的字符设置为ch
 3. 数组变量属于引用类型 ，数组也是对象。
 
 数组的生命（一维数组）
-```
+```java
 //  type[] arr_name;
 
 int[] s = null; //声明数组
@@ -873,7 +874,7 @@ public class Test {
 
 # 多维数组
 
-```
+```java
 int[][] a = new int[3][];
 int[][] b = {{1,2,3},{1},{3,2}};
 ```
@@ -887,7 +888,7 @@ int[][] b = {{1,2,3},{1},{3,2}};
 Comparable接口只有一个方法：
 `public int compareTo(Object obj)//obj为要进行比较的对象`
 
-```
+```java
 public int compareTo(Object obj){
     Man man = (Man)o;
     if(this.age<man.age){
