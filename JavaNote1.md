@@ -923,3 +923,46 @@ java对异常进行了分类，不同的异常用不同的java类表示，所有
 
 
 exception分为checkedexception和uncheckedexception异常，前者在编译时就能发现，后者需要在运行时发现。
+
+## 异常的处理
+
+### 捕获异常
+```java
+try{
+    语句1； //语句1出现异常，语句2不会再执行
+    语句2;  //抛出异常
+}catch(Exception1 e){
+
+}catch(Exception2 e){
+
+}finally{
+    语句3;        //统一出口，不管有无异常，都会执行
+}
+```
+
+
+### 声明异常
+
+```java
+//逐级向上抛出异常，自己不处理
+public static void main(String[] args) throws Exception{
+
+}
+```
+
+
+
+## try-with-resource自动关闭closable接口的资源
+
+```java
+try(,,){
+    ,,
+}catch(Exception e){
+
+}
+```
+
+
+
+
+
