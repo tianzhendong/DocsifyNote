@@ -192,6 +192,211 @@ public class DirectoryDeom {
 
 ```
 
+# 文件字节流
+* FileInputStream通过字节的方式读取文件，适合读取所有类型的文件（图像、视频、文本文件等）。Java也提供了FileReader专门读取文件文件；
+* FileOutputStream通过字节的方式写数据到文件中，适合所有类型的文件。java也提供了FileWriter专门写入文本文件。
 
+## 例子
+
+```java
+package com.IO;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class FileStreamDemo {
+    public static void main(String[] args) throws IOException {
+        //程序开始时间
+        long start = System.currentTimeMillis();
+
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            //实例化
+            fis = new FileInputStream("e:/灵笼.png");
+            fos = new FileOutputStream("e:/灵笼2.png");
+            int temp = 0;
+            while ((temp = fis.read())!=-1){
+                //输出
+                //System.out.println(temp);
+                //复制到fos
+                fos.write(temp);
+            }
+            //将数据从内存写入到磁盘
+            fos.flush();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            //关闭fis和fos
+            if(fis != null){
+                fis.close();
+            }
+            if(fos != null){
+                fos.close();
+            }
+        }
+        //程序结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("运行时间为："+ (end - start)+"ms");
+    }
+}
+/*
+*运行时间为：102ms
+*/
+```
+## 通过缓冲区提高读写效率
+
+### 方式一
+通过创建一个指定长度的字节数组作为缓冲区，以此来提高IO流的读写效率。该方式适合读取较大图片时的缓冲区定义。注意：缓冲区的长度一定是2的整数幂。一般情况下，**1024**长度较为合适
+```java
+package com.IO;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class FileStreamBuffDemo {
+    public static void main(String[] args) throws IOException {
+        //程序开始时间
+        long start = System.currentTimeMillis();
+
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            //实例化
+            fis = new FileInputStream("e:/灵笼.png");
+            fos = new FileOutputStream("e:/灵笼2.png");
+            int temp = 0;
+            //创建一个缓冲区，提高读写效率
+            byte[] buff = new byte[1024];
+
+            while ((temp = fis.read(buff))!=-1){
+                //输出
+                //System.out.println(temp);
+                //复制到fos
+                fos.write(buff,0, temp);
+            }
+            //将数据从内存写入到磁盘
+            fos.flush();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            //关闭fis和fos
+            if(fis != null){
+                fis.close();
+            }
+            if(fos != null){
+                fos.close();
+            }
+        }
+        //程序结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("运行时间为："+ (end - start)+"ms");
+    }
+}
+/*
+*运行时间为：13ms
+*/
+```
+### 方式二
+也是通过创建一个字节数组作为缓冲区，但是长度直接通过available()返回当前文件的预估长度，通过一次读写操作中完成。注意，文件过大时，占用的内存较大。大文件不推荐；
+```java
+package com.IO;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class FileStreamBuff2Demo {
+    public static void main(String[] args) throws IOException {
+        //程序开始时间
+        long start = System.currentTimeMillis();
+
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            //实例化
+            fis = new FileInputStream("e:/灵笼.png");
+            fos = new FileOutputStream("e:/灵笼2.png");
+
+            //创建一个缓冲区，提高读写效率
+            byte[] buff = new byte[fis.available()];
+            fis.read(buff);
+            //一次性复制，不需要循环
+            fos.write(buff);
+            //将数据从内存写入到磁盘
+            fos.flush();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            //关闭fis和fos
+            if(fis != null){
+                fis.close();
+            }
+            if(fos != null){
+                fos.close();
+            }
+        }
+        //程序结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("运行时间为："+ (end - start)+"ms");
+    }
+}
+```
+
+## 通过字节缓冲流提高读取效率
+
+>java缓冲流本身并不具有IO流的读写功能，只是在别的流上加上缓冲功能提高效率，因此缓冲流是一种处理流/包装流；
+
+当对文件或者其他数据源进行频繁的读写操作时，效率低，这是如果使用缓冲流可以提高效率；缓冲流是先将数据缓存起来，当缓存区满以后或者手动刷新时再一次性的读取到程序或写入目的地；
+
+BufferedInputStream和BufferedOutputStream这两个是缓冲字节流通过内部缓存数组来提高操作流的效率。
+
+**缓冲区中，默认的byte数组长度为8192**
+
+
+```java
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class FileStreamBuffer3Demo {
+    public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+        try {
+            fis = new FileInputStream("e:/灵笼.png");
+            bis = new BufferedInputStream(fis);
+            fos = new FileOutputStream("e:/灵笼11.png");
+            bos = new BufferedOutputStream(fos);
+            int temp = 0;
+            while ((temp = bis.read())!= -1){
+                bos.write(temp);
+            }
+            bos.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                //关闭时，先关处理流/包装流
+                bos.close();
+                fos.close();
+                bis.close();
+                fis.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("运行时间："+ (endTime - startTime)+"ms");
+    }
+}
+```
 
 
