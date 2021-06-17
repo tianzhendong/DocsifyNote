@@ -399,4 +399,49 @@ public class FileStreamBuffer3Demo {
 }
 ```
 
+# 转换流
+InputStreamReader/OutputStreamWriter实现将字节流转化成字符流
+
+## 通过转换流实现键盘输入到屏幕输出
+```java
+package com.IO;
+
+import java.io.*;
+
+public class ConvertStream {
+    public static void main(String[] args) {
+        //InputStream is = System.in;
+        BufferedReader bf = null;
+        BufferedWriter bw = null;
+        try {
+            //将字节流对象System.in转换为字符流对象，实现一次采集一行数据
+            bf = new BufferedReader(new InputStreamReader(System.in));
+            bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            while (true){
+                bw.write("please input:");
+                bw.flush();
+                String input = bf.readLine();
+                if(input.equals("exit"))
+                    break;
+                //实现屏幕输出，等同于System.out.println(input);
+                bw.write("您输入的是："+input);
+                bw.newLine();
+                bw.flush();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bf.close();
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+```
+
 
