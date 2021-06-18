@@ -444,4 +444,146 @@ public class ConvertStream {
 }
 ```
 
+# 字符输出流
+java中提供了用于字符输出的流对象PrintWriter，**具有自动行刷新缓冲字符输出流**，不需要在flush，特点是可以按行写出字符串，并可通过println()实现自动换行
+
+# 字节数组流
+ByteArrayInputStream和ByteArrayOutputStream经常用在需要流和数组之间转换的情况
+
+## 字节数组输入流
+FileInputStream把文件当作数据源；ByteArrayInputStream把内存中的“字节数组对象”当作数据源。
+
+```java
+package com.IO;
+
+import java.io.ByteArrayInputStream;
+
+public class ByteArrayInputStreamDemo {
+    public static void main(String[] args) {
+        //创建字节数组，作为数据源
+        byte [] bytes = "tianzhendong".getBytes();
+
+        ByteArrayInputStream bais = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            bais = new ByteArrayInputStream(bytes);
+            int temp = 0;
+            while ((temp = bais.read())!= -1){
+                sb.append((char)temp);
+            }
+            System.out.println(sb.toString());
+        } finally {
+            try {
+                bais.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+## 字节数组输出流
+将流中的数据写入到字节数组中
+
+```java
+package com.IO;
+
+import java.io.ByteArrayOutputStream;
+
+public class ByteArrayOutputStreamDemo {
+    public static void main(String[] args) {
+        ByteArrayOutputStream bos = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            bos = new ByteArrayOutputStream();
+            //添加字符
+            bos.write('t');
+            bos.write('i');
+            bos.write('a');
+            bos.write('n');
+            //获取字符数组
+            byte [] arr = bos.toByteArray();
+            //添加到字符串中
+            for(int i : arr){
+                sb.append((char) i);
+            }
+            System.out.println(sb.toString());
+        } finally {
+            try {
+                bos.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+# 数据流
+>数据流将基本数据类型与字符串类型作为数据源，从而允许程序以与机器无关的方式从底层输入输出流中操作java基本数据类型与字符串类型
+
+DataInputStream和DataOutputStream提供了可以存取与机器无关的所有java基础类型的方法
+
+```java
+package com.IO;
+
+import java.io.*;
+
+public class DataIOStreamDemo {
+    public static void main(String[] args) {
+        DataInputStream dis = null;
+        DataOutputStream dos = null;
+        try {
+            dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("e:/a.txt")));
+            dis = new DataInputStream(new BufferedInputStream(new FileInputStream("e:/a.txt")));
+            //写入
+            dos.writeBoolean(true); //写入boolean类型
+            dos.writeChar('t'); //写入char类型
+            dos.writeInt(10);   //写入int
+            dos.writeUTF("tian");   //写入string
+            dos.flush();
+            //读取，顺序必须和写入一致
+            System.out.println("boolean:"+dis.readBoolean());
+            System.out.println("char:"+dis.readChar());
+            System.out.println("int:"+dis.readInt());
+            System.out.println("string:"+dis.readUTF());
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                dis.close();
+                dos.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+# 对象流
+对象的本质可是用来组织和存储数据的，本身也是数据
+
+## 序列化和反序列化
+当两个进程远程通信时，彼此可以发送各种类型的数据。无论是何种类型的数据，都会以二进制序列的形式在网络上传送
+
+当发送java对象时，发送方需要把java对象转化为字节序列，接收方需要把字节序列恢复为java对象，成为序列化和反序列化
+
+对象序列化的作用
+1. 持久性：把对象的字节序列永久地保存到硬盘上，通常存放到一个文件中
+2. 网络通信：在网络上传送对象的字节序列，如：服务器之间的数据通信、对象传递
+
+### 序列化设计的类和接口
+
+ObjectOutputStream代表对象输出流，他的writeObject（）方法可将对象进行序列化，把得到的字节序列写到一个目标输出流中
+
+ObjectInputStream代表对象输入流，readObject（）方法从一个源输入流中读取字节序列，再把他们反序列化为一个对象，并返回
+
+注：**只有实现了Serializable接口的类的对象才能被序列化，Serializable接口是一个空接口，只起到标记作用**
+
+
+## 操作基本数据类型
+对象流中不仅可以实现对基本数据类型进行读写操作，还能对java对象进行读写操作
+
 
