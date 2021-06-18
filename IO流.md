@@ -4,6 +4,8 @@ tags: JAVA
 notebook: JAVA
 ---
 
+[TOC]
+
 # IO
 
 # 数据源
@@ -586,4 +588,112 @@ ObjectInputStream代表对象输入流，readObject（）方法从一个源输�
 ## 操作基本数据类型
 对象流中不仅可以实现对基本数据类型进行读写操作，还能对java对象进行读写操作
 
+读写基本数据类型时用法同DataInputStream和DataOutputStream
 
+## 操作对象
+
+将内存中的java对象通过序列化的方式写入磁盘的文件中，被序列化的对象必须要实现serializable序列化接口，复制会抛出异常
+
+### 创建对象
+```java
+package com.IO;
+
+import java.io.Serializable;
+
+public class Users implements Serializable {
+    private int userid;
+    private String username;
+    private int userage;
+
+    public Users(int userid, String username, int userage) {
+        this.userid = userid;
+        this.username = username;
+        this.userage = userage;
+    }
+
+    public Users() {
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getUserage() {
+        return userage;
+    }
+
+    public void setUserage(int userage) {
+        this.userage = userage;
+    }
+}
+```
+
+### 序列化对象
+```java
+package com.IO;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
+public class ObjectOutputStreamDemo {
+    public static void main(String[] args) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream("e:/b"));
+            Users u = new Users(1,"tianzhendong",21);
+            oos.writeObject(u);
+            oos.flush();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if(oos!=null){
+                    oos.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+### 反序列化对象
+```java
+package com.IO;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+
+public class ObjectInputStreamDemo {
+    public static void main(String[] args) {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream("e:/b"));
+            Users u1 = (Users) ois.readObject();
+            System.out.println(u1.getUserid()+"\t"+u1.getUsername()+"\t"+u1.getUserage());
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if(ois != null){
+                    ois.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
