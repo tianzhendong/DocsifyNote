@@ -4,7 +4,7 @@ tags: code
 notebook: JAVA
 ---
 
-
+[TOC]
 
 # 概述
 **java的核心优势**：跨平台/可移植性
