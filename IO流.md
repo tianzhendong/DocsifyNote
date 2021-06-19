@@ -697,3 +697,28 @@ public class ObjectInputStreamDemo {
     }
 }
 ```
+# 随机访问流
+RandomAccessFile作用：
+1. 实现对一个文件做读和写的操作
+2. 可以访问文件的任意位置，不像其他流只能按照先后顺序读取
+
+在开发客户端软件时，经常用到
+
+核心方法：
+1. RandomAccessFile（String name , String mode）;name 用来确定文件；mode取r只读或者rw读写，通过mode确定流对文件的访问权限
+2. seek（long a ），用来定位流对象读写文件的位置，a确定读写位置距离文件开头的字节个数
+3. 个体FilePointer（）获得流的当前读写位置
+
+# File类在IO中的作用
+
+当以文件作为数据源或者目标时，除了可以使用字符串作为文件以及位置的指定以外，也可以使用File类指定
+
+# Apache IO包
+Apache-commons工具包中提供了IOUtils/FileUtils，可以方便的对文件和目录进行操作。
+
+## 下载和添加commons包
+
+https://commons.apache.org/proper/commons-io/download_io.cgi
+
+下载后在项目设置、libraries中添加
+
