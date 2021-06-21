@@ -6,7 +6,7 @@ notebook: JAVA
 
 [toc]
 
-# 二维数组中的查找
+# 二维数组中的查找-中等
 
 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 
@@ -59,7 +59,7 @@ public class Solution {
 }
 ```
 
-# 替换空格
+# 替换空格-简单
 
 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
 
@@ -104,7 +104,7 @@ public class Solution {
     }
 }
 ```
-# 从尾到头打印链表
+# 从尾到头打印链表-简单
 
 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
 
@@ -240,7 +240,7 @@ class Solution {
 }
 ```
 
-# 数组中重复的数字
+# 数组中重复的数字-简单
 找出数组中重复的数字。
 
 
@@ -266,6 +266,95 @@ class Solution {
         return -1;
     }
 }
+//方法2，原地交换
+class Solution {
+    public int findRepeatNumber(int[] nums) {
+        int n = 0;
+        while(n<nums.length){
+            if(nums[n]==n){
+                n++;
+                continue;
+            }
+            if(nums[nums[n]]==nums[n])return nums[n];
+            int temp = nums[nums[n]];
+            nums[nums[n]]=nums[n];
+            nums[n] = temp;
+        }
+        return -1;
+    }
+}
+```
 
+
+# 重建二叉树-难度中等
+
+输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+
+```
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+
+   3
+   / \
+  9  20
+    /  \
+   15   7
+```
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    //前序遍历：根节点，左子树的前序遍历，右子树的前序遍历
+    //中序遍历：左子树的中序遍历，根节点，右子树的中序遍历
+    //根据前序遍历，可以方便的找到根节点、左右子树的根节点
+    //根据中序遍历，可以方便的找到左节点、右节点
+    private HashMap<Integer,Integer> hm = new HashMap();
+    private int[] preorder1;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        preorder1 = preorder;
+        //将inorder存储到map中
+        for(int i=0; i<inorder.length; i++){
+            hm.put(inorder[i],i);
+        }
+        //根据递归函数，求解
+        return recur(0,0,inorder.length-1);
+    }
+
+    public TreeNode recur(int preRootIndex, int inLeftIndex, int inRightIndex){
+        //递归结束条件
+        if(inLeftIndex > inRightIndex)return null;
+        //左子树的根节点
+        int perLeftRootIndex = preRootIndex+1;
+        //左子树的左节点不变，inLeftIndex
+        //左子树的右节点
+        int inRootIndex = hm.get(preorder1[preRootIndex]);
+        int inLeftRightIndex = inRootIndex -1;
+        
+        //右子树的根节点
+        int perRightRootIndex = inRootIndex - inLeftIndex + preRootIndex + 1;
+        //右子树的左节点
+        int perRightLeftIndex = inRootIndex + 1;
+
+        //根节点
+        TreeNode treeNode = new TreeNode(preorder1[preRootIndex]);
+        //左节点,输入的是左子树的根节点，左子树的左节点，左子树的右节点
+        treeNode.left = recur(perLeftRootIndex, inLeftIndex, inLeftRightIndex);
+        //右节点
+        treeNode.right = recur(perRightRootIndex, perRightLeftIndex, inRightIndex);
+
+        return treeNode;
+
+    }
+}
+```
 
 
