@@ -357,4 +357,100 @@ class Solution {
 }
 ```
 
+# 两个栈实现队列-简单
+用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
+
+
+
+```java
+class CQueue {
+    private Stack<Integer> a;
+    private Stack<Integer> b ;
+
+    public CQueue() {
+        a = new Stack<>();
+        b = new Stack<>();
+    }
+    
+    public void appendTail(int value) {
+        a.push(value);
+    }
+    
+    public int deleteHead() {
+        if(!b.isEmpty())return b.pop();
+        while(!a.isEmpty()){
+            b.push(a.pop());
+        }
+        return b.isEmpty()?-1:b.pop();
+    }
+}
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue obj = new CQueue();
+ * obj.appendTail(value);
+ * int param_2 = obj.deleteHead();
+ */
+ ```
+
+# 斐波那契数列-简单
+写一个函数，输入 n ，求斐波那契（Fibonacci）数列的第 n 项（即 F(N)）。斐波那契数列的定义如下：
+```
+F(0) = 0,   F(1) = 1
+F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+```
+斐波那契数列由 0 和 1 开始，之后的斐波那契数就是由之前的两数相加而得出。
+
+答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+
+
+```java
+//直接用递归会导致超时
+//方法1
+class Solution {
+    public int fib(int n) {
+        if(n<2) return n;
+        int[] fn = new int[n+1];
+        fn[0] = 0;
+        fn[1]= 1;
+        for(int i =2; i<=n; i++){
+            fn[i]= (fn[i-1] +fn[i-2])%1000000007;
+        }
+        return fn[n];
+    }
+}
+
+//方法2 记忆化递归
+class Solution {
+    int[] al = new int[101];
+
+    public int fib(int n) {
+        if(n<2) return n;
+        if(al[n]!=0) return al[n];
+        al[n]  =(fib(n-1)+fib(n-2))%1000000007 ;
+        
+        return al[n];
+    }
+}
+
+//方法三，动态规划
+class Solution {
+    
+    public int fib(int n) {
+        int a=0;
+        int b=1;
+        int sum=0;
+        if(n<2) return n;
+        for(int i = 2; i <= n; i++){
+            sum = (a + b)%1000000007;
+            a = b;
+            b = sum;
+            
+        }
+        return sum;
+    }
+}
+```
+
+
 
