@@ -71,7 +71,7 @@ MySQL、 Oracle以及Microsoft SQL Server等数据库是基于客户机—服
 mysql -u root -p;
 
 //显示可用的数据库列表
-show databases；
+show databases;
 
 //选择数据库
 use crashcourse;
