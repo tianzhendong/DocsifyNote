@@ -71,30 +71,30 @@ MySQL、 Oracle以及Microsoft SQL Server等数据库是基于客户机—服
 mysql -u root -p;
 
 //显示可用的数据库列表
-show databases;
+SHOW databases;
 
 //选择数据库
-use crashcourse;
+USE crashcourse;
 
 //获得一个数据库内的表的列表
-show tables;
+SHOW tables;
 
 //显示表列
-show columns from customers;
+SHOW columns from customers;
 
 //显示广泛的服务器状态信息
-show status;
+SHOW status;
 
 //分别用来显示创建特定数据库或表的MySQL语句
-show create database;
-show create table;
+SHOW create database;
+SHOW create table;
 
 //显示授予用户（所有用户或特定用户）的安全权限
-Show Grants;
+SHOW Grants;
 
 //显示服务器错误或警告消息
-show errors;
-show warnings;
+SHOW errors;
+SHOW warnings;
 ```
 
 # 检索数据
