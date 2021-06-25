@@ -148,4 +148,50 @@ SELECT与select是相同的。同样，写成Select也没有关系。
 
 # 排序检索数据
 
+子句（clause） SQL语句由子句构成，有些子句是必需的，而
+有的是可选的。一个子句通常由一个关键字和所提供的数据组
+成。子句的例子有SELECT语句的FROM子句。
+
+为了明确地排序用SELECT语句检索出的数据，可使用ORDER BY子句。
+ORDER BY子句取一个或多个列的名字，据此对输出进行排序。
+
+```java
+//指示MySQL对prod_name列以字母顺序排序数据
+SELECT prod_name
+FROM products
+ORDER BY prod_name;
+
+//检索3个列，并按其中两个列对结果进行排序——首先按价格，然后再按名称排序
+SELECT prod_id, prod_price, prod_name
+FROM products
+ORDER BY prod_price, prod_name;//仅在多个行具有相同的prod_price值时才对产品按prod_name进行排序
+
+//按价格以降序排序产品（最贵的排在最前面）
+SELECT prod_id, prod_price, prod_name
+FROM products
+ORDER BY prod_price DESC;
+
+//DESC关键字只应用到直接位于其前面的列名。
+SELECT prod_id, prod_price, prod_name
+FROM products
+ORDER BY prod_price DESC, prod_name;
+//在上例中，只对prod_price列指定DESC，对prod_name列不指定。因此，prod_price列以降序排序，而prod_name列（在每个价格内）仍然按标准的升序排序
+
+//使用ORDER BY和LIMIT的组合，能够找出一个列中最高或最低的值
+SELECT prod_id, prod_price, prod_name
+FROM products
+ORDER BY prod_price DESC
+LIMIT 1;
+```
+
+与DESC相反的关键字是ASC（ASCENDING）， 在升序排序时可以指定它。
+但实际上， ASC没有多大用处，因为升序是默认的（如果既不指定ASC也
+不指定DESC，则假定为ASC）
+
+在字典（ dictionary）排序顺序中，A被视为与a相同，这是MySQL
+（和大多数数据库管理系统）的默认行为。但是，许多数据库
+管理员能够在需要时改变这种行为（如果你的数据库包含大量
+外语字符，可能必须这样做）。
+
+# 过滤数据
 
