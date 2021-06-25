@@ -452,5 +452,57 @@ class Solution {
 }
 ```
 
+# 青蛙跳台阶问题
 
+一只青蛙一次可以跳上1级台阶，也可以跳上2级台阶。求该青蛙跳上一个 n 级的台阶总共有多少种跳法。
 
+答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+
+思路：此类求 多少种可能性 的题目一般都有 递推性质 ，即 f(n)f(n) 和 f(n-1)f(n−1)…f(1)f(1) 之间是有联系的。
+
+设跳上 nn 级台阶有 f(n)f(n) 种跳法。在所有跳法中，青蛙的最后一步只有两种情况： 跳上 11 级或 22 级台阶。
+当为 11 级台阶： 剩 n-1n−1 个台阶，此情况共有 f(n-1)f(n−1) 种跳法；
+当为 22 级台阶： 剩 n-2n−2 个台阶，此情况共有 f(n-2)f(n−2) 种跳法。
+f(n)f(n) 为以上两种情况之和，即 f(n)=f(n-1)+f(n-2)f(n)=f(n−1)+f(n−2) ，以上递推性质为斐波那契数列。本题可转化为 求斐波那契数列第 nn 项的值 ，与  斐波那契数列 等价，唯一的不同在于起始数字不同。
+
+```java
+class Solution {
+    public int numWays(int n) {
+        if(n<2) return 1;
+        int a =1;
+        int b = 1;
+        int fn = 0;
+        for(int i = 2; i<=n; i++){
+            fn = (a + b) % 1000000007;
+            a = b;
+            b = fn;
+        }
+        return fn;
+    }
+}
+```
+
+# 旋转数组的最小数字
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组 [3,4,5,1,2] 为 [1,2,3,4,5] 的一个旋转，该数组的最小值为1
+
+```java
+class Solution {
+    public int minArray(int[] numbers) {
+        int size = numbers.length;
+        int begin = 0;
+        int end = size-1;
+        int mid = 0;
+        while(begin<end){
+            mid = (end + begin)>>1;           
+            if(numbers[mid]==numbers[end]){
+                end--;
+            }else if(numbers[mid]<numbers[end]){
+                end = mid;
+            }else{
+                begin = mid+1;
+            }
+        }
+        return numbers[begin];   
+    }
+}
+```
