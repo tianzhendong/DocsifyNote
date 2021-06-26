@@ -442,7 +442,7 @@ FROM vendors
 ORDER BY vend_name;
 ```
 ![tu](../pics/pic1.png)
-
+1
 
 
 # 附录-base64的地址
