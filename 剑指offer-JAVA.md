@@ -506,3 +506,69 @@ class Solution {
     }
 }
 ```
+
+# 矩阵中的路径-中等难度
+
+给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+
+单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+
+思路：
+
+本题为**网格、迷宫**类矩阵搜索问题，可使用 深度优先搜索（DFS）+ 剪枝 解决。
+
+* 深度优先搜索： 可以理解为暴力法遍历矩阵中所有字符串可能性。DFS 通过递归，先朝一个方向搜到底，再回溯至上个节点，沿另一个方向搜索，以此类推。
+* 剪枝： 在搜索中，遇到 这条路不可能和目标字符串匹配成功 的情况（例如：此矩阵元素和目标字符不同、此元素已被访问），则应立即返回，称之为 可行性剪枝 。
+
+```java
+class Solution {
+    boolean[][] bl; //用来标记是否已经遍历过
+    public boolean exist(char[][] board, String word) {
+        char [] words = word.toCharArray();           
+        
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(recur(i, j, 0, board, words)) return true;                
+            }
+        }
+        return false;
+    }
+
+    //i，j为矩阵下表
+    //w为单词下标
+    public boolean recur(int i, int j, int w, char[][]board, char[]words){
+        //越界，结束循环
+        if(i<0||j<0||i>=board.length||j>=board[0].length) return false;  
+
+        if(board[i][j] != words[w]) {//当前元素不符合，结束循环
+            return false;
+        }else if(w == words.length-1){
+            return true;    //当单词的最后一个单词已经找到后，结束循环
+        }
+
+        //标记该元素已经使用
+        board[i][j] = '\0';
+
+        //向四个方向递归
+        boolean result = recur(i+1, j, w+1, board, words)||recur(i-1, j, w+1, board, words)||recur(i, j+1, w+1, board, words)||recur(i, j-1, w+1, board, words);  
+
+        //恢复，别的路径会再次对其遍历
+        board[i][j] = words[w];
+
+        return result;
+    }
+}
+```
+
+此题也可以使用方向数组进行向四个方向递归
+
+在搜索的过程中，假设我们当前到达了b[i][j],那么此时我们需要去判断四周的四个方格是否满足条件
+这时就可以使用方向数组
+```java
+//定义两个数组 dx代表方向的第一维，dy代表方向的第二维
+int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
+int x = i + dx[d], y = j + dy[d];
+//当d = 0时，(x,y)就相当于(i,j)坐标往右走了一格的坐标
+//同样的,当d = 1,2,3时，分别代表向下,向左,向上走一格
+```
+
