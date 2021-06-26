@@ -573,12 +573,166 @@ WHERE Year(order_date)=2005 AND MONTH(order_date)=9;
 |Tan()| 返回一个角度的正切|
 
 # 汇总数据
+## 聚集函数
+* 确定表中行数（或者满足某个条件或包含某个特定值的行数）。
+* 获得表中行组的和。
+* 找出表列（或所有行或某些特定的行）的最大值、最小值和平均值
+
+聚集函数（ aggregate function） 运行在行组上，计算和返回单
+个值的函数。
+
+|函 数| 说 明|
+|-|-|
+|AVG() |返回某列的平均值|
+|COUNT()| 返回某列的行数|
+|MAX()| 返回某列的最大值|
+|MIN() |返回某列的最小值|
+|SUM()| 返回某列值之和|
+
+### AVG()
+AVG()只能用来确定特定数值列的平均值，而
+且列名必须作为函数参数给出。为了获得多个列的平均值，
+必须使用多个AVG()函数。
 
 
+```java
+//AVG()通过对表中行数计数并计算特定列值之和，求得该列的平均值。 AVG()可用来返回所有列的平均值，也可以用来返回特定列或行的平均值
+//返回products表中所有产品的平均价格
+SELECT AVG(prod_price) AS avg_price
+FROM products;
+//确定特定列或行的平均值。 下面的例子返回特定供应商所提供产品的平均价格
+SELECT AVG(prod_price) AS avg_price
+FROM products
+WHERE vend_id = 1003;
+```
 
+### COUNT()
+COUNT()函数进行计数。 可利用COUNT()确定表中行的数目或符合特
+定条件的行的数目。
 
+COUNT()函数有两种使用方式。
+* 使用COUNT(*)对表中行的数目进行计数， 不管表列中包含的是空
+值（ NULL）还是非空值。
+* 使用COUNT(column)对特定列中具有值的行进行计数，忽略
+NULL值
 
+如果指定列名，则指定列的值为空的行被COUNT()
+函数忽略，但如果COUNT()函数中用的是星号（ *），则不忽
+略。
 
+```JAVA
+//返回customers表中客户的总数
+SELECT COUNT(*) AS num_cust
+FROM customers;
+
+//对具有电子邮件地址的客户计数
+SELECT COUNT(cust_email) AS num_cust
+FROM customers;
+```
+### MAX()函数\MIN()函数
+MAX()返回指定列中的最大值。 MAX()要求指定列名
+
+MIN()的功能正好与MAX()功能相反，它返回指定列的最小值
+
+>对非数值数据使用MAX()函数\MIN()函数,虽然MAX()函数\MIN()函数一般用来找出最大最小的
+数值或日期值，但MySQL允许将它用来返回任意列中的最大最小
+值，包括返回文本列中的最大最小值。在用于文本数据时，如果数
+据按相应的列排序，则MAX()函数\MIN()函数返回最后一行\第一行。
+
+MAX()函数\MIN()函数忽略列值为NULL的行。
+
+```java
+//返回products表中最贵的物品的价格
+SELECT MAX(prod_price) AS max_price
+FROM products;
+
+//返回products表中最便宜物品的价格
+SELECT MIN(prod_price) AS min_price
+FROM products;
+```
+### SUM()函数
+SUM()用来返回指定列值的和（总计）。\
+```java
+//检索所订购物品的总数（所有quantity值之和）
+SELECT SUM(quantity) AS items_ordered
+FROM orderitems
+WHERE order_num = 20005;
+
+//返回订单中所有物品价钱之和
+SELECT SUM(quantity*item_price) AS total_price
+FROM orderitems
+WHERE order_num = 20005;
+```
+
+## 聚集不同的值
+
+以上5个聚集函数都可以如下使用：
+* 对所有的行执行计算，指定ALL参数或不给参数（因为ALL是默认
+行为）；
+* 只包含不同的值，指定DISTINCT参数
+
+>如果指定列名，则DISTINCT只能用于COUNT()。DISTINCT
+不能用于COUNT(*)，因此不允许使用COUNT（ DISTINCT），
+否则会产生错误。类似地， DISTINCT必须使用列名，不能用
+于计算或表达式
+```java
+//返回特定供应商1003提供的产品的平均价格(相同的产品只会计算一次)
+SELECT AVG( DISTINCT prod_price) AS avg_price
+FROM products
+WHERE vend_id = 1003;
+```
+## 组合聚集函数
+目前为止的所有聚集函数例子都只涉及单个函数。但实际上SELECT
+语句可根据需要包含多个聚集函数。
+
+```JAVA
+SELECT COUNT(*) AS num_items,
+    MIN(prod_price) AS price_min,
+    Max(prod_price) AS price_max,
+    AVG(prod_price) AS price_avg,
+    SUM(prod_price) AS price_sum
+FROM products;
+```
+# 分组数据
+
+```java
+//返回vend_id=1005的数量
+SELECT COUNT(*) AS num_prods 
+FROM products
+WHERE vend_id = 1005;
+
+//创建数据分组,GROUP BY子句指示MySQL按vend_id排序并分组数据。
+SELECT vend_id, COUNT(*) AS num_prods 
+FROM products
+GROUP BY vend_id;
+
+//过滤数量大于等于3的。
+//where只能过滤行，不能过滤分组、
+//HAVING 用于过滤分组
+SELECT vend_id, COUNT(*) AS num_prods 
+FROM products
+GROUP BY vend_id
+HAVING COUNT(*)>=3;
+
+//分组和排序
+//GROUP BY子句用来按订单号（order_num列）分组数据，以便SUM(*)函数能够返回总计订单价格。 HAVING子句过滤数据，使得只返回总计订单价格大于等于50的订单。最后， 用ORDERBY子句排序输出
+SELECT order_num, SUM(quantity*item_price) AS ordertotal
+FROM orderitems
+GROUP BY order_num
+HAVING SUM(quantity*item_price)>=50
+ORDER BY ordertotal;
+```
+# 使用子查询
+## 子查询
+查询（query） 任何SQL语句都是查询。但此术语一般指SELECT
+语句
+
+SELECT语句是SQL的查询。迄今为止我们所看到的所有SELECT语句
+都是简单查询，即从单个数据库表中检索数据的单条语句。
+
+SQL还允许创建子查询（ subquery） ，即嵌套在其他查询中的查询。
+
+## 利用子查询进行过滤
 
 
 
