@@ -194,4 +194,256 @@ LIMIT 1;
 外语字符，可能必须这样做）。
 
 # 过滤数据
+在同时使用ORDER BY和WHERE子句时，应
+该让ORDER BY位于WHERE之后， 否则将会产生错误
+
+```JAVA
+//在SELECT语句中，数据根据WHERE子句中指定的搜索条件进行过滤。
+SELECT prod_price, prod_name
+FROM products
+WHERE prod_price = 2.50;
+
+//在SELECT语句中，数据根据WHERE子句中指定的搜索条件进行过滤。
+SELECT prod_price, prod_name
+FROM products
+WHERE prod_price != 2.50;//等同于WHERE prod_price <> 2.50;
+
+//检索价格在5美元和10美元之间的所有产品
+SELECT prod_price, prod_name
+FROM products
+WHERE prod_price BETWEEN 5 AND 10;
+
+//返回没有价格（空prod_price字段，不是价格为0）的所有产品
+SELECT prod_price, prod_name
+FROM products
+WHERE prod_price BETWEEN IS NULL;
+```
+# 组合WHERE子句
+
+```java
+//AND OR IN
+//检索由供应商1003制造且价格小于等于10美元的所有产品的名称和价格
+SELECT prod_id, prod_price, prod_name
+FROM products
+WHERE vend_id = 1003 AND prod_id <=10;
+
+//检索由任一个指定供应商制造的所有产品的产品名和价格
+SELECT prod_id, prod_price, prod_name
+FROM products
+WHERE vend_id = 1003 OR vend_id = 1002;
+
+//IN和OR具有相同的功能
+//检索供应商1002和1003制造的所有产品
+SELECT prod_id, prod_price, prod_name
+FROM products
+WHERE vend_id in(1002,1003)
+ORDER BY prod_name;
+
+// SQL（像多数语言一样）在处理OR操作符前，优先处理AND操作符。组合使用时应使用圆括号明确地分组相应的操作符
+SELECT prod_name, prod_price
+FROM products
+WHERE (vend_id = 1002 OR vend_id = 1003) AND prod_price>=10;
+
+//NOT NOT否定跟在它之后的条件，
+// 匹 配 1002 和 1003 之 外 供 应 商 的vend_id
+//和!=  <>好像没有区别，只是not适用于复杂的语句
+SELECT prod_id, prod_price, prod_name
+FROM products
+WHERE vend_id NOT IN (1002,1003)
+ORDER BY prod_name;
+```
+
+# 用通配符进行过滤
+前面介绍的所有操作符都是针对已知值进行过滤的。不管是匹配一
+个还是多个值，测试大于还是小于已知值，或者检查某个范围的值，共
+同点是过滤中使用的值都是已知的。但是，这种过滤方法并不是任何时
+候都好用。例如，怎样搜索产品名中包含文本anvil的所有产品？用简单
+的比较操作符肯定不行，必须使用通配符。利用通配符可创建比较特定
+数据的搜索模式。在这个例子中，如果你想找出名称包含anvil的所有产
+品，可构造一个通配符搜索模式，找出产品名中任何位置出现anvil的产
+品。
+
+通配符：（wildcard） 用来匹配值的一部分的特殊字符。
+
+搜索模式（search pattern）由字面值、通配符或两者组合构成的搜索条件。
+
+为在搜索子句中使用通配符，必须使用LIKE操作符。 LIKE指示MySQL，
+后跟的搜索模式利用通配符匹配而不是直接相等匹配进行比较。
+
+谓词 操作符何时不是操作符？答案是在它作为谓词（ predicate）时。从技术上说， LIKE是谓词而不是操作符。
+
+```java
+//百分号（ %）通配符
+//在搜索串中， %表示任何字符出现任意次数。
+//检索任意以jet起头的词。 %告诉MySQL接受jet之后的任意字符，不管它有多少字符。
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name LIKE 'jet%';
+
+//匹配任何位置包含文本anvil的值，而不论它之前或之后出现什么字符。
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name LIKE '%anvil%';
+
+//找出以s起头以e结尾的所有产品
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name LIKE 's%e';
+
+//下划线（ _）通配符
+//下划线的用途与%一样，但下划线只匹配单个字符而不是多个字符。_总是匹配一个字符，不能多也不能少
+```
+
+注意：通配
+符搜索的处理一般要比前面讨论的其他搜索所花时间更长。
+* 不要过度使用通配符。如果其他操作符能达到相同的目的，应该
+使用其他操作符。
+* 在确实需要使用通配符时，除非绝对有必要，否则不要把它们用
+在搜索模式的开始处。把通配符置于搜索模式的开始处，搜索起
+来是最慢的。
+* 仔细注意通配符的位置。如果放错地方，可能不会返回想要的数据。
+
+# 正则表达式
+MySQL中的正则表达式匹配（自版本
+3.23.4后）不区分大小写（即，大写和小写都匹配）。为区分大
+小写，可使用BINARY关键字，如WHERE prod_name REGEXP
+BINARY 'JetPack .000'。
+
+
+LIKE匹配整个列。如果被匹配的文本在列值
+中出现， LIKE将不会找到它，相应的行也不被返回（除非使用
+通配符）。而REGEXP在列值内进行匹配，如果被匹配的文本在
+列值中出现， REGEXP将会找到它，相应的行将被返回。这是一
+个非常重要的差别。
+```java
+//REGEXP
+//检索列prod_name包含文本1000的所有行
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '1000';
+
+//检索列prod_name包含文本000的所有行, .是正则表达式语言中一个特殊的字符。它表示匹配任意一个字符，因此， 1000和2000都匹配
+且返回
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '.000';
+
+//搜索两个串之一（或者为这个串，或者为另一个串），使用|
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '1000|2000';
+
+//匹配特定的字符
+//正则表达式[123] Ton为[1|2|3] Ton的缩写，也可以使用后者。但是，需要用[]来定义OR语句查找什么。
+// /使用了正则表达式[123] Ton。 [123]定义一组字符，它的意思是匹配1或2或3，因此， 1 ton和2 ton都匹配且返回（没有3 ton）
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '[123] Ton';
+
+//集合可用来定义要匹配的一个或多个字符
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '[1-3] Ton';
+
+//为了匹配特殊字符，必须用\\为前导。 \\-表示查找-， \\.表示查找.
+SELECT prod_id, prod_name
+FROM products
+WHERE prod_name REGEXP '\\.';
+```
+## 匹配字符类：
+
+|类|说明|
+|-|-|
+|[:alnum:]| 任意字母和数字（同[a-zA-Z0-9]）|
+|[:alpha:] |任意字符（同[a-zA-Z]）|
+|[:blank:] |空格和制表（同[\\t]）|
+|[:cntrl:] |ASCII控制字符（ ASCII 0到31和127）|
+|[:digit:] |任意数字（同[0-9]）|
+|[:graph:] |与[:print:]相同，但不包括空格|
+|[:lower:] |任意小写字母（同[a-z]）|
+|[:print:] |任意可打印字符|
+|[:punct:] |既不在[:alnum:]又不在[:cntrl:]中的任意字符|
+|[:space:] |包括空格在内的任意空白字符（同[\\f\\n\\r\\t\\v]）|
+|[:upper:] |任意大写字母（同[A-Z]）
+|[:xdigit:] |任意十六进制数字（同[a-fA-F0-9]）|
+
+## 匹配多个示例
+可以用正则表达式重复元字符来完成
+|元字符|说明|
+|-|-|
+|* |0个或多个匹配|
+|+ |1个或多个匹配（等于{1,}）|
+|? |0个或1个匹配（等于{0,1}）|
+|{n} |指定数目的匹配|
+|{n,} |不少于指定数目的匹配|
+|{n,m}| 匹配数目的范围（ m不超过255）|
+
+```java
+SELECT prod_name
+FROM products
+WHERE prod_name REGEXP '\\([0-9] sticks?\\)';
+// \\(\\)使用\\匹配特殊字符
+//sticks后跟？，使的s可有可无，可以出现0次或者1次，因此stick也会被匹配出来。
+
+//匹配连在一起的4位数字
+SELECT prod_name
+FROM products
+WHERE prod_name REGEXP '[[:digit:]]{4}';
+//[:digit:]匹配任意数字，因而它为数字的一个集合。 {4}确切地要求它前面的字符（任意数字）出现4次，所以[[:digit:]]{4}匹配连在一起的任意4位数字。
+//等同于下面：
+SELECT prod_name
+FROM products
+WHERE prod_name REGEXP '[0-9][0-9][0-9][0-9]';
+```
+
+## 定位符
+特定位置的文本需要使用定位符
+
+|元 字 符| 说 明|
+|-|-|
+|^| 文本的开始|
+|$ |文本的结尾|
+|[[:<:]] |词的开始|
+|[[:>:]] |词的结尾|
+
+ LIKE和REGEXP
+的不同在于， LIKE匹配整个串而REGEXP匹配子串。利用定位
+符，通过用^开始每个表达式，用$结束每个表达式，可以使
+REGEXP的作用与LIKE一样。
+
+```java
+//找出以一个数（包括以小数点开始的数）开始的所有产品
+SELECT prod_name
+FROM products
+WHERE prod_name REGEXP '^[0-9\\.]';
+//^匹配串的开始。因此， ^[0-9\\.]只在.或任意数字为串中第一个字符时才匹配它们
+```
+
+
+# 创建计算字段
+
+存储在表中的数据都不是应用程序所需要的。
+我们需要直接从数据库中检索出转换、计算或格式化过的数据；而不是
+检索出数据，然后再在客户机应用程序或报告程序中重新格式化。
+
+>字段（field） 基本上与列（ column） 的意思相同，经常互换使
+用，不过数据库列一般称为列，而术语字段通常用在计算字段的
+连接上。
+
+拼接（concatenate） 将值联结到一起构成单个值。在MySQL的SELECT语句中，可使用
+Concat()函数来拼接两个列。
+
+>多数DBMS使用+或||来实现拼接，MySQL则使用Concat()函数来实现。当把SQL语句转换成
+MySQL语句时一定要把这个区别铭记在心。
+```java
+//Concat()拼接串，即把多个串连接起来形成一个较长的串。Concat()需要一个或多个指定的串，各个串之间用逗号分隔。
+SELECT CONCAT(vend_name, '(', vend_country, ')')
+FROM vendors
+ORDER BY vend_name;
+```
+![tu](../pics/pic1.png)
+
+
+
+# 附录-base64的地址
 
