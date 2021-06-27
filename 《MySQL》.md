@@ -789,7 +789,178 @@ AND order_num =20005
 ORDER BY vend_name, prod_name;
 ```
 
+# 创建高级联结
+## 使用别名
 
+```JAVA
+// 使用别名
+SELECT cust_name, cust_contact
+FROM customers AS c,orders AS o, orderitems AS oi
+WHERE c.cust_id = o.cust_id
+    AND oi.order_num = o.order_num
+    AND prod_id = 'TNT2';
+
+//自联结
+//在同一个表中搜索
+SELECT p1.prod_id, p1.prod_name
+FROM products AS p1, products AS p2
+WHERE p1.vend_id = p2.vend_id
+    AND p2.prod_id = 'DTNTR';
+```
+
+
+# 组合查询
+
+```java
+SELECT vend_id, prod_id ,prod_price
+FROM products
+WHERE prod_price<=5
+UNION 
+SELECT vend_id, prod_id ,prod_price
+FROM products
+WHERE vend_id IN(1001,1002);
+
+//等同于
+SELECT vend_id, prod_id ,prod_price
+FROM products
+WHERE prod_price<=5 OR vend_id IN (1001,1002);
+```
+
+UNION从查询结果集中自动去除了重复的行（换句话说，它的行为与
+单条SELECT语句中使用多个WHERE子句条件一样）。
+
+使用UNION ALL， MySQL不取消重复的行。
+
+在用UNION组合查询时，只
+能使用一条ORDER BY子句，它必须出现在最后一条SELECT语句之后。
+
+# 全文本搜索
+## 启用全文本搜索支持
+一般在创建表时启用全文本搜索。 CREATE TABLE语句（第21章中介
+绍）接受FULLTEXT子句，它给出被索引列的一个逗号分隔的列表。
+## 进行全文本搜索
+使用两个函数Match()和Against()执行全文本搜索，
+其中Match()指定被搜索的列， Against()指定要使用的搜索表达式。
+```java
+SELECT note_text
+FROM productnotes
+WHERE Match(note_text) Against('rabbit');
+
+//等同于
+SELECT note_text
+FROM productnotes
+WHERE note_text LIKE '%rabbit%';
+
+SELECT note_text
+FROM productnotes
+WHERE note_text REGEXP 'rabbit';
+```
+区别：
+
+全文本搜索会根据匹配程度进行自动排序
+
+## 使用查询扩展
+找出所有提到anvils的注释。只有一个注释包含词anvils，
+但你还想找出可能与你的搜索有关的所有其他行，即使它们不包含词anvils。
+
+在使用查询扩展时， MySQL对数据和
+索引进行两遍扫描来完成搜索：
+
+```java
+SELECT note_text
+FROM productnotes
+WHERE Match(note_text) Against('rabbit' WITH QUERY EXPANSION);
+```
+
+## 布尔文本搜索
+```java
+//查询有heavy但没有rope的行
+SELECT note_text
+FROM productnotes
+WHERE Match(note_text) Against('heavy -rope*' IN BOOLEAN MODE);
+```
+
+# 插入数据
+INSERT
+## 插入完整的行
+```java
+INSERT INTO customers(cust_name,
+    cust_contact,
+    cust_email,
+    cust_address,
+    cust_city,
+    cust_state,
+    cust_zip,
+    cust_country)
+VALUES('Pep E.LaPew',
+    NULL,
+    NULL,
+    '100 Main Street',
+    'Los Angeles',
+    'CA',
+    '90046',
+    'USA');
+```
+## 插入多个列
+
+如果插入的顺序相同，那么可以在VALUES后再加一个括号，把另外的数据加上
+## 插入检索出的数据
+INSERT SELECT
+
+```java
+//使用INSERT SELECT从custnew中将所有数据导入customers
+INSERT INTO customers(cust_name,
+    cust_contact,
+    cust_email,
+    cust_address,
+    cust_city,
+    cust_state,
+    cust_zip,
+    cust_country)
+SELECT cust_name,
+    cust_contact,
+    cust_email,
+    cust_address,
+    cust_city,
+    cust_state,
+    cust_zip,
+    cust_country
+FROM custnew;
+```
+# 更新和删除数据
+## 更新数据UPDATE
+```java
+//更新10005客户的邮件地址
+UPDATE customers
+SET cust_email='elmer@fudd.com'
+WHERE cust_id = 10005;
+
+//更新多个列
+UPDATE customers
+SET cust_email='120@fudd.com',
+    cust_name = 'tian'
+WHERE cust_id = 10005;
+
+//删除某个列的值，可设置其为NULL
+UPDATE customers
+SET cust_email=NULL
+WHERE cust_id = 10005;
+```
+
+## 删除数据DELETE
+
+```java
+//删除 一行
+//如果省略WHERE子句，它将删除表中每个客户
+DELETE FROM customers
+WHERE cust_id = 10006;
+
+```
+
+如果想从表中删除所有行，不要使用DELETE。
+可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更
+快（ TRUNCATE实际是删除原来的表并重新创建一个表，而不
+是逐行删除表中的数据）。
 
 
 
