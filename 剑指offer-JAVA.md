@@ -571,4 +571,94 @@ int x = i + dx[d], y = j + dy[d];
 //当d = 0时，(x,y)就相当于(i,j)坐标往右走了一格的坐标
 //同样的,当d = 1,2,3时，分别代表向下,向左,向上走一格
 ```
+# 机器人的运动范围
+
+地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+
+```java
+class Solution {
+    //深度优先搜索DFS
+    int result = 0;
+    public int movingCount(int m, int n, int k) {
+        boolean [][] bl = new boolean[m][n];
+        return recur(0, 0, m, n, k, bl);
+        
+    }
+
+    //迭代函数
+    public int recur(int i, int j, int m, int n, int k, boolean [][] bl){
+    //终止条件：1.越界；2.数位之和大于K；3.已经遍历过
+        if(i>=m||j>=n||Sum(i,j)>k||bl[i][j]) return 0;
+
+    //设置标记值
+        bl[i][j] = true;
+
+    //重复调用
+        result = 1 + recur(i+1, j, m, n, k, bl) +recur(i, j+1, m, n, k, bl); 
+
+    //返回计数
+        return result;
+    }
+
+    //计算两个坐标数位之和
+    private int Sum(int m, int n){
+        int sum = 0;
+        while(m!=0){
+            sum += m % 10;
+            m = m / 10;
+        }
+        while(n!=0){
+            sum += n % 10;
+            n = n / 10;
+        }       
+        return sum;
+    } 
+}
+```
+```java
+//广度优先搜索bfs
+public int movingCount(int m, int n, int k) {
+    //临时变量visited记录格子是否被访问过
+    boolean[][] visited = new boolean[m][n];
+    int res = 0;
+    //创建一个队列，保存的是访问到的格子坐标，是个二维数组
+    Queue<int[]> queue = new LinkedList<>();
+    //从左上角坐标[0,0]点开始访问，add方法表示把坐标
+    // 点加入到队列的队尾
+    queue.add(new int[]{0, 0});
+    while (queue.size() > 0) {
+        //这里的poll()函数表示的是移除队列头部元素，因为队列
+        // 是先进先出，从尾部添加，从头部移除
+        int[] x = queue.poll();
+        int i = x[0], j = x[1];
+        //i >= m || j >= n是边界条件的判断，k < sum(i, j)判断当前格子坐标是否
+        // 满足条件，visited[i][j]判断这个格子是否被访问过
+        if (i >= m || j >= n || k < sum(i, j) || visited[i][j])
+            continue;
+        //标注这个格子被访问过
+        visited[i][j] = true;
+        res++;
+        //把当前格子右边格子的坐标加入到队列中
+        queue.add(new int[]{i + 1, j});
+        //把当前格子下边格子的坐标加入到队列中
+        queue.add(new int[]{i, j + 1});
+    }
+    return res;
+}
+
+//计算两个坐标数字的和
+private int sum(int i, int j) {
+    int sum = 0;
+    while (i != 0) {
+        sum += i % 10;
+        i /= 10;
+    }
+    while (j != 0) {
+        sum += j % 10;
+        j /= 10;
+    }
+    return sum;
+}
+```
+
 
