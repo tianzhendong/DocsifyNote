@@ -733,8 +733,61 @@ SELECT语句是SQL的查询。迄今为止我们所看到的所有SELECT语句
 SQL还允许创建子查询（ subquery） ，即嵌套在其他查询中的查询。
 
 ## 利用子查询进行过滤
+```JAVA
+//检索包含物品TNT2的所有订单的编号
+SELECT order_num
+FROM orderitems
+WHERE prod_id = 'TNT2';
+//检索具有前一步骤列出的订单编号的所有客户的ID。
+SELECT cust_id
+FROM orders
+WHERE order_num IN(20005,20007);
 
+//把第一个查询（返回订单号的那一个）变为子查询组合两个查询。
+SELECT cust_id
+FROM orders
+WHERE order_num IN(SELECT order_num
+                    FROM orderitems
+                    WHERE prod_id = 'TNT2');
 
+```
+
+# 联结表
+
+外键（foreign key）：外键为某个表中的一列，它包含另一个表的主键值，定义了两个表之间的关系。
+
+可伸缩性（scale） 能够适应不断增加的工作量而不失败。设计良好的数据库或应用程序称之为可伸缩性好（ scale well） 。
+
+联结是一种机制，用来在一条SELECT
+语句中关联表，因此称之为联结。使用特殊的语法，可以联结多个表返
+回一组输出，联结在运行时关联表中正确的行。
+
+## 创建联结
+联结的创建非常简单，规定要联结的所有表以及它们如何关联即可。
+```JAVA
+//使用where联结
+SELECT vend_name , prod_name, prod_price
+FROM vendors, products
+WHERE vendors.vend_id = products.vend_id
+ORDER BY vend_name, prod_name;
+
+//使用INNER JOIN联结，推荐
+SELECT vend_name , prod_name, prod_price
+FROM vendors INNER JOIN products
+ON vendors.vend_id = products.vend_id
+ORDER BY vend_name, prod_name;
+```
+## 联结多个表
+SQL对一条SELECT语句中可以联结的表的数目没有限制。创建联结
+的基本规则也相同。首先列出所有表，然后定义表之间的关系
+```JAVA
+SELECT prod_name, vend_name , prod_price, quantity
+FROM orderitems,products,vendors, 
+WHERE products.vend_id=vendors.vend_id 
+AND orderitems.prod_id = products.prod_id 
+AND order_num =20005
+ORDER BY vend_name, prod_name;
+```
 
 
 
