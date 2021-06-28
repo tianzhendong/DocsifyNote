@@ -661,4 +661,139 @@ private int sum(int i, int j) {
 }
 ```
 
+# 合并两个排序的链表-简单
+
+输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+
+ //迭代法
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //迭代法
+        //初始化头节点
+        ListNode head = new ListNode();
+        ListNode cur = head;
+        while(l1!=null && l2 != null){
+            if(l1.val <= l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            }else{
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+
+        //判空
+        cur.next = l1 == null ? l2:l1;
+        //下一个节点才是头节点
+        return head.next;
+
+    }
+}
+//时间复杂度：O(m + n)，m和n分别为两链表长度
+//空间复杂度：O(1)
+
+//递归法
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //递归法
+        //终止条件
+        if(l1 == null || l2 == null){
+            return l1 != null ? l1 : l2;
+        }
+
+        //迭代
+        if(l1.val <= l2.val){
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        }else{
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
+}
+```
+
+#  左旋转字符串
+字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+
+```java
+//方法1，采用substring
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        //substring 1
+        return s.substring(n, s.length())+s.substring(0,n);
+    }
+}
+
+//方法2，方法1的进阶版
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        //substring 2
+        return (s+s).substring(n,n+s.length());
+    }
+}
+
+//方法3，采用StringBuilder遍历拼接，或者直接用string，采用+直接连接s.charAt(i)
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        //StringBuilder
+        StringBuilder sb = new StringBuilder();
+        for(int i=n; i<s.length(); i++){
+            sb.append(s.charAt(i));
+        }
+        for(int i=0; i<n; i++){
+            sb.append(s.charAt(i));
+        }
+        return sb.toString();
+    }
+}
+
+//方法4，方法3的进阶版，求余运算
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        //StringBuilder
+        StringBuilder sb = new StringBuilder();
+        for(int i=n; i<n+s.length(); i++){
+            sb.append(s.charAt(i%s.length()));
+        }
+        return sb.toString();
+    }
+}
+
+//方法5，反转数组
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        char [] c = s.toCharArray();
+        //反转全部
+        rever(c, 0, s.length()-1);
+        //反转0-n
+        rever(c, 0, s.length()-n-1);
+        //反转n-s.length()
+        rever(c, s.length()-n, s.length()-1);
+        return new String(c);
+    }
+
+    //反转
+    public void rever(char [] c, int start, int end){
+        while(start<end){
+            char temp = c[start];
+            c[start++]=c[end];
+            c[end--]=temp;
+        }
+    }
+}
+```
+
+
 
