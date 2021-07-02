@@ -795,5 +795,113 @@ class Solution {
 }
 ```
 
+# 二叉树的镜像-简单
+请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+
+该题主要考察二叉树的遍历；
+
+可以通过多种方式，如中序遍历、前序遍历、后续遍历、递归、BFS、DFS
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ // 递归，可以改编成前中后序遍历
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        //递归
+        //终止条件：遍历节点为空
+        if(root == null){
+            return null;
+        }
+
+        //交换
+        TreeNode temp = mirrorTree(root.left);
+        root.left = mirrorTree(root.right);
+        root.right = temp;
+        return root;
+    }
+}
+
+//BFS
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        //BFS搜索
+        if(root == null) return null;
+        Queue<TreeNode> al = new LinkedList<>();
+        al.add(root);
+        while(!al.isEmpty()){
+            TreeNode node = al.poll();
+            TreeNode temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+            if(node.left!=null){
+                al.add(node.left);
+            }
+            if(node.right!=null){
+                al.add(node.right);
+            }
+        }
+        return root;
+    }
+}
+
+
+//DFS   费时   前序遍历
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        //DFS搜索
+        if(root == null) return null;
+        Stack<TreeNode> al = new Stack<>();
+        al.push(root);
+        while(!al.isEmpty()){
+            TreeNode node = al.pop();
+            TreeNode temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+            if(node.right!=null){
+                al.add(node.right);
+            }
+            if(node.left!=null){
+                al.add(node.left);
+            }            
+        }
+        return root;
+    }
+}
+
+//中序遍历
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        //中序遍历
+        if(root == null) return null;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while(node != null || !stack.isEmpty()){
+            while(node!=null){
+                stack.push(node);
+                node = node.left;
+            }
+            if(!stack.isEmpty()){
+                node = stack.pop();
+                TreeNode temp = node.left;
+                node.left = node.right;
+                node.right = temp;
+                node = node.left;
+            }
+        }
+        return root;
+    }
+}
+
+```
+
+
 
 
