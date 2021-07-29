@@ -494,7 +494,7 @@ list-style: none;/*列表去除修饰*/
 
 使用Script标签引入单独的JavaScript代码文件
 
-```javascript
+```html
 alert("hello");
 ```
 
