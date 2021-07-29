@@ -786,6 +786,7 @@ onload加载完成事件 ：页面加载完成后，常用于做页面js代码�
 </html>
 ```
 
+```HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -799,24 +800,6 @@ onload加载完成事件 ：页面加载完成后，常用于做页面js代码�
     </script>
 </head>
 <body>
-</body>
-</html>
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>JavascriptDemo</title>
-    <!--JavaScript代码-->
-    <script type="text/javascript">
-        function onclickFun(){
-            alert("静态注册onclick");
-        }
-    </script>
-</head>
-<body>
-    <button onclick="onclickFun()">按钮1</button><!--静态注册onclick-->
 </body>
 </html>
 ```
