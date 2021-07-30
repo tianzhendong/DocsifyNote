@@ -1,4 +1,5 @@
 ---
+
 title: JavaWeb
 tags: Java
 notebook: JAVA
@@ -824,7 +825,7 @@ onclick单机事件：用于按钮的点击响应事件
         /*动态注册onclick
         * 1. 获取标签对象
         * 2. 通过标签对象.事件名=function（）{}*/
-        window.onload = function (){
+        window.onclick = function (){
             /*document是js语言提供的一个文档对象*/
             var btnObj = document.getElementById("btn01");//通过id属性获取标签对象
             btnObj.onclick = function (){
@@ -1006,4 +1007,824 @@ onsubmint表单提交事件 ：用于表单提交前，验证所有表单项是�
 ```
 
 ## DOM模型
+
+Document Object Model文档对象模型：把文档中的标签、属性、文本转化为对象进行管理
+
+![image-20210730210623985](https://i.loli.net/2021/07/30/5vLdeYW4cHU1gqR.png)
+
+
+
+### 方法
+
+| close()                | 关闭用 document.open() 方法打开的输出流，并显示选定的数据。  |
+| ---------------------- | ------------------------------------------------------------ |
+| getElementById()       | 返回对拥有指定 id 的第一个对象的引用。                       |
+| getElementsByName()    | 返回带有指定名称的对象集合。                                 |
+| getElementsByTagName() | 返回带有指定标签名的对象集合。                               |
+| open()                 | 打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。 |
+| write()                | 向文档写 HTML 表达式 或 JavaScript 代码。                    |
+| writeln()              | 等同于 write() 方法，不同的是在每个表达式之后写一个换行符。  |
+
+三种查询方法：
+
+* 优先使用getElementById()
+* 其次getElementsByName()
+* 最后getElementsByTagName()
+
+越往后，查询范围越大
+
+#### getElementById()
+
+返回对拥有指定 id 的第一个对象的引用。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavascriptDemo</title>
+    <!--js-->
+    <script type="text/javascript">
+        function onclickFun() {
+            //通过id获取对象 input
+            var elementById = document.getElementById("passWord");
+            //获取输入的值对象
+            var object = elementById.value;
+            //    使用正则表达式验证输入的值是否包含字母、数字、下划线，并且长度再3-15之间
+            var patt = /^\w{5,13}$/;
+            //获取span对象，用于提示密码是否合法
+            var elementById1 = document.getElementById("span");
+            /*
+            * test()方法用于测试某个字符串是不是匹配正则表达式的要求*/
+            if (patt.test(object)) {
+                //对提示内容赋值 ,innerHTML表示标签中间的文本
+                elementById1.innerHTML = "密码合法";
+            }else {
+                elementById1.innerHTML = "密码不合法";
+            }
+        }
+    </script>
+</head>
+<body>
+    密码：<input type="password" id="passWord"><br>
+    <span id="span" style="color: red"></span>
+    <button onclick="onclickFun()">校验</button>
+</body>
+</html>
+```
+
+![image-20210730221657830](https://i.loli.net/2021/07/30/nyg56iMB8HtTwsc.png)
+
+#### getElementsByName()  
+
+返回带有指定名称的对象集合
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavascriptDemo</title>
+    <!--js-->
+    <script type="text/javascript">
+        /*动态注册onclick，全选按钮*/
+        window.onclick =function (){
+            //获取对象
+        	var elementsByName = document.getElementsByName("hobby");
+            //1.获取标签对象
+            var elementById1 = document.getElementById("btn1");
+            elementById1.onclick = function () {
+                for (var i = 0; i < elementsByName.length; i++) {
+                    elementsByName[i].checked =true;
+                }
+            };
+        }
+
+        /*静态注册onclick，反选按钮*/
+        function onclickFun1(){
+            //获取对象
+        	var elementsByName = document.getElementsByName("hobby");
+            for (var i = 0; i < elementsByName.length; i++) {
+                elementsByName[i].checked = !elementsByName[i].checked;
+            }
+        }
+
+        /*静态注册onclick，全不按钮*/
+        function onclickFun2(){
+            //获取对象
+        	var elementsByName = document.getElementsByName("hobby");
+            for (var i = 0; i < elementsByName.length; i++) {
+                elementsByName[i].checked = false;
+            }
+        }
+    </script>
+</head>
+<body>
+    兴趣爱好：
+    <input type="checkbox" name="hobby" value="c">C;
+    <input type="checkbox" name="hobby" value="java">Java;
+    <input type="checkbox" name="hobby" value="python">Python;
+    <br>
+    <button id="btn1">全选</button><!--动态注册-->
+    <button onclick="onclickFun1()">反选</button><!--静态注册-->
+    <button onclick="onclickFun2()">全不选</button><!--静态注册-->
+</body>
+</html>
+```
+
+#### getElementsByTagName() 
+
+ 返回带有指定标签名的对象集合。
+
+和getElementsByName() 类似，不过是使用标签名进行查询
+
+### 节点（标签对象）的常用属性和方法
+
+节点就是标签对象
+
+#### 方法
+
+| 方法                      | 功能                             |
+| ------------------------- | -------------------------------- |
+| getElementsByTagName()    | 获取当前节点的指定标签名孩子节点 |
+| appendChild（oChildNode） | 添加一个子节点                   |
+
+#### 属性
+
+| 属性            | 功能                                       |
+| --------------- | ------------------------------------------ |
+| childNodes      | 获取当前节点的**所有子节点**               |
+| firstChild      | 获取当前节点的**第一个**子节点             |
+| lastChild       | 获取当前节点的**最后一个**子节点           |
+| parentNode      | 获取当前节点的父节点                       |
+| nextSibling     | **下一个**节点                             |
+| previousSibling | **上一个**节点                             |
+| className       | 用于获取或者设置标签的**class属性值**      |
+| innerHTML       | 获取或者设置起始标签和结束标签**中的内容** |
+| innerText       | 获取或者设置起始标签和结束标签**中的文本** |
+
+
+
+# jQuery
+
+## 介绍
+
+**概述：**jQuery就是JavaScript和查询Query，辅助JavaScript开发的js类库
+
+**核心思想：**写的更少，做的更多，所以它实现了很多浏览器的兼容问题
+
+**优势：**免费、开源，语法设计可以使开发更加便捷
+
+## 初体验
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryDemo</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        // window.onload = function () {
+        //   var btn1obj = document.getElementById("btn1");
+        //   btn1obj.onclick = function () {
+        //     alert("tian");
+        //   };
+        // };
+        $(function () {         // window.onload = function () {
+            var $btn1obj = $("#btn1");  //   var btn1obj = document.getElementById("btn1");
+            $btn1obj.click(function () {    //   btn1obj.onclick = function () {
+                alert("tianzhendong")
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="btn1">SayHello</button>
+</body>
+</html>
+```
+
+## jQuery核心函数
+
+**$**是jQuery的核心函数，能完成很多功能，**$**()就是调用这个函数：
+
+1. 传入参数为函数时：表示页面加载完成以后，相当于window.onload = function ()
+2. 传入html字符串时：创建html标签对象
+3. 传入选择器字符串时：
+   1. **$**(“#id属性值”)，根据id查询标签对象。
+   2. **$**(“标签名”)，根据标签名查询标签对象。
+   3. **$**(“.class”)，根据class查询标签对象
+4. 传入DOM对象时：把DOM对象转换为jQuery对象
+
+## jQuery语法
+
+jQuery 语法是通过选取 HTML 元素，并对选取的元素执行某些操作。
+
+#### 基础语法： **$(selector\).action\()**
+
+* 美元符号定义 jQuery
+* 选择符（selector）"查询"和"查找" HTML 元素
+* jQuery 的 action() 执行对元素的操作
+
+#### 实例:
+
+* $(this).hide() - 隐藏当前元素
+* $("p").hide() - 隐藏所有 <**p**> 元素
+* $("p.test").hide() - 隐藏所有 class="test" 的 <**p**> 元素
+* $("#test").hide() - 隐藏 id="test" 的元素
+
+#### 文档就绪事件
+
+```html
+$(document).ready(function(){
+ 
+   // 开始写 jQuery 代码...
+ 
+});
+```
+
+这是为了防止文档在完全加载（就绪）之前运行 jQuery 代码，即在 DOM 加载完成后才可以对 DOM 进行操作。
+
+**提示：**简洁写法（与以上写法效果相同）:
+
+```html
+$(function(){
+ 
+   // 开始写 jQuery 代码...
+ 
+});
+```
+
+## jQuery选择器
+
+jQuery 选择器允许您对 HTML 元素组或单个元素进行操作。
+
+jQuery 选择器基于元素的 id、类、类型、属性、属性值等"查找"（或选择）HTML 元素。 它基于已经存在的 CSS 选择器，除此之外，它还有一些自定义的选择器。
+
+jQuery 中所有选择器都以美元符号开头：$()。
+
+**实例**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryDemo</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){  //标签选择器
+                $("p").hide();  //元素选择器
+                $("#id1").hide();    //id选择器
+                $(".cls1").hide();  //.class选择器
+            });
+        });
+    </script>
+</head>
+
+<body>
+<h1 id="id1">1级标题</h1>
+<h2 class="cls1">这是一个标题</h2>
+<p>这是一个段落。</p>
+<p>这是另一个段落。</p>
+
+<button>点我</button>
+</body>
+</html>
+```
+
+## jQuery事件
+
+jQuery 是为事件处理特别设计的。
+
+页面对不同访问者的响应叫做事件。
+
+事件处理程序指的是当 HTML 中发生某些事件时所调用的方法。
+
+实例：
+
+* 在元素上移动鼠标。
+* 选取单选按钮
+* 点击元素
+
+### jQuery 事件方法语法
+
+```html
+$("p").click(function(){//定义了一个事件
+    // 动作触发后执行的代码!!
+});
+```
+
+### 常用事件
+
+| 事件名       | 功能                                                         |
+| ------------ | ------------------------------------------------------------ |
+| click()      | click() 方法是当按钮点击事件，被触发时会调用一个函数。       |
+| dblclick()   | 当双击元素时，会发生 dblclick 事件。                         |
+| mouseenter() | 当鼠标指针穿过元素时，会发生 mouseenter 事件。               |
+| mouseleave() | 当鼠标指针离开元素时，会发生 mouseleave 事件。               |
+| mousedown()  | 当鼠标指针移动到元素上方，并按下鼠标按键时，会发生 mousedown 事件。 |
+| mouseup()    | 当在元素上松开鼠标按钮时，会发生 mouseup 事件。              |
+| hover()      | hover()方法用于模拟光标悬停事件。当鼠标移动到元素上时，会触发指定的第一个函数(mouseenter);当鼠标移出这个元素时，会触发指定的第二个函数(mouseleave)。 |
+| focus()      | 当元素获得焦点时，发生 focus 事件。当通过鼠标点击选中元素或通过 tab 键定位到元素时，该元素就会获得焦点。 |
+| blur()       | 当元素失去焦点时，发生 blur 事件。                           |
+| keydown()    | 当键盘键被按下时发生 keydown 事件。                          |
+| keypress()   | 键按下的过程                                                 |
+| keyup()      | 当键盘键被松开时发生 keyup 事件。                            |
+| submit()     | 当提交表单时，会发生 submit 事件。                           |
+| change()     | 当元素的值改变时发生 change 事件（仅适用于表单字段           |
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryDemo</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            //click事件
+            $("#btn1").click(function () {
+                alert("click()事件");
+            });
+            //dbclick事件
+            $("#btn2").dblclick(function () {
+                alert("dbclick()事件");
+            });
+            //mouseenter事件
+            $("#id1").mouseenter(function () {
+                alert("mouseenter()事件");
+            });
+            //mouseleave事件
+            $("#id1").mouseleave(function () {
+                alert("mouseleaver()事件");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <button id="btn1">点击按钮</button>
+    <button id="btn2">双击按钮</button>
+    <br>
+    <span id="id1">mouseenter</span>
+</body>
+</html>
+```
+
+## jQuery效果
+
+### 显示/隐藏
+
+#### jQuery hide() 和 show()
+
+通过 jQuery，您可以使用 hide() 和 show() 方法来隐藏和显示 HTML 元素：
+
+参数：
+
+*  speed 参数规定隐藏/显示的速度，可以取以下值："slow"、"fast" 或毫秒。
+* callback 参数是隐藏或显示完成后所执行的函数名称。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryDemo</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#hide").click(function(){
+                $("p").hide(1000);
+            });
+            $("#show").click(function(){
+                $("p").show(1000, function () {//速度和callback函数
+                    alert("显示已完成")
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<p>如果你点击“隐藏” 按钮，我将会消失。</p>
+<button id="hide">隐藏</button>
+<button id="show">显示</button>
+</body>
+</html>
+```
+
+#### toggle()
+
+可以使用 toggle() 方法来切换 hide() 和 show() 方法。显示被隐藏的元素，并隐藏已显示的元素：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQueryDemo</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#id").click(function(){
+                $("p").toggle(1000, function () {
+                    alert("完成");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<p>如果你点击按钮，我将会消失/显示。</p>
+<button id="id">隐藏/显示</button>
+</body>
+</html>
+```
+
+### 淡入淡出
+
+通过 jQuery，您可以实现元素的淡入淡出效果。
+
+jQuery 拥有下面四种 fade 方法：
+
+| 方法         | 用途                                             |
+| ------------ | ------------------------------------------------ |
+| fadeIn()     | 用于淡入已隐藏的元素                             |
+| fadeOut()    | 用于淡出可见元素。                               |
+| fadeToggle() | 在 fadeIn() 与 fadeOut() 方法之间进行切换。      |
+| fadeTo()     | 允许渐变为给定的不透明度（值介于 0 与 1 之间）。 |
+
+* 可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。.
+
+* 可选的 callback 参数是 fading 完成后所执行的函数名称。
+
+### 滑动
+
+jQuery 拥有以下滑动方法：
+
+* slideDown()：向下滑动元素
+* slideUp()：用于向上滑动元素。
+* slideToggle()：在 slideDown() 与 slideUp() 方法之间进行切换。
+
+### 动画
+
+jQuery animate() 方法用于创建自定义动画。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script> 
+$(document).ready(function(){
+  $("button").click(function(){
+    $("div").animate({
+      left:'250px',
+      opacity:'0.5',
+      height:'150px',
+      width:'150px'
+    });
+  });
+});
+});
+</script> 
+</head>
+ 
+<body>
+<button>开始动画</button>
+<p>默认情况下，所有的 HTML 元素有一个静态的位置，且是不可移动的。 
+如果需要改变，我们需要将元素的 position 属性设置为 relative, fixed, 或 absolute!</p>
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+</div>
+
+</body>
+</html>
+```
+
+* 必需的 params 参数定义形成动画的 CSS 属性。
+* 可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+* 可选的 callback 参数是动画完成后所执行的函数名称。
+
+#### 使用相对值
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script> 
+$(document).ready(function(){
+  $("button").click(function(){
+    $("div").animate({
+      left:'250px',
+      height:'+=150px',
+      width:'+=150px'
+    });
+  });
+});
+</script> 
+</head>
+ 
+<body>
+<button>开始动画</button>
+<p>默认情况下，所有的 HTML 元素有一个静态的位置，且是不可移动的。 
+如果需要改变为，我们需要将元素的 position 属性设置为 relative, fixed, 或 absolute!</p>
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+</div>
+
+</body>
+</html>
+```
+
+#### 使用队列功能
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script> 
+$(document).ready(function(){
+  $("button").click(function(){
+    var div=$("div");
+    div.animate({height:'300px',opacity:'0.4'},"slow");
+    div.animate({width:'300px',opacity:'0.8'},"slow");
+    div.animate({height:'100px',opacity:'0.4'},"slow");
+    div.animate({width:'100px',opacity:'0.8'},"slow");
+  });
+});
+</script> 
+</head>
+ 
+<body>
+<button>开始动画</button>
+<p>默认情况下，所有的 HTML 元素有一个静态的位置，且是不可移动的。 
+如果需要改变为，我们需要将元素的 position 属性设置为 relative, fixed, 或 absolute!</p>
+<div style="background:#98bf21;height:100px;width:100px;position:absolute;">
+</div>
+
+</body>
+</html>
+```
+
+#### 停止动画
+
+jQuery stop() 方法用于停止动画或效果，在它们完成之前。
+
+stop() 方法适用于所有 jQuery 效果函数，包括滑动、淡入淡出和自定义动画。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script> 
+$(document).ready(function(){
+  $("#flip").click(function(){
+    $("#panel").slideDown(5000);
+  });
+  $("#stop").click(function(){
+    $("#panel").stop();
+  });
+});
+</script>
+ 
+<style type="text/css"> 
+#panel,#flip
+{
+	padding:5px;
+	text-align:center;
+	background-color:#e5eecc;
+	border:solid 1px #c3c3c3;
+}
+#panel
+{
+	padding:50px;
+	display:none;
+}
+</style>
+</head>
+<body>
+ 
+<button id="stop">停止滑动</button>
+<div id="flip">点我向下滑动面板</div>
+<div id="panel">Hello world!</div>
+
+</body>
+</html>
+```
+
+## 链(Chaining)
+
+Chaining 允许我们在一条语句中运行多个 jQuery 方法（在相同的元素上）
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function()
+  {
+  $("button").click(function(){
+    $("#p1").css("color","red")//("#p1").css("color","red").slideUp(2000).slideDown(2000);
+      .slideUp(2000)
+      .slideDown(2000);
+  });
+});
+</script>
+</head>
+<body>
+
+<p id="p1">菜鸟教程!!</p>
+<button>点我</button>
+
+</body>
+</html>
+```
+
+## 获取内容和属性
+
+### 获得内容 - text()、html() 以及 val()
+
+三个简单实用的用于 DOM 操作的 jQuery 方法：
+
+* text() - 设置或返回所选元素的文本内容
+* html() - 设置或返回所选元素的内容（包括 HTML 标记）
+* val() - 设置或返回表单字段的值
+
+### 获取属性 - attr()
+
+jQuery attr() 方法用于获取属性值。
+
+下面的例子演示如何获得链接中 href 属性的值：
+
+## 添加元素
+
+* append() - 在被选元素的结尾插入内容
+* prepend() - 在被选元素的开头插入内容
+* after() - 在被选元素之后插入内容
+* before() - 在被选元素之前插入内容
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("#btn1").click(function(){
+    $("p").append(" <b>追加文本</b>。");
+  });
+
+  $("#btn2").click(function(){
+    $("ol").append("<li>追加列表项</li>");
+  });
+});
+</script>
+</head>
+
+<body>
+<p>这是一个段落。</p>
+<p>这是另外一个段落。</p>
+<ol>
+<li>List item 1</li>
+<li>List item 2</li>
+<li>List item 3</li>
+</ol>
+<button id="btn1">添加文本</button>
+<button id="btn2">添加列表项</button>
+</body>
+</html>
+```
+
+
+
+# 删除元素
+
+* remove() - 删除被选元素（及其子元素）
+* empty() - 从被选元素中删除子元素
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("#div1").remove();
+  });
+});
+</script>
+</head>
+<body>
+
+<div id="div1" style="height:100px;width:300px;border:1px solid black;background-color:yellow;">
+
+这是 div 中的一些文本。
+<p>这是在 div 中的一个段落。</p>
+<p>这是在 div 中的另外一个段落。</p>
+
+</div>
+<br>
+<button>移除div元素</button>
+
+</body>
+</html>
+```
+
+## 获取并设置 CSS 类
+
+* addClass() - 向被选元素添加一个或多个类
+* removeClass() - 从被选元素删除一个或多个类
+* toggleClass() - 对被选元素进行添加/删除类的切换操作
+* css() - 设置或返回样式属性
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("h1,h2,p").addClass("blue");
+    $("div").addClass("important");
+  });
+});
+</script>
+<style type="text/css">
+.important
+{
+	font-weight:bold;
+	font-size:xx-large;
+}
+.blue
+{
+	color:blue;
+}
+</style>
+</head>
+<body>
+
+<h1>标题 1</h1>
+<h2>标题 2</h2>
+<p>这是一个段落。</p>
+<p>这是另外一个段落。</p>
+<div>这是一些重要的文本!</div>
+<br>
+<button>为元素添加 class</button>
+
+</body>
+</html>
+```
+
+## css() 方法
+
+设置或返回被选元素的一个或多个样式属性。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    alert("背景颜色 = " + $("p").css("background-color"));
+  });
+});
+</script>
+</head>
+
+<body>
+<h2>这是一个标题</h2>
+<p style="background-color:#ff0000">这是一个段落。</p>
+<p style="background-color:#00ff00">这是一个段落。</p>
+<p style="background-color:#0000ff">这是一个段落。</p>
+<button>返回第一个 p 元素的 background-color </button>
+</body>
+</html>
+```
 
