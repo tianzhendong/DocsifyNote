@@ -454,7 +454,7 @@ border-collapse: collapse;/*将边框合并*/
 list-style: none;/*列表去除修饰*/
 ```
 
-# JavaScript
+# 4、JavaScript
 
 ## 概述
 
@@ -1165,7 +1165,7 @@ Document Object Model文档对象模型：把文档中的标签、属性、文�
 
 
 
-# jQuery
+# 5、jQuery
 
 ## 介绍
 
@@ -1174,6 +1174,50 @@ Document Object Model文档对象模型：把文档中的标签、属性、文�
 **核心思想：**写的更少，做的更多，所以它实现了很多浏览器的兼容问题
 
 **优势：**免费、开源，语法设计可以使开发更加便捷
+
+## 安装
+
+### 从网页添加
+
+可以通过多种方法在网页中添加 jQuery。 您可以使用以下方法：
+
+* 从 [jquery.com](http://jquery.com/download/) 下载 jQuery 库
+* 从 CDN 中载入 jQuery, 如从 Google 中加载 jQuery
+
+### 下载 jQuery
+
+有两个版本的 jQuery 可供下载：
+
+* Production version - 用于实际的网站中，已被精简和压缩。
+* Development version - 用于测试和开发（未压缩，是可读的代码）
+
+以上两个版本都可以从 [jquery.com](http://jquery.com/download/) 中下载。
+
+jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <script> 标签引用它：
+
+```html
+<head>
+<script src="jquery-1.10.2.min.js"></script>
+</head>
+```
+
+**提示：** 将下载的文件放在网页的同一目录下，就可以使用jQuery。
+
+### 替代方案
+
+如果您不希望下载并存放 jQuery，那么也可以通过 CDN（内容分发网络） 引用它。
+
+```html
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js">
+</script>
+<script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+```
 
 ## 初体验
 
@@ -1714,7 +1758,7 @@ $(document).ready(function(){
 
 
 
-# 删除元素
+## 删除元素
 
 * remove() - 删除被选元素（及其子元素）
 * empty() - 从被选元素中删除子元素
@@ -1827,4 +1871,254 @@ $(document).ready(function(){
 </body>
 </html>
 ```
+
+
+
+
+
+# 6、XML
+
+XML 指可扩展标记语言（e**X**tensible **M**arkup **L**anguage）。被设计用来**传输和存储数据**。
+
+HTML 被设计用来显示数据。
+
+XML 不是 HTML 的替代。
+
+XML 和 HTML 为不同的目的而设计：
+
+* XML 被设计用来传输和存储数据，其焦点是数据的内容。
+* HTML 被设计用来显示数据，其焦点是数据的外观。
+
+### 用途
+
+XML 应用于 Web 开发的许多方面，常用于简化数据的存储和共享。
+
+### XML 语法规则
+
+1. **XML 文档必须有根元素，它是所有其他元素的父元素，比如以下实例中 root 就是根元素**
+
+```xml
+<root>
+  <child>
+    <subchild>.....</subchild>
+  </child>
+</root>
+```
+
+2. **XML 声明文件的可选部分，如果存在需要放在文档的第一行**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+```
+
+3. **在 XML 中，省略关闭标签是非法的。所有元素都必须有关闭标签：**
+
+```xml
+<p>This is a paragraph.</p>
+<br />
+```
+
+声明不是 XML 文档本身的一部分，它没有关闭标签。
+
+4. **XML 标签对大小写敏感。标签 <**Letter**> 与标签 <**letter**> 是不同的。**
+
+5. **在 XML 中，所有元素都必须彼此正确地嵌套：**
+
+```xml
+<b><i>This text is bold and italic</i></b>
+```
+
+6. **在 XML 中，XML 的属性值必须加引号。**
+
+在 XML 中，一些字符拥有特殊的意义。如果您把字符 "<" 放在 XML 元素中，会发生错误，这是因为解析器会把它当作新元素的开始。为了避免这个错误，请用**实体引用**来代替特殊字符：
+
+| &lt;   | <    | less than      |
+| ------ | ---- | -------------- |
+| &gt;   | >    | greater than   |
+| &amp;  | &    | ampersand      |
+| &apos; | '    | apostrophe     |
+| &quot; | "    | quotation mark |
+
+7. **在 XML 中编写注释的语法与 HTML 的语法很相似。**
+
+8. **在 XML 中，文档中的空格不会被删减。**
+
+HTML 会把多个连续的空格字符裁减（合并）为一个，在 XML 中，文档中的空格不会被删减。
+
+9. **XML 以 LF 存储换行。**
+
+在 Windows 应用程序中，换行通常以一对字符来存储：回车符（CR）和换行符（LF）。
+
+在 Unix 和 Mac OSX 中，使用 LF 来存储新行。
+
+在旧的 Mac 系统中，使用 CR 来存储新行。
+
+XML 以 LF 存储换行。
+
+### XML元素
+
+#### 概述
+
+XML 元素指的是从（且包括）开始标签直到（且包括）结束标签的部分。
+
+一个元素可以包含：
+
+* 其他元素
+* 文本
+* 属性
+* 或混合以上所有...
+
+#### 元素命名规则
+
+XML 元素必须遵循以下命名规则：
+
+* 名称可以包含字母、数字以及其他的字符
+* 名称不能以数字或者标点符号开始
+* 名称不能以字母 xml（或者 XML、Xml 等等）开始
+* 名称不能包含空格
+
+可使用任何名称，没有保留的字词。
+
+### XML解析
+
+。。。。
+
+# 7、Tomcat
+
+## JavaWeb概述
+
+### 概念
+
+javaweb是指所有通过java语言编写的可以通过浏览器访问的程序的总称，叫javaweb
+
+javaweb是基于请求和响应来开发的
+
+* 请求：客户端给服务器发送数据，叫请求request
+* 响应：服务器给客户端回传数据，叫响应response
+
+请求和响应是成对出现的，有请求就有响应
+
+![image-20210731113642368](https://i.loli.net/2021/07/31/9mdOKJ47HFMA3p8.png)
+
+### Web资源分类
+
+根据实现的技术和呈现的效果不同，分为静态资源和动态资源
+
+* 静态：html、css、js、txt、MP4视频、jpg图片
+* 动态：jsp页面、Servlet程序
+
+### web服务器
+
+其他常用的web服务器：
+
+1. Tomcat
+2. Jboss
+
+2. GlassFish
+
+3. Resin
+
+4. Weblogic
+
+## Tomcat概述
+
+由Apache组织提出的一种web服务器，**提供对jsp和Servlet的支持**，是一种**轻量级**的javaweb容器（服务器），也是当前应用最广的javaweb服务器，并且**免费**
+
+### 与servlet版本对应关系
+
+![image-20210731114737054](https://i.loli.net/2021/07/31/ZLPvEwz2aJoKVrR.png)
+
+Servlet程序从2.5版本是现在市面使用最多的版本（xml配置）
+
+Servlet3.0以后，就是注解的版本
+
+## Tomcat使用
+
+### 安装
+
+官网链接：http://tomcat.apache.org/
+选择download，找到自己所要的版本，下载对应版本的Tomcat。
+
+有zip和exe两种格式的，zip（64-bit Windows zip(pgp,md5,sha1)）是免安装版的，exe（32-bit/64-bit Windows Service installer(pgp,md5,sha1)）是安装版。同时观察自己的电脑是64位系统还是32位系统。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/img_convert/12dcf4419fef39c06c0fb63464792779.png)
+
+### 安装目录介绍
+
+![image-20210731123357654](https://i.loli.net/2021/07/31/WLstoRXBVlYF6y9.png)
+
+### 启动
+
+1. 方法1：双击bin目录下的startup.bat
+
+2. 方法2：在bin目录下打开命令行，输入catalina run命令
+
+### 测试
+
+打开浏览器，键入 http://localhost:8080 进入tomcat页面则表示安装成功
+
+### 停止
+
+双击bin目录下的shutdown.bat
+
+### 启动界面中文乱码
+
+修改C:\apache-tomcat-10.0.8\conf\logging.properties文件中的java.util.logging.ConsoleHandler.encoding = UTF-8为java.util.logging.ConsoleHandler.encoding = GBK
+
+### 修改Tomcat端口号
+
+mysql默认端口号3306
+
+Tomcat默认端口号8080
+
+修改C:\apache-tomcat-10.0.8\conf\server.xml
+
+修改<Connector标签中的端口号，范围1-65535
+
+### 部署web工程到Tomcat
+
+#### 方法1：
+
+部署：
+
+把web工程目录拷贝到webapps目录下即可，如book工程（在webapps生成一个book文件夹）
+
+访问：如果要访问book工程下的index.html：
+
+浏览器输入 http://localhost:8080/book/index.html 
+
+http://localhost:8080代表webapps文件夹
+
+#### 方法2：
+
+部署：
+
+在C:\apache-tomcat-10.0.8\conf\Catalina\localhost\下创建配置文件abc.xml
+
+```xml
+<Context path="/abcdsf" docBase="E:\book"></Context>
+```
+
+启动时会根据path加载abc配置文件，根据dacBase在E盘找到book工程目录
+
+访问：
+
+浏览器输入 http://localhost:8080/abc/index.html
+
+### 手拖浏览器页面打开和浏览器地址打开页面的区别
+
+手拖使用的是file://协议
+
+浏览器地址访问使用的是：http协议
+
+### 默认工程访问
+
+浏览器地址：http:/ip:port/    没有工程名的时候，默认访问root工程
+
+浏览器地址：http:/ip:port/工程名/  没有资源名的时候，默认访问index.html页面
+
+### IDEA配置Tmocat
+
+…
+
 
