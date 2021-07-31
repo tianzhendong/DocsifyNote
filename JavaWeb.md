@@ -1193,7 +1193,7 @@ Document Object Model文档对象模型：把文档中的标签、属性、文�
 
 以上两个版本都可以从 [jquery.com](http://jquery.com/download/) 中下载。
 
-jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <script> 标签引用它：
+jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <**script**> 标签引用它：
 
 ```html
 <head>
@@ -2121,4 +2121,521 @@ http://localhost:8080代表webapps文件夹
 
 …
 
+# 8、Servlet
 
+## 概述
+
+JavaWeb三大组件：
+
+1. Servlet程序
+2. Fliter过滤器
+3. Listener监听器
+
+servlet是javaEE规范之一，规范就是接口
+
+Servlet是运行在服务器上的一个java小程序，通过HTTP接收和响应客户端发送过来的请求
+
+## 手动实现Servlet程序
+
+1. 编写一个类去实现servlet接口
+2. 实现service方法，处理请求，并响应数据
+3. 到web.xml中去配置servlet程序的访问地址
+
+web.xml配置文件：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!--servlet标签给tomcat配置servlet程序-->
+    <servlet>
+        <!--起一个别名-->
+        <servlet-name>Hello</servlet-name>
+        <!--全类名-->
+        <servlet-class>com.example.demo.Hello</servlet-class>
+    </servlet>
+    <!--配置访问地址-->
+    <servlet-mapping>
+        <!--告诉服务器当前配置的地址给哪个servlet程序使用-->
+        <servlet-name>Hello</servlet-name>
+        <!--配置访问地址
+        / 斜杠表示地址为：http://ip:port/工程路径
+        /h   表示http://ip:port/工程路径/h，可以自定义，需要用/开头
+        -->
+        <url-pattern>/h</url-pattern>
+    </servlet-mapping>
+</web-app>
+```
+
+
+
+### Tomcat 10.0.4 构建类servlet报错：类HelloServlet不是Servlet
+
+tomcat10有个最大的变动就是包名javax.servlet改成了"jakarta.servlet
+
+## Servlet声明周期
+
+1. 执行servlet构造器方法
+2. init方法
+3. service方法
+4. destory方法
+
+1和2在第一次访问的时候创建servlet程序会调用
+
+3是每次访问都会调用
+
+4在web工程停止时调用
+
+## Get、Post请求分发处理
+
+servelet接口实现类：
+
+```java
+package com.example.demo;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
+
+public class Hello implements Servlet {
+    public Hello() {
+        System.out.println("构造函数");
+    }
+
+    @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+        System.out.println("init");
+    }
+
+    @Override
+    public ServletConfig getServletConfig() {
+        return null;
+    }
+
+    @Override
+    public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+//        获取servletRequest的子类型，因为子类型中有getmethd方法
+        HttpServletRequest hsr = (HttpServletRequest) servletRequest;
+        //获取请求的方式
+        String method = hsr.getMethod();
+        //输出请求方式是get还是post,根据不同的请求做不同的事情
+        if ("GET".equals(method)) {
+            doGet();
+        } else if ("POST".equals(method)) {
+            doPost();
+        }
+    }
+    //post方法
+    private void doPost() {
+        System.out.println("POST请求");
+    }
+    //get方法
+    private void doGet() {
+        System.out.println("get请求");
+    }
+
+    @Override
+    public String getServletInfo() {
+        return null;
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("destory");
+
+    }
+}
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="http://localhost:8080/Demo_1/h" method="get">
+        <input type="submit">
+    </form>
+</body>
+</html>
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!--servlet标签给tomcat配置servlet程序-->
+    <servlet>
+        <!--起一个别名-->
+        <servlet-name>Hello</servlet-name>
+        <!--全类名-->
+        <servlet-class>com.example.demo.Hello</servlet-class>
+    </servlet>
+    <!--配置访问地址-->
+    <servlet-mapping>
+        <!--告诉服务器当前配置的地址给哪个servlet程序使用-->
+        <servlet-name>Hello</servlet-name>
+        <!--配置访问地址
+        / 斜杠表示地址为：http://ip:port/工程路径
+        /h   表示http://ip:port/工程路径/h，可以自定义，需要用/开头
+        -->
+        <url-pattern>/h</url-pattern>
+    </servlet-mapping>
+</web-app>
+```
+
+## HttpServlet类
+
+一般在实际开发项目中，都是使用继承httpservlet类的方式实现servlet程序
+
+httpservlet简单，已经实现了get和post的分发处理
+
+1. 继承httpservlet类
+2. 根据业务需要重写doGet或者doPost方法
+
+```java
+package com.example.demo;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+public class Hello2 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doget");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("dopost");
+    }
+}
+```
+
+3. web.xml中配置servlet程序的访问地址
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+
+    <servlet>
+        <servlet-name>hello2</servlet-name>
+        <servlet-class>com.example.demo.Hello2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hello2</servlet-name>
+        <url-pattern>/h2</url-pattern>
+    </servlet-mapping>
+</web-app>
+```
+
+4. 编写html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="http://localhost:8080/Demo_1/h2" method="get">
+        <input type="submit">
+    </form>
+</body>
+</html>
+```
+
+## Servlet类继承体系
+
+![image-20210731211509936](https://i.loli.net/2021/07/31/et1soMiyUY8fFPR.png)
+
+## ServletConfig类
+
+Servlet程序的配置信息类
+
+作用：
+
+1. 获取Servlet程序的别名Servlet-name值
+2. 初始化init-param
+3. 获取servletcontext对象
+
+```java
+public class Hello implements Servlet {
+    public Hello() {
+        System.out.println("构造函数");
+    }
+
+    @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+        System.out.println("init");
+        //1. 获取Servlet程序的别名Servlet-name值
+        System.out.println("别名是："+servletConfig.getServletName());//别名是：hello
+        //2. 初始化init-param
+        System.out.println("init-parm:"+servletConfig.getInitParameter("name1"));//init-parm:tian
+        //3. 获取ServletContext对象
+        System.out.println(servletConfig.getServletContext());
+    }
+    //此处略去其他的代码
+}
+```
+
+## ServletContext类
+
+* 是一个接口，表示Servlet上下文对象
+* 一个web工程只有一个servletcontext对象实例
+* servletcontext对象是一个域对象
+
+### 域对象
+
+域对象是可以像map一样存取数据的对象，域i指的是存取数据的操作范围
+
+### 作用
+
+1. 获取web.xml中配置的 上下文参数context-param
+2. 获取当前的工程路径，格式：/工程路径
+3. 获取工程部署后在服务器硬盘上的绝对路径
+4. 像map一样存取数据
+
+```java
+package com.example.demo;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+public class Hello2 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doget");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("dopost");
+        //获取servletcontext对象
+        ServletContext servletContext = getServletConfig().getServletContext();
+        //获取上下文参数context-param
+        System.out.println(servletContext.getInitParameter("namespace"));;
+        //获取当前的工程路径，格式：/工程路径
+        System.out.println(servletContext.getContextPath());
+        //获取工程部署后在服务器硬盘上的绝对路径
+        System.out.println(servletContext.getRealPath("/"));
+    }
+}
+```
+
+## HTTP协议
+
+### http协议概述
+
+客户端和服务器之间通信时，发送的数据，需要遵循的规则，叫HTTP协议
+
+HTTP协议中的数据又叫报文
+
+**HTTP协议格式**
+
+* 请求：客户端给服务器发送数据
+  * get请求
+  * post请求
+* 响应：服务器给客户端回传数据
+
+### 请求的HTTP协议格式：
+
+#### GET请求
+
+* 请求行
+  * 请求的方式：GET
+  * 请求的资源路径[+?+请求参数]
+  * 请求的协议版本号    HTTP/1.1
+* 请求头：key:value组成，不同的键值对表示不同的涵义
+
+![image-20210731222752388](https://i.loli.net/2021/07/31/VHux2IzkNrqaPv9.png)
+
+#### Post请求
+
+* 请求行
+  * 请求的方式：POST
+  * 请求的资源路径[+?+请求参数]
+  * 请求的协议版本号    HTTP/1.1
+* 请求头
+  * key:value组成，不同的键值对表示不同的涵义
+* 空行
+* 请求体：发送给服务器的数据
+
+![image-20210731223112742](https://i.loli.net/2021/07/31/86rKuwIFHBvNRsy.png)
+
+#### 常用请求头说明
+
+![image-20210731223237993](https://i.loli.net/2021/07/31/YIEvoh4SmXNpiJA.png)
+
+#### 请求区分
+
+**GET请求：**
+
+* form标签  method=get
+* a标签
+* link标签引入css
+* Script标签引入js文件
+* img标签引入图片
+* iframe引入html页面
+* 在浏览器地址栏输入地址后敲回车
+
+**POST请求**
+
+* form标签  method=post
+
+### 响应的HTTP协议格式
+
+* 响应行
+  * 响应的协议和版本号
+  * 响应状态码
+  * 响应状态描述符
+* 响应头
+  * key:value  不同的响应头有不同的涵义
+* 空行
+* 响应体： 回传给客户端的数据
+
+![image-20210731224119102](https://i.loli.net/2021/07/31/coN1dhXbDsuBmw8.png)
+
+#### 常见的响应码说明
+
+* 200：表示请求成功
+* 302：表示请求重定向
+* 404：表示请求服务器已经收到了，但是要的数据不存在（请求地址错误）
+* 500：表示服务器已经收到请求，但是服务器内部错误（代码错误）
+
+## HttpServletRequest类
+
+### 作用
+
+每次只要有请求进入tomcat服务器，服务器就会把请求过来的HTTP协议信息解析好封装到Request对象中，然后传递到service方法（doGet和doPost）中给我们使用，可以通过HttpServletRequest对象获取到所有请求的信息
+
+### 常用方法
+
+| 方法                | 功能                                 |
+| ------------------- | ------------------------------------ |
+| req.getRequestURI() | 获取请求的资源路径                   |
+| req.getRequestURL() | 获取请求的统一资源定位符（绝对路径） |
+| req.getRemoteHost() | 获取客户端的ip地址                   |
+| req.getHeader()     | 获取请求头                           |
+| req.getMethod()     | 获取请求的方式GET或者POST            |
+| req.getParameter()  | 获取请求参数                         |
+
+```java
+package com.example.servletdemo;
+
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+public class RequestServletDemo extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //i.getRequestURI()  获取请求的资源路径
+        System.out.println(req.getRequestURI());    //    /Request_servlet/r
+        //i.getRequestURL()  获取请求的统一资源定位符（绝对路径）
+        System.out.println(req.getRequestURL());    //  http://localhost:8080/Request_servlet/r
+        //i.getRemoteHost()     获取客户端的ip地址
+        System.out.println(req.getRemoteHost());
+        //i.getHeader()     获取请求头
+        System.out.println(req.getHeader("USER-Agent"));
+        //i.getMethod()     获取请求的方式GET或者POST
+        System.out.println(req.getMethod());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+}
+```
+
+#### req.getParameter()
+
+```java
+package com.example.servletdemo;
+
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+public class RequestServletDemo extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+//        String hobby = req.getParameter("hobby");     //适用于单个值
+        String[] hobbies = req.getParameterValues("hobby");  //适用于多个值
+        System.out.println(username);
+        System.out.println(password);
+        for (String hobby : hobbies) {
+            System.out.println(hobby);
+        }
+    }
+}
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="http://localhost:8080/Request_servlet/r" method="get">
+        用户名：<input type="text" name="username"><br>
+        密码：<input type="password" name="password"><br>
+        兴趣爱好：<input type="checkbox" value="cpp" name="hobby">C++
+        <input type="checkbox" value="c" name="hobby">C
+        <input type="checkbox" value="java" name="hobby">Java<br>
+        <input type="submit">
+    </form>
+</body>
+</html>
+```
+
+### post请求中文乱码问题
+
+在dopost函数中设置请求体的字符集为UTF-8
+
+```java
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //设置设置请求体的字符集为UTF-8，解决post请求的中文乱码问题
+    req.setCharacterEncoding("UTF-8");
+    //省略其他
+}
+```
+
+### 请求转发
+
+149
