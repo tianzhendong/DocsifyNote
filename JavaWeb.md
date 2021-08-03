@@ -11,6 +11,10 @@ notebook: JAVA
 
 # JavaWeb
 
+# 0、JavaEE三层架构
+
+![image-20210803175103445](https://gitee.com/tianzhendong/img/raw/master//images/image-20210803175103445.png)
+
 # 1、概述
 
 ## 软件结构
@@ -2638,4 +2642,271 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 
 ### 请求转发
 
-149
+服务器收到请求后从一个资源跳转到另一个资源
+
+![image-20210803152530155](https://gitee.com/tianzhendong/img/raw/master//images/image-20210803152530155.png)
+
+特点：
+
+1. 浏览器地址栏没有发生变化
+2. 是一次请求
+3. 共享request域中的数据
+4. 可以转发到web-inf目录下
+5. 不可以访问工程以外的目录
+
+Servlet1：
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class Servlet1 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //    获取请求的参数,（办事的材料）查看
+        String username = req.getParameter("username");
+        System.out.println("请求的参数为：" + username);
+    //    给材料盖章
+        req.setAttribute("key1", "servlet1");
+    //    获取转发的地址
+        /*
+        * 请求转发必须以斜杠开头
+        * / 表示http://ip:port/工程名/
+        * */
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/s2");
+    //    转向servlet2
+        requestDispatcher.forward(req, resp);
+    }
+}
+```
+
+servlet2：
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class Servlet2 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //    获取请求参数
+        String username = req.getParameter("username");
+        System.out.println("请求参数为：" + username);
+    //    查看柜台1的章
+        Object key1 = req.getAttribute("key1");
+        System.out.println("是否有柜台1的章：" + key1);
+    //    处理请求
+        System.out.println("处理业务，这里省略");
+    }
+}
+```
+
+web.xml
+
+```xml
+<servlet>
+    <servlet-name>servlet1</servlet-name>
+    <servlet-class>com.example.javaWeb.Servlet1</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>servlet2</servlet-name>
+    <servlet-class>com.example.javaWeb.Servlet2</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>servlet1</servlet-name>
+    <url-pattern>/s1</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>servlet2</servlet-name>
+    <url-pattern>/s2</url-pattern>
+</servlet-mapping>
+```
+
+### base标签的作用
+
+设置页面相对路径工作时参照的地址，href属性就是参数的地址值
+
+```html
+<head>
+    <base href = "http://localhost:8080/demo1/a/b/c.html">
+</head>
+```
+
+### web中/意义
+
+在web中/是一种绝对路径
+
+* 被浏览器解析得到：http://ip:port/
+
+```html
+<a href = "/">斜杠</a>
+```
+
+* 被服务器解析得到：http://ip:port/工程路径
+
+```xml
+<url-pattern>/s</url-pattern>
+```
+
+```java
+servletContext.getRealPath("/");
+```
+
+## HttpServletResponse类
+
+### 概述
+
+和HttpServletRequest一样，每次请求进来，tomcat服务器都会创建一个response对象传递给servlet程序使用，HttpServletRequest表示请求过来的信息，HttpServletResponse表示相应的信息
+
+### 两个输出流
+
+* 字节流：getOutputStream();常用有下载（传递二进制数据）
+* 字符流：getWriter()常用于回传字符串（常用）
+
+两个流同时只能使用一个
+
+### 往客户端回传数据
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class ResponseIoServlet extends HttpServlet {
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    //    设置服务器和客户端使用UTF-8字符集，解决乱码问题
+        response.setContentType("text/html; charset=UTF-8");
+        System.out.println(response.getCharacterEncoding());
+
+    //    回传数据
+        PrintWriter writer = response.getWriter();
+        writer.write("田真帅");
+    }
+}
+```
+
+### 请求重定向
+
+#### 概念
+
+客户端给服务器发送请求，服务器给客户端一些地址，让客户端去新地址访问（之前的地址可能被废弃）
+
+![image-20210803170323153](https://gitee.com/tianzhendong/img/raw/master//images/image-20210803170323153.png)
+
+#### 特点
+
+1. 浏览器地址栏有变化
+2. 两次请求
+3. 不共享resquest域中的数据
+4. 不能访问web-inf下的资源
+5. 可以访问工程以外的数据，如百度
+
+#### 使用
+
+resonse1
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class Response1 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("访问了源地址response1");
+    //    设置相应码的状态，表示重定向
+        resp.setStatus(302);
+    //    设置响应头，说明新的地址在哪里
+        resp.setHeader("Location", "http://localhost:8080/demo1/response2");
+    }
+}
+```
+
+response2
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class Response1 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("访问了源地址response1");
+    //    设置相应码的状态，表示重定向
+        resp.setStatus(302);
+    //    设置响应头，说明新的地址在哪里
+    //    可以访问
+        resp.setHeader("Location", "http://www.baidu.com");
+    //    resp.setHeader("Location", "http://localhost:8080/demo1/response2");
+    }
+}
+```
+
+#### 简单写法sendRedirect()
+
+```java
+package com.example.javaWeb;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * @author TianZhendong
+ * @date 2021/8/3
+ */
+public class Response1 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("访问了源地址response1");
+        resp.sendRedirect("http://www.baidu.com");
+    }   
+}
+```
+
