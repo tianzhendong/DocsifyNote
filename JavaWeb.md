@@ -2910,3 +2910,314 @@ public class Response1 extends HttpServlet {
 }
 ```
 
+# 9、jsp
+
+## 概述
+
+全称是java serverpages：java服务器页面
+
+作用：代替servlet程序回传html页面的数据
+
+已逐渐被淘滩
+
+## EL表达式
+
+expression language表达式语言
+
+作用：代替jsp页面中的表达式脚本在jsp页面中进行数据的输出
+
+## jstl标签库
+
+jsp标准标签库，替换jsp中的代码脚本，使得jsp页面变得更加简洁
+
+# 10、 文件的上传和下载
+
+## 文件的上传
+
+1. 有一个form标签，method=post请求
+2. form标签的encType属性值必须为multipart/form-data值
+3. 在form标签中使用input type=file添加上传的文件
+4. 编写服务器代码接收，处理上传的数据
+
+## 文件的下载
+
+
+
+# 11、Cookie和Session
+
+## Cookie
+
+### 概述
+
+服务器通知客户端保存键值对的一种技术
+
+客户端有了cookie后，每次请求都发送给服务器
+
+每个Cookie的大小不能超过4kb
+
+### 使用
+
+
+
+## Session
+
+- Session就一个接口（HttpSession）
+- Session就是会话，用来伟华客户端和服务器之间关联的一种技术
+- 每个客户端都有自己的一个Session会话
+- Session会话中，经常用来保存用户登陆之后的信息
+
+# 12、Filter过滤器
+
+## 概述
+
+* javaweb三个组件之一，servlet、listener、filter
+* filter过滤器是javaee的规范，也就是接口
+* 作用：拦截请求，过滤响应
+
+# 13、json
+
+## 概述
+
+JSON（javascript object notation）是一种轻量级的数据交换格式，易于人阅读和编写，同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，很多语言都提供了对json的支持，使得json成为理想的数据交换格式
+
+轻量级指的是跟xml作比较
+
+数据交换指的是客户端和服务器i之间业务数据的传输格式
+
+## JSON语法
+
+JSON 语法是 JavaScript 语法的子集。
+
+### JSON 语法规则
+
+JSON 语法是 JavaScript 对象表示语法的子集。
+
+- 数据在名称/值对中
+- 数据由逗号分隔
+- 大括号 **{}** 保存对象
+- 中括号 **[]** 保存数组，数组可以包含多个对象
+
+### JSON 值
+
+JSON 值可以是：
+
+- 数字（整数或浮点数）
+- 字符串（在双引号中）
+- 逻辑值（true 或 false）
+- 数组（在中括号中）
+- 对象（在大括号中）
+- null
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON</title>
+</head>
+<body>
+<p>
+  姓名：<span id="name"></span><br>
+  年龄：<span id="age"></span><br>
+  学校：<span id="school"></span><br>
+</p>
+<script>
+  var Json = {
+    "name1":"tian",
+    "age1":14,
+    "school1":"npu"
+  };
+  document.getElementById("name").innerHTML = Json.name1;
+  document.getElementById("age").innerHTML = Json.age1;
+  document.getElementById("school").innerHTML = Json.school1;
+</script>
+</body>
+</html>
+```
+
+![image-20210804154554069](https://gitee.com/tianzhendong/img/raw/master//images/image-20210804154554069.png)
+
+## JSON vs XML
+
+JSON 和 XML 都用于接收 web 服务端的数据。
+
+JSON 和 XML在写法上有所不同，如下所示：
+
+```json
+{
+    "sites": [
+    { "name":"菜鸟教程" , "url":"www.runoob.com" }, 
+    { "name":"google" , "url":"www.google.com" }, 
+    { "name":"微博" , "url":"www.weibo.com" }
+    ]
+}
+```
+
+```xml
+<sites>
+  <site>
+    <name>菜鸟教程</name> <url>www.runoob.com</url>
+  </site>
+  <site>
+    <name>google</name> <url>www.google.com</url>
+  </site>
+  <site>
+    <name>微博</name> <url>www.weibo.com</url>
+  </site>
+</sites>
+```
+
+## JSON.parse()
+
+JSON字符串转换为JSON对象
+
+JSON 通常用于与服务端交换数据。
+
+在接收服务器数据时一般是字符串。
+
+我们可以使用 JSON.parse() 方法将数据转换为 JavaScript 对象。
+
+```json
+JSON.parse(text[, reviver])
+```
+
+**参数说明：**
+
+- **text:**必需， 一个有效的 JSON 字符串。
+- **reviver:** 可选，一个转换结果的函数， 将为对象的每个成员调用此函数。
+
+```js
+var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
+```
+
+## JSON.stringify()
+
+JSON对象转换为JSON字符串
+
+例如我们向服务器发送以下数据
+
+```js
+var obj = { "name":"runoob", "alexa":10000, "site":"www.runoob.com"};
+var myJSON = JSON.stringify(obj);
+document.getElementById("demo").innerHTML = myJSON;
+```
+
+## JSON使用
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+<h2>从 JSON 字符串中创建对象</h2>
+<p>
+网站名: <span id="name"></span><br> 
+网站地址: <span id="url"></span><br> 
+</p> 
+<script>
+var txt = '{ "sites" : [' +
+'{ "name":"菜鸟教程" , "url":"www.runoob.com" },' +
+'{ "name":"google" , "url":"www.google.com" },' +
+'{ "name":"微博" , "url":"www.weibo.com" } ]}';
+
+var obj = eval ("(" + txt + ")");
+
+document.getElementById("name").innerHTML=obj.sites[0].name 
+document.getElementById("url").innerHTML=obj.sites[0].url 
+</script>
+</body>
+</html>
+```
+
+## JSON在java中使用
+
+### JavaBean和JSON转换
+
+* toJson()方法可以把java对象转换成json字符串
+
+* fromJson()相反
+
+```java
+Person person = new Person(1, "测试");
+//创建GSON对象实例
+Gson gson = new Gson();
+//java对象转换成json字符串
+String s = gson.toJson(person);
+//json字符串转换为java对象
+Person person1 = gson.fronJson(s,Person.class);
+```
+
+# 14、AJAX请求
+
+## 概述
+
+AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。
+
+AJAX 不是新的编程语言，而是一种使用现有标准的新方法。
+
+AJAX 最大的优点是在**不重新加载整个页面的情况下**，可以与服务器交换数据并更新部分网页内容。
+
+AJAX 不需要任何浏览器插件，但需要用户允许JavaScript在浏览器上执行。
+
+**浏览器通过js异步发起请求，局部更新页面的技术**
+
+## 使用
+
+* 第一步：创建 XMLHttpRequest 对象
+
+XMLHttpRequest 用于在后台与服务器交换数据。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
+
+```js
+var xmlhttp;
+if (window.XMLHttpRequest)
+{
+    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+    xmlhttp=new XMLHttpRequest();
+}
+else
+{
+    // IE6, IE5 浏览器执行代码
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+```
+
+* 第二步：向服务器发送请求
+
+XMLHttpRequest 对象用于和服务器交换数据。
+
+如需将请求发送到服务器，我们使用 **XMLHttpRequest** 对象的 **open()** 和 **send()** 方法：
+
+```js
+xmlhttp.open("GET","ajax_info.txt",true);
+xmlhttp.send();
+```
+
+| 方法                         | 描述                                                         |
+| :--------------------------- | :----------------------------------------------------------- |
+| open(*method*,*url*,*async*) | 规定请求的类型、URL 以及是否异步处理请求。*method*：请求的类型；GET 或 POST*url*：文件在服务器上的位置*async*：true（异步）或 false（同步） |
+| send(*string*)               | 将请求发送到服务器。*string*：仅用于 POST 请求               |
+
+如果来自服务器的响应并非 XML，请使用 responseText 属性。
+
+responseText 属性返回字符串形式的响应，因此您可以这样使用：
+
+```js
+document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+```
+
+如果来自服务器的响应是 XML，而且需要作为 XML 对象进行解析，请使用 responseXML 属性：
+
+```js
+xmlDoc=xmlhttp.responseXML;
+txt="";
+x=xmlDoc.getElementsByTagName("ARTIST");
+for (i=0;i<x.length;i++)
+{
+    txt=txt + x[i].childNodes[0].nodeValue + "<br>";
+}
+document.getElementById("myDiv").innerHTML=txt;
+```
+
