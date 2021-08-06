@@ -337,7 +337,7 @@ font{
 
 格式：
 
-```html
+```css
 标签名{
 	属性：值；
 }
@@ -499,7 +499,7 @@ list-style: none;/*列表去除修饰*/
 
 使用Script标签引入单独的JavaScript代码文件
 
-```html
+```js
 alert("hello");
 ```
 
