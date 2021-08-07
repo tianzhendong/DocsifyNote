@@ -1583,6 +1583,20 @@ public interface BlogMapper {
     </select>
 ```
 
+where属性：*where* 元素只会在子元素返回任何内容的情况下才插入 “WHERE” 子句。而且，若子句的开头为 “AND” 或 “OR”，*where* 元素也会将它们去除。
+
+```xml
+select * from mybatis.blog
+<where>
+    <if test="title!=null">
+        and title = #{title}
+    </if>
+    <if test="author!=null">
+        and author = #{author}
+    </if>
+</where>
+```
+
 3. **test**
 
 **传入空值，查询全部**
@@ -1619,4 +1633,182 @@ public void queryBlogIFTest() {
    sqlSession.close();
 }
 ```
+
+## 动态sql-choose（when,otherwise）
+
+从多个条件中选择一个使用，有点像 Java 中的 switch 语句
+
+传入了 “title” 就按 “title” 查找，传入了 “author” 就按 “author” 查找的情形。若两者都没有传入，就根据views进行查找
+
+```xml
+ 	<select id="queryBlogIF" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <choose>
+                <when test="title != null">
+                    title = #{title}
+                </when>
+                <when test="author!=null">
+                    and author = #{author}
+                </when>
+                <otherwise>
+                    and views = #{views}
+                </otherwise>                
+            </choose>
+        </where>
+    </select>
+```
+
+
+
+## set元素
+
+用于动态更新语句的类似解决方案叫做 *set*。*set* 元素可以用于动态包含需要更新的列，忽略其它不更新的列。比如
+
+```xml
+<update id="updateAuthorIfNecessary">
+  update Author
+    <set>
+      <if test="username != null">username=#{username},</if>
+      <if test="password != null">password=#{password},</if>
+      <if test="email != null">email=#{email},</if>
+      <if test="bio != null">bio=#{bio}</if>
+    </set>
+  where id=#{id}
+</update>
+```
+
+*set* 元素会动态地在行首插入 SET 关键字，并会删掉额外的逗号（这些逗号是在使用条件语句给列赋值时引入的）。
+
+
+
+## sql片段
+
+抽取sql部分片段，方便重复代码复用
+
+```xml
+<!--1. 抽取sql片段-->
+<sql id = "if-title-author">
+    <if test="title!=null">
+        and title = #{title}
+    </if>
+    <if test="author!=null">
+        and author = #{author}
+    </if>
+</sql>
+
+<select id="queryBlogIF" parameterType="map" resultType="blog">
+	select * from mybatis.blog
+	<where>
+        <!--2. 引入sql片段-->
+    	<include refid = "if-title-author"></include>
+	</where>
+```
+
+
+
+## 动态sql-Foreach
+
+动态 SQL 的另一个常见使用场景是对集合进行遍历（尤其是在构建 IN 条件语句的时候）。比如：
+
+```xml
+<select id="selectBlogIn" parameterType="map" resultType="blog">
+  SELECT *
+  FROM mybatis.blog
+  WHERE ID in
+  <where>
+     <foreach item="id" collection="ids"
+     	 open="and (" separator="or" close=")">
+         id = #{item}
+  	</foreach>
+  </where>
+</select>
+```
+
+# 11、缓存
+
+## 简介
+
+> **什么是缓存**
+
+放在内存中的临时数据
+
+一次查询的结果暂时放在内存中，再次查询相同数据的时候直接从缓存取，不用再走数据库了，从而提高查询雄安率，解决了高并发系统的性能问题
+
+> **为什么使用缓存**
+
+减少和数据库的交互次数，减小系统开销，提高系统效率
+
+> **什么样的数据能使用缓存**
+
+经常查询并且不经常改变的数据
+
+
+
+## Mybatis缓存
+
+> mybatis缓存介绍
+
+mybatis默认定义了两级缓存：一级缓存和二级缓存
+
+* 默认下，只有一级缓存开启，（sqlsession级别的缓存，也叫本地缓存，在sqlsession创建和关闭之间的部分）
+* 二级需要手动开启和配置，基于namespace级别的缓存
+* 为了提高扩展性，mybatis定义了缓存接口cache，可通过实现cache接口自定义二级缓存
+
+
+
+> **一级缓存**
+
+默认开启，本地缓存
+
+sqlsession级别的缓存，在sqlsession创建和关闭之间，使用代码查询统一数据多次，只会和数据库交互一次
+
+> **二级缓存**
+
+* 全局缓存
+* 基于namespace级别的缓存，一个名称空间，对应一个二级缓存
+* 工作机制
+  * 一个会话查询一条数据，数据被放在当前会话的一级缓存中
+  * 会话关闭后，对应的一级缓存就没了，但是我们想要的是会话关闭了，一级缓存中的数据保存到二级缓存中
+  * 新的会话查询数据，可以从二级缓存中获取内容
+  * 不同的mapper查出的数据会放在自己对应的缓存中
+
+
+
+**步骤**：
+
+1. 开启全局缓存
+
+mybatis-config.xml
+
+```xml
+    <settings>
+        <!--开启全局缓存-->
+        <setting name="cacheEnable" value="true"/>
+    </settings>
+```
+
+2. 在mapper.xml中加入`<cache/>`标签
+
+使用：在mapper.xml中加标签
+
+```xml
+<cache/>
+```
+
+高级配置：
+
+```xml
+<cache
+  eviction="FIFO"
+  flushInterval="60000"
+  size="512"
+  readOnly="true"/>
+```
+
+这个更高级的配置创建了一个 FIFO 缓存，每隔 60 秒刷新，最多可以存储结果对象或列表的 512 个引用，而且返回的对象被认为是只读的，因此对它们进行修改可能会在不同线程中的调用者产生冲突。
+
+## Mybatis缓存原理
+
+![](https://gitee.com/tianzhendong/img/raw/master//images/image-20210808041200380.png)
 
