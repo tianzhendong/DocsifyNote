@@ -764,7 +764,7 @@ select * from mybatis.user where name like "%"#{value}"%"
   * 插件plugins
   * 数据库厂商标识databaseProvider
 
-## **环境配置environments**
+## 环境配置environments
 
 ```xml
 	<environments default="development">
@@ -804,7 +804,7 @@ select * from mybatis.user where name like "%"#{value}"%"
 
 **JNDI** – 这个数据源实现是为了能在如 EJB 或应用服务器这类容器中使用，容器可以集中或在外部配置数据源，然后放置一个 JNDI 上下文的数据源引用
 
-## **属性properties**
+## 属性properties
 
 **通过properties属性涉嫌引用配置文件**
 
@@ -845,7 +845,7 @@ password=123456
 </dataSource>
 ```
 
-## **类型别名typerAliases**
+## 类型别名typerAliases
 
 类型别名可为 Java 类型设置一个**缩写名字**。 它仅用于 XML 配置，意在**降低冗余的全限定类名**书写。
 
