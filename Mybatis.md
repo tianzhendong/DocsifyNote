@@ -41,7 +41,9 @@ notebook: JAVA
 
 Dao层、Service层、Controller层
 
-# 2、第一个Mybatis程序
+# 2、入门
+
+## 第一个Mybatis程序
 
 **思路：**搭建环境==》导入Mybatis==》编写代码==》测试
 
@@ -124,7 +126,9 @@ XML 配置文件中包含了对 MyBatis 系统的核心设置，包括获取数�
             </dataSource>
         </environment>
     </environments>
-
+	<mappers>
+    <mapper resource="com/tian/dao/UserMapper.xml"/>
+	</mappers>
 </configuration>
 ```
 
@@ -267,7 +271,20 @@ import java.util.List;
  * @create: 2021-08-06 22:07
  **/
 public interface UserDao {
-   List<User> getUserList();
+	//查询全部
+	List<User> getUserList();
+
+	//根据id查询
+	User getUserById(int id);
+
+	//insert插入
+	int addUser(User user);
+
+	//update修改
+	int updateUser(User user);
+
+	//删除用户
+	int deleteUser(int id);
 }
 ```
 
@@ -290,22 +307,144 @@ public interface UserDao {
         select * from mybatis.user
     </select>
 
+    <!--根据id查询-->
+    <select id="getUserById" parameterType="int" resultType="com.tian.pojo.User">
+        select * from mybatis.user where id = #{id}
+    </select>
+
+    <!--insert插入-->
+    <insert id="addUser" parameterType="com.tian.pojo.User">
+        insert into mybatis.user (id, name, pwd)
+        values (#{id}, #{name}, #{pwd});
+    </insert>
+
+    <!--修改update-->
+    <update id="updateUser" parameterType="com.tian.pojo.User">
+        update mybatis.user
+        set name = #{name},
+            pwd  = #{pwd}
+        where id = #{id};
+    </update>
+    
+    <!--删除-->
+    <delete id="deleteUser" parameterType="int">
+        delete
+        from mybatis.user
+        where id = #{id};
+    </delete>
+
 </mapper>
 ```
 
 * **Junit测试**
 
-输入：
 
-```bash
-User{id=1, name='tian1', pwd='123456'}
-User{id=2, name='tian2', pwd='1234567'}
-User{id=3, name='tian3', pwd='1234567'}
+
+```java
+package com.tian.dao;
+
+import com.tian.pojo.User;
+import com.tian.utils.MybatisUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
+
+import java.util.List;
+
+/**
+ * @program: MybatisStudy
+ * @description: 测试
+ * @author: TianZD
+ * @create: 2021-08-06 22:56
+ **/
+public class UserDaoTest {
+	@Test
+	public void test(){
+		//1. 获得SqlSession对象
+		SqlSession sqlSession = MybatisUtils.getSqlSession();
+		//2. 执行sql、获取结果、输出
+		//方式1，getMapper
+		UserDao userDao = sqlSession.getMapper(UserDao.class);
+		List<User> userList = userDao.getUserList();
+		for (User user : userList) {
+			System.out.println(user);
+		}
+
+		//3. 关闭SqlSession
+		sqlSession.close();
+	}
+
+	@Test
+	public void getUserById(){
+	//	1. 获得SqlSession对象
+		SqlSession sqlSession = MybatisUtils.getSqlSession();
+	//	2. 执行sql
+		UserDao mapper = sqlSession.getMapper(UserDao.class);
+		User userById = mapper.getUserById(2);
+		System.out.println(userById);
+	//	3. 关闭
+		sqlSession.close();
+	}
+
+	@Test
+	public void addUserTest(){
+	//	1.从配置类中获得SqlSession对象
+		SqlSession sqlSession = MybatisUtils.getSqlSession();
+	//	2.sql语句
+		UserDao mapper = sqlSession.getMapper(UserDao.class);
+		int tian4 = mapper.addUser(new User(4, "tian4", "123456"));
+		if (tian4 > 0) {
+			System.out.println("插入成功");
+		}
+
+	//	增删改需要提交事务
+		sqlSession.commit();
+	//	3. 关闭
+		sqlSession.close();
+	}
+
+	@Test
+	public void updateUserTest() {
+	//	1.获取sqlsession对象
+		SqlSession sqlSession = MybatisUtils.getSqlSession();
+	//	2.sql
+		UserDao mapper = sqlSession.getMapper(UserDao.class);
+		int tian4 = mapper.updateUser(new User(4, "tian4", "123123"));
+	//	增删改需要提交事务
+		sqlSession.commit();
+	//	3.关闭
+		sqlSession.close();
+	}
+
+	@Test
+	public void deleteUserTest() {
+		//	1.获取sqlsession对象
+		SqlSession sqlSession = MybatisUtils.getSqlSession();
+		//	2.sql
+		UserDao mapper = sqlSession.getMapper(UserDao.class);
+		int i = mapper.deleteUser(4);
+		//	增删改需要提交事务
+		sqlSession.commit();
+		//	3.关闭
+		sqlSession.close();
+	}
+}
 ```
 
+> **总结**
 
+在写完上述以后，后续使用步骤：
 
-**可能错误：**
+1. 在UserDao接口中增加相应的方法
+2. 在UserMapper.xml中增加相应的sql语句
+3. 在测试方法中增加相应的测试方法
+
+**注意**：增删改需要在关闭之前提交事务
+
+```java
+sqlSession.commit();
+```
+
+> **可能错误：**
 
 * org.apache.ibatis.binding.BindingException: Type interface com.tian.dao.UserDao is not known to the MapperRegistry.
 
@@ -313,13 +452,15 @@ User{id=3, name='tian3', pwd='1234567'}
 
 增加如下：
 
-注意，路径用斜杠隔开
+**注意，路径用斜杠隔开**
 
 ```xml
 <mappers>
     <mapper resource="com/tian/dao/UserMapper.xml"/>
 </mappers>
 ```
+
+
 
 * 错误2：
 
@@ -354,7 +495,9 @@ maven由于约定大于配置，可能遇到配置文件无法被导出或者生
     </build>
 ```
 
-# 3、生命周期
+
+
+## 生命周期
 
 > **SqlSessionFactoryBuilder**
 
@@ -373,4 +516,224 @@ try (SqlSession session = sqlSessionFactory.openSession()) {
   // 你的应用逻辑代码
 }
 ```
+
+
+
+## CRUD
+
+> **namespace**
+
+namespace中的包名要和Dao/Mapper接口的包名保持一致
+
+```xml
+<mapper namespace="com.tian.dao.UserDao">
+```
+
+绑定时的包名用.不能用/
+
+> **select**
+
+选择、查询语句
+
+1. 编写接口
+
+```java
+   //查询全部
+   List<User> getUserList();
+
+   //根据id查询
+   User getUserById(int id);
+```
+
+2. 编写对应的mapper中的sql语句
+
+```xml
+<!--查询语句
+id对应Dao/Mapper接口中的方法
+第二个属性使用resultType或者resultMap
+resultType对应sql语句返回的结果类型，这里对应User对象，使用全限定名-->
+<select id="getUserList" resultType="com.tian.pojo.User">
+    select * from mybatis.user
+</select>
+
+<!--根据id查询-->
+<select id="getUserById" parameterType="int" resultType="com.tian.pojo.User">
+    select * from mybatis.user where id = #{id}
+</select>
+```
+
+3. 编写测试
+
+```java
+@Test
+public void test(){
+   //1. 获得SqlSession对象
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+   //2. 执行sql、获取结果、输出
+   //方式1，getMapper
+   UserDao userDao = sqlSession.getMapper(UserDao.class);
+   List<User> userList = userDao.getUserList();
+   for (User user : userList) {
+      System.out.println(user);
+   }
+
+   //3. 关闭SqlSession
+   sqlSession.close();
+}
+
+@Test
+public void getUserById(){
+// 1. 获得SqlSession对象
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+// 2. 执行sql
+   UserDao mapper = sqlSession.getMapper(UserDao.class);
+   User userById = mapper.getUserById(2);
+   System.out.println(userById);
+// 3. 关闭
+   sqlSession.close();
+}
+```
+
+> **insert**
+
+增删改需要提交事务
+
+1. 编写接口
+2. mapper中的sql语句
+
+```xml
+<!--insert插入-->
+<insert id="addUser" parameterType="com.tian.pojo.User">
+    insert into mybatis.user (id, name, pwd)
+    values (#{id}, #{name}, #{pwd});
+</insert>
+```
+
+3. 测试：增删改需要提交事务
+
+```java
+//  增删改需要提交事务
+   sqlSession.commit();
+```
+
+> **update**
+
+1. 编写接口
+2. sql语句
+
+```xml
+<!--修改update-->
+<update id="updateUser" parameterType="com.tian.pojo.User">
+    update mybatis.user
+    set name = #{name},
+        pwd  = #{pwd}
+    where id = #{id};
+</update>
+```
+
+3. 测试：需要提交事务
+
+> **Delete**
+
+1. 接口
+2. sql语句
+
+```xml
+<!--删除-->
+<detete id="deleteUser" parameterType="int">
+    delete
+    from mybatis.user
+    where id = #{id};
+</delete>
+```
+
+3. 测试：需要提交事务
+
+
+
+## 使用Map传参
+
+假如我们的实体类或者数据库中的表、字段或者参数过多，我们应当考虑使用Map
+
+使用User对象时，假如需要修改密码，当字段过多时，sql语句中还需要把其他字段给加上，很麻烦
+
+使用map时：
+
+1. 接口
+
+```java
+int updateUser2(Map<String, Object> map);
+```
+
+2. sql语句
+
+sql语句中传入的参数类型为map
+
+具体传入的参数不需要和数据库以及实体类中的对应，在map.put()中进行对应即可
+
+```xml
+<!--使用map-->
+<update id="updateUser2" parameterType="map">
+    update mybatis.user
+    set pwd = #{userPwd}
+    where id = #{userId};
+</update>
+```
+
+3. 测试
+
+```java
+@Test
+public void updateUser2Test() {
+   // 1.获取sqlsession对象
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+   // 2.sql
+   UserDao mapper = sqlSession.getMapper(UserDao.class);
+
+   // map
+   Map<String, Object> map = new HashMap<>();
+   map.put("userId", 3);
+   map.put("userPwd", "000000");
+
+   int i = mapper.updateUser2(map);
+
+   // 增删改需要提交事务
+   sqlSession.commit();
+   // 3.关闭
+   sqlSession.close();
+}
+```
+
+## 模糊查询
+
+模糊查询需要防止sql注入
+
+1. java代码执行的时候，传入通配符% %
+
+```java
+List<User> u = mapper.getUserLike("%tian%");
+```
+
+2. mapper中的sql语句使用where 字段 like 加%，会导致sql注入
+
+```xml
+select * from mybatis.user where name like "%"#{value}"%"
+```
+
+# 3、配置解析
+
+## 核心配置文件mybatis-config.xml
+
+配置文件包含了会深深影响Mybatis行为的设置和属性信息
+
+* **属性properties**
+* **设置settings**
+* **类型别名typeAliases**
+* **环境配置environments**
+* **映射器mappers**
+* 了解
+  * 类型处理器typeHandlers
+  * 对象工厂objectFactory
+  * 插件plugins
+  * 数据库厂商标识databaseProvider
 
