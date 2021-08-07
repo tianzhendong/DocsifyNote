@@ -107,7 +107,7 @@ CREATE TABLE `user`(
 
 > **编写mybatis核心配置文件，在resource目录下创建mybaits-config.xml**
 
-XML 配置文件中包含了对 MyBatis 系统的核心设置，包括获取数据库连接实例的数据源（DataSource）以及决定事务作用域和控制方式的事务管理器（TransactionManager）。
+XML 配置文件中包含了**对 MyBatis 系统的核心设置**，包括**获取数据库连接实例的数据源（DataSource）以及决定事务作用域和控制方式的事务管理器**（TransactionManager）。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -257,6 +257,8 @@ public class User {
 
 * **Dao接口**
 
+
+
 ```java
 package com.tian.dao;
 
@@ -288,9 +290,9 @@ public interface UserDao {
 }
 ```
 
-* **接口实现类**
+* **接口实现类Mapper**
 
-以前采用的方式是创建一个接口实现类，现在采用xml配置文件的方式
+以前采用的方式是创建一个**接口实现类，现在采用xml**配置文件的方式
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -497,25 +499,45 @@ maven由于约定大于配置，可能遇到配置文件无法被导出或者生
 
 
 
-## 生命周期
+## 生命周期和作用域
+
+作用域和生命周期类别是至关重要的，因为错误的使用会导致非常严重的**并发问题**
+
+![image-20210807175425111](https://gitee.com/tianzhendong/img/raw/master//images/image-20210807175425111.png)
 
 > **SqlSessionFactoryBuilder**
 
-这个类可以被实例化、使用和丢弃，**一旦创建了 SqlSessionFactory，就不再需要它了**。 因此 SqlSessionFactoryBuilder 实例的最佳作用域是方法作用域（也就是局部方法变量）。 你可以重用 SqlSessionFactoryBuilder 来创建多个 SqlSessionFactory 实例，但最好还是不要一直保留着它，以保证所有的 XML 解析资源可以被释放给更重要的事情。
+* **一旦创建了 SqlSessionFactory，就不再需要它了**
+* **最佳作用域是方法作用域（也就是局部方法变量）**
+
+这个类可以被实例化、使用和丢弃，**一旦创建了 SqlSessionFactory，就不再需要它了**。 因此 SqlSessionFactoryBuilder 实例的**最佳作用域是方法作用域（**也就是**局部方法变量**）。 你可以重用 SqlSessionFactoryBuilder 来创建多个 SqlSessionFactory 实例，但最好还是不要一直保留着它，以保证所有的 XML 解析资源可以被释放给更重要的事情。
 
 > **SqlSessionFactory**
 
-SqlSessionFactory **一旦被创建就应该在应用的运行期间一直存在**，没有任何理由丢弃它或重新创建另一个实例。 使用 SqlSessionFactory 的最佳实践是在应用运行期间不要重复创建多次，多次重建 SqlSessionFactory 被视为一种代码“坏习惯”。因此 SqlSessionFactory 的最佳作用域是应用作用域。 有很多方法可以做到，**最简单的就是使用单例模式或者静态单例模式。**
+* **说白了可以想象为：数据库连接池**
+* **一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例**
+* **最佳作用域是应用作用域**
+* **最简单的就是使用单例模式或者静态单例模式**
+
+SqlSessionFactory **一旦被创建就应该在应用的运行期间一直存在**，没有任何理由丢弃它或重新创建另一个实例。 使用 SqlSessionFactory 的最佳实践是在应用运行期间不要重复创建多次，多次重建 SqlSessionFactory 被视为一种代码“坏习惯”。因此 SqlSessionFactory 的**最佳作用域是应用作用域**。 有很多方法可以做到，**最简单的就是使用单例模式或者静态单例模式。**
 
 > **SqlSession**
 
-每个线程都应该有它自己的 SqlSession 实例。**SqlSession 的实例不是线程安全的，因此是不能被共享的**，所以它的最佳的作用域是请求或方法作用域。 绝对不能将 SqlSession 实例的引用放在一个类的静态域，甚至一个类的实例变量也不行。 也绝不能将 SqlSession 实例的引用放在任何类型的托管作用域中，比如 Servlet 框架中的 HttpSession。 如果你现在正在使用一种 Web 框架，考虑将 SqlSession 放在一个和 HTTP 请求相似的作用域中。 换句话说，**每次收到 HTTP 请求，就可以打开一个 SqlSession，返回一个响应后，就关闭它**。 这个关闭操作很重要，为了确保每次都能执行关闭操作，你应该把这个关闭操作放到 finally 块中。 下面的示例就是一个确保 SqlSession 关闭的标准模式：
+* **连接到连接池的一个请求**
+* **最佳的作用域是请求或方法作用域**
+* **用完之后需要关闭，否则造成资源被占用**
+
+每个线程都应该有它自己的 SqlSession 实例。**SqlSession 的实例不是线程安全的，因此是不能被共享的**，所以它的**最佳的作用域是请求或方法作用域**。 绝对不能将 SqlSession 实例的引用放在一个类的静态域，甚至一个类的实例变量也不行。 也绝不能将 SqlSession 实例的引用放在任何类型的托管作用域中，比如 Servlet 框架中的 HttpSession。 如果你现在正在使用一种 Web 框架，考虑将 SqlSession 放在一个和 HTTP 请求相似的作用域中。 换句话说，**每次收到 HTTP 请求，就可以打开一个 SqlSession，返回一个响应后，就关闭它**。 这个关闭操作很重要，为了确保每次都能执行关闭操作，你应该把这个关闭操作放到 finally 块中。 下面的示例就是一个确保 SqlSession 关闭的标准模式：
 
 ```java
 try (SqlSession session = sqlSessionFactory.openSession()) {
   // 你的应用逻辑代码
 }
 ```
+
+![image-20210807175744673](https://gitee.com/tianzhendong/img/raw/master//images/image-20210807175744673.png)
+
+每一个Mapper代表一个具体的业务
 
 
 
@@ -720,6 +742,8 @@ List<User> u = mapper.getUserLike("%tian%");
 select * from mybatis.user where name like "%"#{value}"%"
 ```
 
+
+
 # 3、配置解析
 
 ## 核心配置文件mybatis-config.xml
@@ -730,10 +754,869 @@ select * from mybatis.user where name like "%"#{value}"%"
 * **设置settings**
 * **类型别名typeAliases**
 * **环境配置environments**
+  * environment（环境变量）
+    - transactionManager（事务管理器）
+    - dataSource（数据源）
 * **映射器mappers**
 * 了解
   * 类型处理器typeHandlers
   * 对象工厂objectFactory
   * 插件plugins
   * 数据库厂商标识databaseProvider
+
+## **环境配置environments**
+
+```xml
+	<environments default="development">
+        <!--通过id选择默认的事务管理器，默认jdbc，还有一个是MANAGED-->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!--配置数据源，UNPOOLED|POOLED|JNDI，默认采用的数据源，POOLED-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=GMT"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+```
+
+**MyBatis 可以配置成适应多种环境，通过id选择使用哪一个**
+
+**每个 SqlSessionFactory 实例只能选择一种环境**
+
+
+
+* **事务管理器**
+
+在 MyBatis 中有两种类型的事务管理器（也就是 type="[**JDBC|MANAGED**]"），**默认使用JDBC：**
+
+* **数据源**
+
+有三种内建的数据源类型（也就是 type="[UNPOOLED|POOLED|JNDI]"），**默认使用pooled**
+
+**UNPOOLED**– 这个数据源的实现会每次请求时打开和关闭连接。虽然有点慢，但对那些数据库连接可用性要求不高的简单应用程序来说，是一个很好的选择。
+
+**POOLED**– 这种数据源的实现利用“池”的概念将 JDBC 连接对象组织起来，避免了创建新的连接实例时所必需的初始化和认证时间。 这种处理方式很流行，能使并发 Web 应用快速响应请求。
+
+连接数据库，数据库连接池：dbcp、c3p0、druid，用完会回收
+
+**JNDI** – 这个数据源实现是为了能在如 EJB 或应用服务器这类容器中使用，容器可以集中或在外部配置数据源，然后放置一个 JNDI 上下文的数据源引用
+
+## **属性properties**
+
+**通过properties属性涉嫌引用配置文件**
+
+属性都是可以外部配置且可以动态替换的，既可以在典型的java属性文件中配置，也可可以通过properties元素的子元素来传递，【db.properties】
+
+**通过外部配置db.properties**
+
+1. 编写配置文件：db.properties:
+
+```properties
+driver=com.mysql.cj.jdbc.Driver
+url=jdbc:mysql://localhost:3306/mybatis?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+username=root
+password=123456
+```
+
+2. xml中引入配置文件
+
+在xml中，所有的标签都可以规定其顺序，properties=》settings=》typerAliases。。properties只能放在最上面
+
+* 中间可以设置属性，设置用户名和密码
+* 如果两个设置的属性中和db.properties中有同一个字段，优先使用外部的db.properties
+
+```xml
+<!--引入外部配置文件-->
+<properties resource="db.properties">
+</properties>
+```
+
+3. 在整个配置文件中用来替换需要动态配置的属性值
+
+```xml
+<dataSource type="POOLED">
+    <property name="driver" value="${driver}"/>
+    <property name="url" value="${url}"/>
+    <property name="username" value="${username}"/>
+    <property name="password" value="${password}"/>
+</dataSource>
+```
+
+## **类型别名typerAliases**
+
+类型别名可为 Java 类型设置一个**缩写名字**。 它仅用于 XML 配置，意在**降低冗余的全限定类名**书写。
+
+```xml
+<!--别名-->
+<typeAliases>
+    <typeAlias type="com.tian.pojo.User" alias="User"></typeAlias>
+</typeAliases>
+```
+
+也可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean，比如：
+
+在没有注解的情况下，会使用 Bean 的首字母小写的非限定类名来作为它的别名。 比如 `domain.blog.Author` 的别名为 `author`
+
+```xml
+    <typeAliases>
+        <package name="com.tian.pojo"/>
+    </typeAliases>
+```
+
+使用`com.tian.pojo.User`时只需要用`user`即可
+
+**在实体类比较少的时候，使用第一种，实体类多的时候使用第二种，第一种可以自定义别名，第二种可以通过在实体类上增加注解来自定义别名，如下:**
+
+```java
+@Alias("newName")
+public class User{
+    ...
+}
+```
+
+## 设置settings
+
+这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为
+
+
+
+|    cacheEnabled    | 全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。     | true \| false                                                | true   |
+| :----------------: | ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
+| lazyLoadingEnabled | 延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置 `fetchType` 属性来覆盖该项的开关状态。 | true \| false                                                | false  |
+|      logImpl       | 指定 MyBatis 所用日志的具体实现，未指定时将自动查找。        | SLF4J \| LOG4J \| LOG4J2 \| JDK_LOGGING \| COMMONS_LOGGING \| STDOUT_LOGGING \| NO_LOGGING | 未设置 |
+
+一个配置完整的 settings 元素的示例如下：
+
+```xml
+<settings>
+  <setting name="cacheEnabled" value="true"/>
+  <setting name="lazyLoadingEnabled" value="true"/>
+  <setting name="multipleResultSetsEnabled" value="true"/>
+  <setting name="useColumnLabel" value="true"/>
+  <setting name="useGeneratedKeys" value="false"/>
+  <setting name="autoMappingBehavior" value="PARTIAL"/>
+  <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+  <setting name="defaultExecutorType" value="SIMPLE"/>
+  <setting name="defaultStatementTimeout" value="25"/>
+  <setting name="defaultFetchSize" value="100"/>
+  <setting name="safeRowBoundsEnabled" value="false"/>
+  <setting name="mapUnderscoreToCamelCase" value="false"/>
+  <setting name="localCacheScope" value="SESSION"/>
+  <setting name="jdbcTypeForNull" value="OTHER"/>
+  <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+</settings>
+```
+
+## 其他配置
+
+* 类型处理器typeHandlers
+* 对象工厂objectFactory
+* 插件plugins
+  * mybatis-generator-core
+  * mybatis-plus：一个增强工具，简化mybatis
+  * 通用mapper
+* 数据库厂商标识databaseProvider
+
+## 映射器mappers
+
+MapperRegistry：注册绑定我们的Mapper文件
+
+MyBatis 的行为已经由上述元素配置完了，我们现在就要来定义 SQL 映射语句了。 但首先，我们**需要告诉 MyBatis 到哪里去找到这些语句**。 在自动查找资源方面，Java 并没有提供一个很好的解决方案，所以最好的办法是直接告诉 MyBatis 到哪里去找映射文件。 你可以使用相对于类路径的资源引用，或完全限定资源定位符（包括 `file:///` 形式的 URL），或类名和包名等。
+
+**maven中resources文件夹下的文件在编译后，都放在了根目录下**
+
+> **方式1 ：推荐使用**
+
+```xml
+<!-- 使用相对于类路径的资源引用 -->
+    <mappers>
+        <mapper resource="com/tian/dao/UserMapper.xml"/>
+    </mappers>
+```
+
+> **方式2：使用class文件**
+
+**注意**：
+
+* 接口和他的Mapper配置文件必须同名
+* 接口和他的Mapper配置文件必须在同一个包下（Mapper配置文件可以在maven的resources目录下）
+
+```xml
+<!-- 使用映射器接口实现类的完全限定类名 -->
+    <mappers>
+        <mapper class="com.tian.dao.UserMapper"/>
+    </mappers>
+```
+
+> **方式3**：使用扫描包进行绑定注入
+
+**注意：**
+
+* 接口和他的Mapper配置文件必须同名
+* 接口和他的Mapper配置文件必须在同一个包下
+
+```xml
+<!-- 将包内的映射器接口实现全部注册为映射器 -->
+    <mappers>
+        <package name="com.tian.dao"/>
+    </mappers>
+```
+
+# 4、解决属性名和字段名不一致
+
+> **问题**
+
+如：数据库中的字段名为pwd，实体类中的属性名为password
+
+User:
+
+```java
+public class User {
+   private int id;
+   private String name;
+   private String password;
+    ...
+}
+```
+
+Mapper:
+
+```xml
+<select id="getUserById" parameterType="int" resultType="com.tian.pojo.User">
+    select * from mybatis.user where id = #{id}
+</select>
+```
+
+test:
+
+```java
+@Test
+public void getUserByIdTes() {
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+   UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+   User userById = mapper.getUserById(2);
+   System.out.println(userById);
+}
+```
+
+查询得到输出：
+
+`User{id=2, name='tian2', password='null'}`
+
+分析：
+
+由于数据库中的字段为pwd，在测试查询时，传入的参数为password，导致查询不到
+
+> **解决方法：**
+
+* 起别名
+
+在mapper中修改sql语句：
+
+```xml
+<select id="getUserById" parameterType="int" resultType="com.tian.pojo.User">
+    select id,name,pwd as password
+    from mybatis.user
+    where id = #{id};
+</select>
+```
+
+* resultMap
+
+## resultMap
+
+> 结果集映射
+
+* `resultMap`元素是Mybatis中最重要最强大的元素
+* 设计思想是：对于简单的语句根本不需要配置显式的结果集映射，对于复杂的语句，只需要描述他们的关系就可以了
+
+> 简单的结果集映射
+
+```xml
+<!--结果集映射-->
+<resultMap id="UserMap" type="User">
+    <!--column：数据库中的字段，property：实体类中的属性-->
+    <result column="pwd" property="password"/>
+</resultMap>
+<!--根据id查询-->
+<select id="getUserById" resultMap="UserMap">
+    select * from mybatis.user where id = #{id}
+</select>
+```
+
+> 复杂
+
+一对多，多对一
+
+
+
+# 5、日志
+
+## 日志工厂
+
+> **介绍**
+
+如果一个数据库操作出现了异常，需要排错，需要日志
+
+曾经用：sout、debug
+
+现在：日志工厂
+
+mybatis提供的：
+
+* SLF4J 
+
+* **LOG4J** 
+* LOG4J2 
+* JDK_LOGGING
+* COMMONS_LOGGING
+* **STDOUT_LOGGING**
+* NO_LOGGING
+
+具体使用哪一个，在mybatis-config.xml中的settings中设置，默认不使用
+
+![image-20210807195224236](https://gitee.com/tianzhendong/img/raw/master//images/image-20210807195224236.png)
+
+> **标准的日志工厂实现**
+
+使用`STDOUT_LOGGING`不需要导包
+
+* 在mybatis-config.xml中配置日志
+
+```xml
+<settings>
+    <!--name必须为logImpl，I为大写，value需要使用mybatis提供的哪些，不能有空格-->
+            <!--标准的日志工厂实现-->
+    <setting name="logImpl" value="STDOUT_LOGGING"/>
+</settings>
+```
+
+* 配置后输出：
+
+```bash
+Logging initialized using 'class org.apache.ibatis.logging.stdout.StdOutImpl' adapter.
+Class not found: org.jboss.vfs.VFS
+JBoss 6 VFS API is not available in this environment.
+Class not found: org.jboss.vfs.VirtualFile
+VFS implementation org.apache.ibatis.io.JBoss6VFS is not valid in this environment.
+Using VFS adapter org.apache.ibatis.io.DefaultVFS
+Find JAR URL: file:/C:/javaCode/MybatisStudy/Mybatis-02/target/classes/com/tian/pojo
+Not a JAR: file:/C:/javaCode/MybatisStudy/Mybatis-02/target/classes/com/tian/pojo
+Reader entry: User.class
+Listing file:/C:/javaCode/MybatisStudy/Mybatis-02/target/classes/com/tian/pojo
+Find JAR URL: file:/C:/javaCode/MybatisStudy/Mybatis-02/target/classes/com/tian/pojo/User.class
+Not a JAR: file:/C:/javaCode/MybatisStudy/Mybatis-02/target/classes/com/tian/pojo/User.class
+Reader entry: ����   < :
+Find JAR URL: file:/C:/javaCode/MybatisStudy/Mybatis-01/target/classes/com/tian/pojo
+Not a JAR: file:/C:/javaCode/MybatisStudy/Mybatis-01/target/classes/com/tian/pojo
+Reader entry: User.class
+Listing file:/C:/javaCode/MybatisStudy/Mybatis-01/target/classes/com/tian/pojo
+Find JAR URL: file:/C:/javaCode/MybatisStudy/Mybatis-01/target/classes/com/tian/pojo/User.class
+Not a JAR: file:/C:/javaCode/MybatisStudy/Mybatis-01/target/classes/com/tian/pojo/User.class
+Reader entry: ����   < :
+Checking to see if class com.tian.pojo.User matches criteria [is assignable to Object]
+Checking to see if class com.tian.pojo.User matches criteria [is assignable to Object]
+PooledDataSource forcefully closed/removed all connections.
+PooledDataSource forcefully closed/removed all connections.
+PooledDataSource forcefully closed/removed all connections.
+PooledDataSource forcefully closed/removed all connections.
+Opening JDBC Connection
+Created connection 1446983876.
+Setting autocommit to false on JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@563f38c4]
+==>  Preparing: select * from mybatis.user where id = ?
+==> Parameters: 2(Integer)
+<==    Columns: id, name, pwd
+<==        Row: 2, tian2, 1234567
+<==      Total: 1
+User{id=2, name='tian2', password='1234567'}
+```
+
+
+
+## Log4j
+
+**注**：需要导包
+
+> **什么是log4j**
+
+* Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件
+* 我们也可以控制每一条日志的输出格式
+* 通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程
+* 可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。
+
+> **使用log4j**
+
+1. 导包
+
+```xml
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.17</version>
+</dependency>
+```
+
+2. 新增配置文件`log4j.properties`
+
+网上找即可
+
+```properties
+#将等级为DEBUG的日志信息输出到console和file这两个目的地，console和file的定义在下面的代码
+log4j.rootLogger=DEBUG,console,file
+
+#控制台输出的相关设置
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+log4j.appender.console.Target = System.out
+log4j.appender.console.Threshold=DEBUG
+log4j.appender.console.layout = org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=[%c]-%m%n
+
+#文件输出的相关设置
+log4j.appender.file = org.apache.log4j.RollingFileAppender
+log4j.appender.file.File=./log/tian.log
+log4j.appender.file.MaxFileSize=10mb
+log4j.appender.file.Threshold=DEBUG
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=[%p][%d{yy-MM-dd}][%c]%m%n
+
+#日志输出级别
+log4j.logger.org.mybatis=DEBUG
+log4j.logger.java.sql=DEBUG
+log4j.logger.java.sql.Statement=DEBUG
+log4j.logger.java.sql.ResultSet=DEBUG
+log4j.logger.java.sql.PreparedStatement=DEBUG
+```
+
+3. 配置log4j为日志的实现
+
+```XML
+<settings>
+    <!--name必须为logImpl，I为大写，value需要使用mybatis提供的哪些，不能有空格-->
+    <setting name="logImpl" value="LOG4J"/>
+</settings>
+```
+
+4. **log4j使用**
+
+* 在要使用log4j的类中，导入包`import org.apache.log4j.Logger`
+* 获取日志对象，参数为当前类的class
+
+```java
+static Logger logger = Logger.getLogger(UserDaoTest.class);
+```
+
+* 编写测试代码
+
+日志级别：info\debug\error
+
+```java
+package com.tian.dao;
+
+import org.apache.log4j.Logger;
+import org.junit.Test;
+
+/**
+ * @program: MybatisStudy
+ * @description: 测试
+ * @author: TianZD
+ * @create: 2021-08-06 22:56
+ **/
+public class UserDaoTest {
+	static Logger logger = Logger.getLogger(UserDaoTest.class);
+	@Test
+	public void testLog4j() {
+		//不同的级别
+		logger.info("info:进入了testLog4j方法");
+		logger.debug("debug:进入了testLog4j方法");
+		logger.error("error:进入了testLog4j方法");
+	}
+}
+```
+
+* 输出
+
+在控制台和配置的输出文件中会输出以下：
+
+```bash
+[com.tian.dao.UserDaoTest]-info:进入了testLog4j方法
+[com.tian.dao.UserDaoTest]-debug:进入了testLog4j方法
+[com.tian.dao.UserDaoTest]-error:进入了testLog4j方法
+```
+
+# 6、分页
+
+> **为什么要分页**
+
+减少数据的处理量
+
+> **limit分页**
+
+```sql
+SELECT * FROM user LIMIT startIndex,pageSize;
+```
+
+> 使用mybatis分页
+
+核心sql
+
+1. 接口
+
+```java
+//  分页查询
+List<User> getUserByLimit(Map<String, Integer> map);
+```
+
+2. Mapper.xml
+
+```xml
+<!--结果集映射-->
+<resultMap id="UserMap" type="User">
+    <!--column：数据库中的字段，property：实体类中的属性-->
+    <result column="pwd" property="password"/>
+</resultMap>
+<!--分页查询-->
+<select id="getUserByLimit" resultMap="UserMap">
+    select *
+    from mybatis.user
+    limit #{startIndex},#{pageSize};
+</select>
+```
+
+3. 测试
+
+```java
+package com.tian.dao;
+
+import com.tian.pojo.User;
+import com.tian.utils.MybatisUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
+import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @program: MybatisStudy
+ * @description: 测试
+ * @author: TianZD
+ * @create: 2021-08-06 22:56
+ **/
+public class UserDaoTest {
+   static Logger logger = Logger.getLogger(UserDaoTest.class);
+   @Test
+   public void TestLimit() {
+      //1. 获取sqlsession对象
+      SqlSession sqlSession = MybatisUtils.getSqlSession();
+      //2. sql， 获取mapper
+      UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+      //2.1 map
+      Map<String, Integer> map = new HashMap<>();
+      map.put("startIndex", 1);
+      map.put("pageSize", 2);
+      //2.2 sql
+      List<User> userByLimit = mapper.getUserByLimit(map);
+      for (User user : userByLimit) {
+         logger.info(user);
+      }
+      //3. 关闭
+      sqlSession.close();
+   }
+}
+```
+
+# 7、使用注解开发（mybatis不推荐）
+
+## 面向接口编程
+
+> **三个面向**
+
+**面向过程**：考虑问题时，以一个具体的流程为单位，考虑它的实现
+
+**面向对象**：考虑问题时，以对象为单位，考虑他的属性和方法
+
+**面向接口**：更多体现的是对系统整体的架构
+
+> **理解**
+
+**接口**：应是定义（规范、约束）与实现（名实分离的原则）的分离，本身反映了系统设计人员对系统的抽象理解
+
+**面向过程编程（`Procedure Oriented`、简称`PO`）** 和 **面向对象编程（`Object Oriented`、简称`OO`）** 我们一定听过，然而实际企业级开发里受用更多的一种编程思想那就是：**面向接口编程（`Interface-Oriented`）**！
+
+接口这个概念我们一定不陌生，实际生活中**最常见的例子就是**：插座！
+
+我们只需要事先定义好插座的**接口标准**，各大插座厂商只要按这个接口标准生产，管你什么牌子、内部什么电路结构，这些均和用户无关，用户拿来就可以用；而且即使插座坏了，只要换一个符合接口标准的新插座，一切照样工作！
+
+同理，实际代码设计也是这样！
+
+我们在设计一个软件的代码架构时，我们都希望**事先约定**好各个功能的**接口**（即：约定好接口签名和方法），实际开发时我们只需要实现这个接口就能完成具体的功能！后续即使项目变化、功能升级，程序员只需要按照接口约定重新实现一下，就可以达到系统升级和扩展的目的！
+
+正好，Java中天生就有`interface`这个语法，这简直是为面向接口编程而生的！
+
+> **优点**
+
+* 代码的灵活解耦
+* 代码的扩展性
+* 提高复用
+* 分层开发中，上层不用管具体实现，大家遵守共同的标准，使得开发变得容易，规范性更好
+
+## mybatis中的注解开发
+
+**mybatis中不推荐使用注解**，其他框架推荐
+
+使用注解来映射简单语句会使**代码显得更加简洁**，但对于**稍微复杂一点的语句，Java 注解不仅力不从心**，还会让你本就复杂的 SQL 语句更加混乱不堪。 因此，如果你需要做一些很复杂的操作，最好用 XML 来映射语句。
+
+用来替代mapper.xml配置文件
+
+1. **mybatis.config.xml**中绑定接口
+
+```xml
+    <!--需要绑定接口，注解替代了mapper配置文件，不再绑定配置文件，需要绑定接口-->
+<mappers>
+    <mapper class="com.tian.dao.UserMapper"/>
+</mappers>
+```
+
+2. **UserMapper.interface**
+
+```java
+public interface UserMapper {
+    //注解
+   @Select("select id,name,pwd as password from mybatis.user")
+   List<User> getUsers();
+}
+```
+
+3. **test.java， 没有变化**
+
+```java
+public class UserDaoTest {
+   @Test
+   public void test() {
+      SqlSession sqlSession = MybatisUtils.getSqlSession();
+      UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+      List<User> users = mapper.getUsers();
+      for (User user : users) {
+         System.out.println(user);
+      }
+      sqlSession.close();
+   }
+}
+```
+
+> **本质**
+
+**反射机制实现**
+
+> **底层**
+
+**动态代理**
+
+# 8、Mybatis执行流程
+
+![image-20210807224915524](https://gitee.com/tianzhendong/img/raw/master//images/image-20210807224915524.png)
+
+# 9、多对一、一对多
+
+**关联**：多个学生，关联一个老师，多对一
+
+**集合**：一个老师，有很多学生，一对多
+
+。。。
+
+# 10、动态SQL
+
+> **理解**
+
+Mybatis的强大特性之一就是动态sql，使用动态sql可以拜托不同条件下拼接sql语句的痛苦
+
+**动态sql就是根据不同的条件，生成不同的sql语句**
+
+如果你之前用过 JSTL 或任何基于类 XML 语言的文本处理器，你对动态 SQL 元素可能会感觉似曾相识。在 MyBatis 之前的版本中，需要花时间了解大量的元素。借助功能强大的基于 OGNL 的表达式，MyBatis 3 替换了之前的大部分元素，大大精简了元素种类，现在要学习的元素种类比原来的一半还要少。
+
+- if
+- choose (when, otherwise)
+- trim (where, set)
+- foreach
+
+
+
+## 搭建环境
+
+> **创建sql表**
+
+```sql
+CREATE TABLE `blog`(
+    `id` varchar(50) NOT NULL COMMENT '博客id',
+    `title` varchar(100) not null comment '博客标题',
+    `author` varchar(30) not null comment '博客作者',
+    `create_time` datetime not null comment '创建时间',
+    `views` int(30) not null comment '浏览量'
+)engine = InnoDB default charset=utf8
+```
+
+> **创建一个基础工程**
+
+1. 导包
+
+2. 编写配置文件mybatis-config.xml和db.properties
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引入外部配置文件-->
+    <properties resource="db.properties">
+    </properties>
+    <settings>
+        <!--开启将数据库字段转换成驼峰命名，如create_time变为createTime-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>    
+    <!--别名-->
+    <typeAliases>
+        <package name="com.tian.pojo"/>
+    </typeAliases>
+    <environments default="development">
+        <!--通过id选择默认的事务管理器，默认jdbc，还有一个是MANAGED-->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!--配置数据源，UNPOOLED|POOLED|JNDI，默认采用的数据源，POOLED-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper class="com.tian.dao.BlogMapper"/>
+    </mappers>
+</configuration>
+```
+
+**mybatisUtils类省略**
+
+**编写IDUtils类，用于生成随机id**
+
+```java
+import java.util.UUID;
+public class IDUtils {
+   public static String getId() {
+      return UUID.randomUUID().toString().replaceAll("-", "");
+   }
+}
+```
+
+
+
+
+
+
+
+3. 编写实体类
+
+```java
+@Data
+public class Blog {
+	private String id;
+	private String title;
+	private String author;
+	//data的属性名和字段名不一致，字段名为create_time
+	private Date createTime;
+	private int views;
+}
+```
+
+4. 编写实体类对应Mapper接口和Mapper.xml文件
+
+```java
+public interface BlogMapper {
+   // 插入数据
+   int addBlog(Blog blog);
+}
+```
+
+```xml
+<mapper namespace="com.tian.dao.BlogMapper">
+    <insert id="addBlog" parameterType="blog">
+        insert into mybatis.blog(id, title, author, create_time, views)
+        values (#{id},#{title},#{author},#{createTime},#{views});
+    </insert>
+</mapper>
+```
+
+**生成的数据库如下：**
+
+![image-20210808003003987](https://gitee.com/tianzhendong/img/raw/master//images/image-20210808003003987.png)
+
+
+
+## 动态sql-IF
+
+1. **BlogMapper.interface**
+
+```java
+	//查询博客
+	List<Blog> queryBlogIF(Map map);
+```
+
+2. **BlogMapper.xml**
+
+```xml
+    <select id="queryBlogIF" parameterType="map" resultType="blog">
+        <!--作用：当查询语句参数中没有title和author时，输出全部的，有titile或者author时根据
+        传入的值进行过滤-->
+        select * from mybatis.blog where 1=1
+        <if test="title!=null">
+            and title = #{title}
+        </if>
+        <if test="author!=null">
+            and author = #{author}
+        </if>
+    </select>
+```
+
+3. **test**
+
+**传入空值，查询全部**
+
+```java
+@Test
+public void queryBlogIFTest() {
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+   BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+   HashMap map = new HashMap();
+       //传入空值，查询全部
+   List<Blog> blogs = mapper.queryBlogIF(map);
+   for (Blog blog : blogs) {
+      System.out.println(blog);
+   }
+   sqlSession.close();
+}
+```
+
+**传入值，过滤查询**
+
+```java
+public void queryBlogIFTest() {
+   SqlSession sqlSession = MybatisUtils.getSqlSession();
+   BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+
+   HashMap map = new HashMap();
+   //赋值，过滤
+   map.put("title", "blog1");
+   List<Blog> blogs = mapper.queryBlogIF(map);
+   for (Blog blog : blogs) {
+      System.out.println(blog);
+   }
+   sqlSession.close();
+}
+```
 
