@@ -815,3 +815,463 @@ public class User {
 * xml用来管理Bean
 * 注解只负责完成属性注入@Value
 
+
+
+# 10、使用java的方式配置Spring
+
+舍弃xml配置文件，使用config类实现
+
+> 实体类
+
+```java
+package com.tian.pojo;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+//这个注解的意思就是说明这个类被注册到了容器中
+@Component
+public class User {
+   private String name;
+
+   public String getName() {
+      return name;
+   }
+   @Value("tianzhendong")
+   public void setName(String name) {
+      this.name = name;
+   }
+}
+```
+
+> 配置类
+
+```java
+package com.tian.config;
+
+import com.tian.pojo.User;
+import org.springframework.context.annotation.*;
+//使其成为配置类，同beans.xml
+//这个也会被spring容器托管，注册到容器中，因为他也是一个@component
+@Configuration
+@ComponentScan("com.tian")
+//@Import(MyConfig1.class) 合并配置类,相当于xml中的import
+public class MyConfig {
+   //注册一个bean，相当于一个bean标签
+   //方法的名字相当于id属性
+   //返回值类型，相当于class属性
+   //返回值就是要注入到bean中的对象
+   @Bean(name = "user1")
+   @Scope(value = "singleton")
+   public User getUser() {
+      return new User();
+   }
+}
+```
+
+> 测试类
+
+```java
+import com.tian.config.MyConfig;
+import com.tian.pojo.User;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MyTest {
+   public static void main(String[] args) {
+      ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+      User user = context.getBean("user1", User.class);
+      System.out.println(user.getName());
+   }
+}
+```
+
+# 11、代理模式
+
+**中介**
+
+> 为什么学习代理模式
+
+![image-20210808200209343](https://gitee.com/tianzhendong/img/raw/master//images/image-20210808200209343.png)
+
+在业务增删改时，为了避免更改底层的代码
+
+代理模式是SpringAop的底层
+
+**SpringAOP的底层，面试重点**
+
+> 分类
+
+* 静态代理
+* 动态代理
+
+
+
+## 静态代理
+
+租房：中介，房东，客户，出租房接口（中介和房东的）
+
+>  角色分析
+
+* 抽象角色：一般会使用接口或者抽象类解决
+* 真实角色：被代理的角色，房东
+* 代理角色：代理真实角色，中介，代理真实角色后，一般会做一些附加操作
+* 客户：访问代理对象的角色
+
+> 抽象接口
+
+```java
+package com.tian.demo1;
+
+public interface Rent {
+   public void rent();
+}
+```
+
+> 实现类
+
+```java
+package com.tian.demo1;
+public class LandLord implements Rent{
+   @Override
+   public void rent() {
+      System.out.println("房子租出去了");
+   }
+}
+```
+
+> 代理
+
+```java
+package com.tian.demo1;
+public class Proxy implements Rent{
+   private Rent landLord;
+
+   public Proxy(LandLord landLord) {
+      this.landLord = landLord;
+   }
+
+   public Proxy() {
+   }
+
+   @Override
+   public void rent() {
+      landLord.rent();
+   }
+}
+```
+
+> 客户端
+
+```java
+package com.tian.demo1;
+public class Client {
+   public static void main(String[] args) {
+      Proxy proxy = new Proxy(new LandLord());
+      proxy.rent();
+   }
+}
+```
+
+> 优点
+
+* 可以使真实角色的操作更加纯粹，不用去关注一些公共的业务
+* 公共业务交给代理，实现了业务的分工
+* 公共业务发生扩展时，方便集中管理
+
+> 缺点
+
+* *代理类和委托类实现了相同的接口，代理类通过委托类实现了相同的方法。这样就出现了大量的代码重复。如果接口增加一个方法，除了所有实现类需要实现这个方法外，所有代理类也需要实现此方法。增加了代码维护的复杂度。*
+* *代理对象只服务于一种类型的对象，如果要服务多类型的对象。势必要为每一种对象都进行代理，静态代理在程序规模稍大时就无法胜任了。*
+
+## 动态代理
+
+每个代理类只能为一个接口服务，这样程序开发中必然会产生许多的代理类，为了弥补静态代理的缺点：一个真实角色就会产生一个代理，代码量翻倍，开发效率降低
+
+> 概述
+
+动态代理是在运行时，通过反射机制实现动态代理，并且能够代理各种类型的对象
+
+* 角色和静态代理一样
+* 动态代理的代理类是动态生成的，不是直接写好的
+
+**分类**
+
+* 基于接口的动态代理——JDK动态代理，这里使用这种
+* 基于类——cglib
+* java字节码——javasist
+
+> JDK动态代理
+
+在Java中要想实现动态代理机制，需要java.lang.reflect.InvocationHandler接口和 java.lang.reflect.Proxy 类的支持
+
+* Proxy类：生成动态代理实例
+* InvocationHandler接口：调用处理程序并返回一个结果
+
+> InvocationHandler接口
+
+每一个代理实例都有一个关联的调用处理程序，InvocationHandler是由代理实例的调用处理程序实现的接口
+
+方法：invoke（object， object[])
+
+```java
+//Object proxy:被代理的对象
+//Method method:要调用的方法
+//Object[] args:方法调用时所需要参数
+public interface InvocationHandler {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
+}
+```
+
+
+
+> Proxy类
+
+有个静态方法，可以创建动态代理类的实例
+
+```java
+//CLassLoader loader:类的加载器//Class<?> interfaces:得到全部的接口//InvocationHandler h:得到InvocationHandler接口的子类的实例public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h) throws IllegalArgumentException
+```
+
+> 动态创建代理对象的类
+
+* 动态代理类只能代理接口（不支持抽象类），代理类都需要实现InvocationHandler类，实现invoke方法
+* invoke方法就是**调用被代理接口的所有方法时需要调用的**，该invoke方法返回的值是被代理接口的一个实现类
+
+```java
+//动态代理类只能代理接口（不支持抽象类），代理类都需要实现InvocationHandler类，实现invoke方法。//invoke方法就是调用被代理接口的所有方法时需要调用的，该invoke方法返回的值是被代理接口的一个实现类   public class LogHandler implements InvocationHandler {	// 目标对象	private Object targetObject;	//绑定关系，也就是关联到哪个接口（与具体的实现类绑定）的哪些方法将被调用时，执行invoke方法。     	public Object newProxyInstance(Object targetObject){		this.targetObject=targetObject;		//该方法用于为指定类装载器、一组接口及调用处理器生成动态代理类实例  		//第一个参数指定产生代理对象的类加载器，需要将其指定为和目标对象同一个类加载器		//第二个参数要实现和目标对象一样的接口，所以只需要拿到目标对象的实现接口		//第三个参数表明这些被拦截的方法在被拦截时需要执行哪个InvocationHandler的invoke方法		//根据传入的目标返回一个代理对象		return Proxy.newProxyInstance(targetObject.getClass().getClassLoader(),				targetObject.getClass().getInterfaces(),this);	}	@Override	//关联的这个实现类的方法被调用时将被执行	/*InvocationHandler接口的方法，proxy表示代理，method表示原对象被调用的方法，args表示方法的参数*/    //invoke方法中实现了代理类要扩展的公共功能。    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable{        //代理扩展逻辑,实现代理类要扩展的公共功能        System.out.println("proxy do");         return method.invoke(targetObject, args);    } }
+```
+
+> 优点
+
+* 可以使真实角色的操作更加纯粹，不用去关注一些公共的业务
+* 公共业务交给代理，实现了业务的分工
+* 公共业务发生扩展时，方便集中管理
+* 一个动态代理类代理的是一个接口，一般就是对应一个业务
+* 一个动态代理类可以代理多个类，只要是实现了同一个接口即可
+
+# 12、AOP
+
+## 简介
+
+> 什么是AOP
+
+**面向切面编程**，AOP是能够让我们在不影响原有功能的前提下，为软件**横向扩展**功能。 那么横向扩展怎么理解呢，我们在WEB项目开发中，通常都遵守三层原则，包括控制层（Controller）->业务层（Service）->数据层（dao）,那么从这个结构下来的为纵向，它具**体的某一层就是我们所说的横向**。我们的AOP就是可以作用于这某一个横向模块当中的所有方法。
+
+![](https://gitee.com/tianzhendong/img/raw/master//images/20210808215619.png)
+
+
+
+> 和oop区别
+
+AOP和OOP的区别：AOP是OOP的补充，当我们需要为多个对象引入一个公共行为，比如日志，操作记录等，就需要在每个对象中引用公共行为，这样程序就产生了大量的重复代码，使用AOP可以完美解决这个问题。
+
+> AOP在Spring中的作用
+
+**提供声明式事务，允许用户自定义切面**
+
+- 横切关注点：跨越应用程序多个模块的方法或功能，即：与我们业务逻辑无关的，但我们需要关注的部分，如日志，安全，缓存，事务等
+- 切面：拦截器类，其中会定义切点以及通知
+- 切点：具体拦截的某个业务点
+- 通知：切面当中的方法，声明通知方法在目标业务层的执行位置，通知类型如下：
+  - 前置通知：@Before 在目标业务方法执行之前执行
+  - 后置通知：@After 在目标业务方法执行之后执行
+  - 返回通知：@AfterReturning 在目标业务方法返回结果之后执行
+  - 异常通知：@AfterThrowing 在目标业务方法抛出异常之后
+  - 环绕通知：@Around 功能强大，可代替以上四种通知，还可以控制目标业务方法是否执行以及何时执行
+
+## 方式1：使用Spring的API接口实现AOP
+
+> 导包：注意
+
+```xml
+<dependencies>    <dependency>        <groupId>org.aspectj</groupId>        <artifactId>aspectjweaver</artifactId>        <version>1.9.7</version>    </dependency></dependencies>
+```
+
+> 接口
+
+```java
+public interface UserService {   public void add();   public void delete();   public void update();   public void selete();}
+```
+
+> 接口实现类
+
+```java
+public class UserServiceImpl implements UserService{   @Override   public void add() {      System.out.println("add");   }   @Override   public void delete() {      System.out.println("delete");   }   @Override   public void update() {      System.out.println("update");   }   @Override   public void selete() {      System.out.println("selete");   }}
+```
+
+> 增强方法log：注意
+
+```java
+package com.tian.log;import org.springframework.aop.MethodBeforeAdvice;import org.springframework.stereotype.Component;import java.lang.reflect.Method;@Componentpublic class Log implements MethodBeforeAdvice {   @Override   //method:要执行的目标对象的方法   //objects: 参数   //target：目标对象   public void before(Method method, Object[] args, Object target) throws Throwable {      System.out.println("目标对象为：" + target.getClass().getName());      System.out.println("执行的方法为：" + method.getName());      for (int i = 0; i < args.length; i++) {         System.out.println("第"+i+"个参数为："+args[i]);      }   }}
+```
+
+> xml配置：注意
+
+```xml
+<!--注册bean--><bean id="userService" class="com.tian.service.UserServiceImpl"/><bean id="log" class="com.tian.log.Log"/><!--方式1，使用原生API接口--><!--配置aop，需要导入aop约束--><aop:config>    <!--切入点, expression是表达式,execution(要执行的位置 * * * *)-->    <aop:pointcut id="pointcut" expression="execution(* com.tian.service.UserServiceImpl.*(..))"/>    <!--执行环绕增加-->    <aop:advisor advice-ref="log" pointcut-ref="pointcut"/></aop:config>
+```
+
+> 测试：注意
+
+```java
+import com.tian.service.UserService;import com.tian.service.UserServiceImpl;import org.springframework.context.ApplicationContext;import org.springframework.context.support.ClassPathXmlApplicationContext;public class MyTest {   public static void main(String[] args) {      ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");      //动态代理代理的是接口      UserService userService = context.getBean("userService", UserService.class);      userService.add();   }}
+```
+
+## 方式2：自定义切入类
+
+> 切入类
+
+```java
+public class DiyPointCut {    public void before() {        System.out.println("---------方法执行前---------");    }    public void after() {        System.out.println("---------方法执行后---------");    }}
+```
+
+> 配置
+
+```xml
+<bean id="userservice" class="com.service.UserServiceImpl"/><bean id="diy" class="com.diy.DiyPointCut"></bean><aop:config> <!--第二种方式：使用AOP的标签实现-->    <aop:aspect ref="diy">        <aop:pointcut id="diyPonitcut" expression="execution(* com.service.UserServiceImpl.*(..))"/>         <!-- pointcut-ref关联的切入点 , method切入的方法  -->        <aop:before pointcut-ref="diyPonitcut" method="before"/>        <aop:after pointcut-ref="diyPonitcut" method="after"/>    </aop:aspect></aop:config>
+```
+
+## 方式3：注解
+
+> 增强类
+
+```java
+//声明该类是一个切面@Aspectpublic class AnnotationPointCut {    //声明前置方法    @Before("execution(* com.service.UserServiceImpl.*(..))")    public void before() {        System.out.println("这是使用注解的前置增强");    }    //声明后置方法    @After("execution(* com.service.UserServiceImpl.*(..))")    public void after() {        System.out.println("使用注解的后置增强");    }    //环绕增强的优先级更高    @Around("execution(* com.service.UserServiceImpl.*(..))")    public void around(ProceedingJoinPoint jp) throws Throwable {        System.out.println("环绕前");        System.out.println("签名:" + jp.getSignature());        //执行目标方法proceed        Object proceed = jp.proceed();        System.out.println("环绕后");        System.out.println("proceed对象:"+proceed);    }}
+```
+
+> 配置
+
+```xml
+    <bean id="userservice" class="com.service.UserServiceImpl"/>    <bean id="annotationPointcut" class="com.diy.AnnotationPointCut"/>    <aop:aspectj-autoproxy/>
+```
+
+# 13、整合Mybatis
+
+## 步骤：
+
+1. 导入jar包
+   - junit单元测试
+   - mybatis
+   - mysql
+   - spring
+   - aop
+   - mybatis-spring（新包，用于整合）
+
+```xml
+<dependencies>    <dependency>        <groupId>junit</groupId>        <artifactId>junit</artifactId>        <version>4.12</version>    </dependency>    <dependency>        <groupId>mysql</groupId>        <artifactId>mysql-connector-java</artifactId>        <version>8.0.25</version>    </dependency>    <dependency>        <groupId>org.mybatis</groupId>        <artifactId>mybatis</artifactId>        <version>3.5.7</version>    </dependency>    <dependency>        <groupId>org.springframework</groupId>        <artifactId>spring-webmvc</artifactId>        <version>5.3.9</version>    </dependency>    <!--spring操作数据库-->    <dependency>        <groupId>org.springframework</groupId>        <artifactId>spring-jdbc</artifactId>        <version>5.3.9</version>    </dependency>    <dependency>        <groupId>org.aspectj</groupId>        <artifactId>aspectjweaver</artifactId>        <version>1.9.7</version>    </dependency>    <dependency>        <groupId>org.mybatis</groupId>        <artifactId>mybatis-spring</artifactId>        <version>2.0.2</version>    </dependency></dependencies>
+```
+
+2. 编写配置文件
+
+3. 测试
+
+## 回忆mybatis
+
+数据：
+
+![image-20210810222253418](https://gitee.com/tianzhendong/img/raw/master//images/image-20210810222253418.png)
+
+1. 编写实体类
+
+```java
+package com.tian.pojo;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 21:00 **/public class User {   private int id;   private String name;   private String password;   @Override   public String toString() {      return "User{" +            "id=" + id +            ", name='" + name + '\'' +            ", password='" + password + '\'' +            '}';   }   public int getId() {      return id;   }   public void setId(int id) {      this.id = id;   }   public String getName() {      return name;   }   public void setName(String name) {      this.name = name;   }   public String getPassword() {      return password;   }   public void setPassword(String password) {      this.password = password;   }   public User() {   }   public User(int id, String name, String password) {      this.id = id;      this.name = name;      this.password = password;   }}
+```
+
+2. 编写核心配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE configuration        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"        "http://mybatis.org/dtd/mybatis-3-config.dtd"><configuration>    <typeAliases>        <package name="com.tian"/>    </typeAliases>    <environments default="development">        <environment id="development">            <transactionManager type="JDBC"/>            <dataSource type="POOLED">                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSl=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT"/>                <property name="username" value="root"/>                <property name="password" value="123456"/>            </dataSource>        </environment>    </environments>    <mappers>        <mapper resource="com/tian/dao/UserMapper.xml"/>    </mappers></configuration>
+```
+
+3. 编写核心配置类
+
+```java
+package com.tian.utils;import org.apache.ibatis.io.Resources;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.apache.ibatis.session.SqlSessionFactoryBuilder;import java.io.IOException;import java.io.InputStream;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 21:07 **/public class MybatisUtils {   public static SqlSessionFactory sqlSessionFactory;   static {      try {         String resources = "mybatis-config.xml";         InputStream inputStream = Resources.getResourceAsStream(resources);         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);      } catch (IOException e) {         e.printStackTrace();      }   }   public static SqlSession getSqlSession() {      return sqlSessionFactory.openSession();   }}
+```
+
+4. 编写接口
+
+```java
+package com.tian.dao;import com.tian.pojo.User;import javax.sound.midi.VoiceStatus;import java.util.List;import java.util.Map;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 21:18 **/public interface UserMapper {   public int insert(User user);   public int delete(int id);   public int update(User user);   public User select(int id);}
+```
+
+5. 编写Mapper.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><mapper namespace="com.tian.dao.UserMapper">    <resultMap id="map" type="User">        <result column="pwd" property="password"/>    </resultMap>    <select id="select" resultType="user">        select *        from mybatis.user;    </select>    <delete id="delete" parameterType="int">        delete        from mybatis.user        where id = #{id};    </delete>    <update id="update" parameterType="map">        update mybatis.user        set name = #{name},pwd = #{password}        where id =#{id};    </update>    <insert id="insert" parameterType="map">        insert into mybatis.user (id, name, pwd)        values (#{id},#{name},#{password});    </insert></mapper>
+```
+
+6. 测试
+
+## Mybatis-Spring
+
+http://mybatis.org/spring/zh/
+
+* 不变内容：
+
+实体类User.class
+
+UserMapper.interface接口
+
+* 编写数据源
+
+```xml
+<!--dataSource--><bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>    <property name="url"              value="jdbc:mysql://localhost:3306/mybatis?useSSl=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT"/>    <property name="username" value="root"/>    <property name="password" value="123456"/></bean>
+```
+
+* SqlSessionFactory
+
+```xml
+<!--sqlSessionFactory--><bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">    <property name="dataSource" ref="dataSource"/>    <!--绑定mybatis-config.xml-->    <property name="configLocation" value="classpath:mybatis-config.xml"/>    <property name="mapperLocations" value="classpath:com/tian/dao/UserMapper.xml"/>    <property name="typeAliasesPackage" value="com.tian"/></bean>
+```
+
+* SqlSessionTemplate
+
+```xml
+<!--SqlSessionTemplate--><bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">    <!--只能通过构造函数注入-->    <constructor-arg index="0" ref="sqlSessionFactory"/></bean>
+```
+
+* 给接口加实现类
+
+```java
+package com.tian.dao;import com.tian.pojo.User;import org.mybatis.spring.SqlSessionTemplate;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 22:44 **/public class UserMapperImpl implements UserMapper{   UserMapper userMapper = null;   private SqlSessionTemplate sqlSessionTemplate;   public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {      this.sqlSessionTemplate = sqlSessionTemplate;   }   @Override   public int insert(User user) {      userMapper = sqlSessionTemplate.getMapper(UserMapper.class);      return userMapper.insert(user);   }   @Override   public int delete(int id) {      userMapper = sqlSessionTemplate.getMapper(UserMapper.class);      return userMapper.delete(id);   }   @Override   public int update(User user) {      userMapper = sqlSessionTemplate.getMapper(UserMapper.class);      return userMapper.update(user);   }   @Override   public User select(int id) {      userMapper = sqlSessionTemplate.getMapper(UserMapper.class);      return userMapper.select(id);   }}
+```
+
+* 将实现类注入到spring中
+
+```xml
+<bean id="userMapperImpl" class="com.tian.dao.UserMapperImpl">    <property name="sqlSessionTemplate" ref="sqlSession"/></bean>
+```
+
+* 测试
+
+```xml
+import com.tian.dao.UserMapper;import com.tian.pojo.User;import com.tian.utils.MybatisUtils;import org.apache.ibatis.session.SqlSession;import org.apache.ibatis.session.SqlSessionFactory;import org.junit.Test;import org.springframework.context.ApplicationContext;import org.springframework.context.support.ClassPathXmlApplicationContext;import java.util.HashMap;import java.util.List;import java.util.Map;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 21:33 **/public class MyTest {   @Test   public void userMapperTest() {      ApplicationContext context = new ClassPathXmlApplicationContext("spring-mybatis.xml");      UserMapper userMapper = context.getBean("userMapperImpl", UserMapper.class);      System.out.println(userMapper.select(2));   }}
+```
+
+
+
+
+
+## 进一步简化：SqlSessionDaoSupport
+
+
+
+`SqlSessionDaoSupport` 是一个抽象的支持类，用来为你提供 `SqlSession`。调用 `getSqlSession()` 方法你会得到一个 `SqlSessionTemplate`，之后可以用于执行 SQL 方法
+
+```java
+package com.tian.dao;import com.tian.pojo.User;import org.apache.ibatis.session.SqlSession;import org.mybatis.spring.support.SqlSessionDaoSupport;/** * @program: SpringStudy * @description: * @author: TianZD * @create: 2021-08-10 23:17 **/public class UserMapperImpl_2 extends SqlSessionDaoSupport implements UserMapper{   SqlSession sqlSession = getSqlSession();   UserMapper userMapper = sqlSession.getMapper(UserMapper.class);   @Override   public int insert(User user) {      return userMapper.insert(user);   }   @Override   public int delete(int id) {      return userMapper.delete(id);   }   @Override   public int update(User user) {      return userMapper.update(user);   }   @Override   public User select(int id) {      return userMapper.select(id);   }}
+```
+
+注册：略去了sqlsessiontemplate注册
+
+需要注册userMapperimpl2，SqlSessionDaoSupport` 需要通过属性设置一个 `sqlSessionFactory` 或 `SqlSessionTemplate
+
+```xml
+<!--dataSource--><bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>    <property name="url"              value="jdbc:mysql://localhost:3306/mybatis?useSSl=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT"/>    <property name="username" value="root"/>    <property name="password" value="123456"/></bean><!--sqlSessionFactory--><bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">    <property name="dataSource" ref="dataSource"/>    <!--绑定mybatis-config.xml-->    <property name="configLocation" value="classpath:mybatis-config.xml"/>    <property name="mapperLocations" value="classpath:com/tian/dao/UserMapper.xml"/>    <property name="typeAliasesPackage" value="com.tian"/></bean><bean id="userMapperImpl2" class="com.tian.dao.UserMapperImpl_2">    <property name="sqlSessionFactory" ref="sqlSessionFactory"/></bean>
+```
+
+
+
+# 14、声明式事务
