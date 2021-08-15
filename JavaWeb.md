@@ -17,13 +17,13 @@ notebook: JAVA
 
 # 1、概述
 
-## 软件结构
+## 1.1、软件结构
 
 C/S：客户端client/服务器server
 
 B/S：客户端采用浏览器，服务器端采用web服务器
 
-## 页面组成
+## 1.2、页面组成
 
 * 内容（结构）：在页面中看到的数据，一般内容采用html技术
 * 表现：内容在页面上的展示形式，一般用CSS技术
@@ -46,9 +46,7 @@ B/S：客户端采用浏览器，服务器端采用web服务器
 </html><!--整个页面的结束-->
 ```
 
-## HTML标签介绍
-
-
+## 2.1、HTML标签介绍
 
 ```html
 <标签名>封装的数据</标签名>
@@ -83,7 +81,7 @@ alert()是一个警告框函数，弹出框，提示里面的参数内容-->
 
 
 
-## 常用标签
+## 2.2、常用标签
 
 ### 字体font
 
@@ -245,7 +243,7 @@ html页面中用来收集用户信息的所有元素集合，表单元素是允�
 # 3、CSS
 CSS：层叠样式菜单，用于增强控制网页样式并允许将样式信息与网页内容分离的一种标记性语言
 
-## 语法规则
+## 3.1、语法规则
 
 * 选择器：浏览器根据“选择器”决定受CSS样式影响的HTML元素（标签）
 * 属性：要改变的样式名，并且每个属性有一个值，属性和值由：分开，并且由花括号包围
@@ -275,7 +273,7 @@ font-family: arial;
 }
 ```
 
-## CSS和HTML结合方式
+## 3.2、CSS和HTML结合方式
 
 ### 方法1
 
@@ -329,7 +327,7 @@ font{
 </html>
 ```
 
-## 常用选择器
+## 3.3、常用选择器
 
 ### 标签名选择器
 
@@ -439,7 +437,7 @@ id不能为数字，需要字母开头
 }
 ```
 
-## 常用样式
+## 3.4、常用样式
 
 ```html
 color: red; /*修改字体颜色*/
@@ -460,7 +458,7 @@ list-style: none;/*列表去除修饰*/
 
 # 4、JavaScript
 
-## 概述
+## 4.1、概述
 
 主要用于完成页面的数据验证，运行在客户端，需要运行浏览器来解析执行JavaScript代码
 
@@ -472,7 +470,7 @@ list-style: none;/*列表去除修饰*/
 * 安全性（不允许直接访问本地硬盘）
 * 跨平台性（只要是可以解释JS的浏览器都可以执行，和平台无关）
 
-## JavaScript和html结合的方式
+## 4.2、JavaScript和html结合的方式
 
 ### 方式1
 
@@ -522,7 +520,7 @@ alert("hello");
 </html>
 ```
 
-## 变量
+## 4.3、变量
 
 
 
@@ -560,7 +558,7 @@ alert("hello");
 </html>
 ```
 
-## 关系运算
+## 4.4、关系运算
 
 * 等于：==，简单的字面值比较
 * 全等于：===，除了字面值比较外，还会做类型比较
@@ -583,7 +581,7 @@ alert("hello");
 </html>
 ```
 
-## 逻辑运算
+## 4.5、逻辑运算
 
 * 且运算：&&
   * 当表达式全为真，返回最后一个表达式的值
@@ -618,7 +616,7 @@ alert("hello");
 </html>
 ```
 
-## 数组
+## 4.6、数组
 
 
 
@@ -650,7 +648,7 @@ JavaScript中数组会自动扩容
 </html>
 ```
 
-## 函数
+## 4.7、函数
 
 js中函数重载会覆盖上面的定义，不允许重载函数
 
@@ -746,7 +744,7 @@ js中函数重载会覆盖上面的定义，不允许重载函数
 </html>
 ```
 
-## js中的事件
+## 4.8、js中的事件
 
 > 事件是由电脑输入设备与页面进行交互的响应
 
@@ -1010,7 +1008,7 @@ onsubmint表单提交事件 ：用于表单提交前，验证所有表单项是�
 </html>
 ```
 
-## DOM模型
+## 4.9、DOM模型
 
 Document Object Model文档对象模型：把文档中的标签、属性、文本转化为对象进行管理
 
@@ -1171,7 +1169,7 @@ Document Object Model文档对象模型：把文档中的标签、属性、文�
 
 # 5、jQuery
 
-## 介绍
+## 5.1、介绍
 
 **概述：**jQuery就是JavaScript和查询Query，辅助JavaScript开发的js类库
 
@@ -1179,7 +1177,7 @@ Document Object Model文档对象模型：把文档中的标签、属性、文�
 
 **优势：**免费、开源，语法设计可以使开发更加便捷
 
-## 安装
+## 5.2、安装
 
 ### 从网页添加
 
@@ -1223,7 +1221,7 @@ jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <**script**> �
 </script>
 ```
 
-## 初体验
+## 5.3、初体验
 
 ```html
 <!DOCTYPE html>
@@ -1253,7 +1251,7 @@ jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <**script**> �
 </html>
 ```
 
-## jQuery核心函数
+## 5.4、jQuery核心函数
 
 **$**是jQuery的核心函数，能完成很多功能，**$**()就是调用这个函数：
 
@@ -1265,7 +1263,7 @@ jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <**script**> �
    3. **$**(“.class”)，根据class查询标签对象
 4. 传入DOM对象时：把DOM对象转换为jQuery对象
 
-## jQuery语法
+## 5.5、jQuery语法
 
 jQuery 语法是通过选取 HTML 元素，并对选取的元素执行某些操作。
 
@@ -1304,7 +1302,7 @@ $(function(){
 });
 ```
 
-## jQuery选择器
+## 5.6、jQuery选择器
 
 jQuery 选择器允许您对 HTML 元素组或单个元素进行操作。
 
@@ -1343,7 +1341,7 @@ jQuery 中所有选择器都以美元符号开头：$()。
 </html>
 ```
 
-## jQuery事件
+## 5.7、jQuery事件
 
 jQuery 是为事件处理特别设计的。
 
@@ -1422,7 +1420,7 @@ $("p").click(function(){//定义了一个事件
 </html>
 ```
 
-## jQuery效果
+## 5.8、jQuery效果
 
 ### 显示/隐藏
 
@@ -1672,7 +1670,7 @@ $(document).ready(function(){
 </html>
 ```
 
-## 链(Chaining)
+## 5.9、链(Chaining)
 
 Chaining 允许我们在一条语句中运行多个 jQuery 方法（在相同的元素上）
 
@@ -1703,7 +1701,7 @@ $(document).ready(function()
 </html>
 ```
 
-## 获取内容和属性
+## 5.10、获取内容和属性
 
 ### 获得内容 - text()、html() 以及 val()
 
@@ -1719,7 +1717,7 @@ jQuery attr() 方法用于获取属性值。
 
 下面的例子演示如何获得链接中 href 属性的值：
 
-## 添加元素
+## 5.12、添加元素
 
 * append() - 在被选元素的结尾插入内容
 * prepend() - 在被选元素的开头插入内容
@@ -1762,7 +1760,7 @@ $(document).ready(function(){
 
 
 
-## 删除元素
+## 5.13、删除元素
 
 * remove() - 删除被选元素（及其子元素）
 * empty() - 从被选元素中删除子元素
@@ -1798,7 +1796,7 @@ $(document).ready(function(){
 </html>
 ```
 
-## 获取并设置 CSS 类
+## 5.14、获取并设置 CSS 类
 
 * addClass() - 向被选元素添加一个或多个类
 * removeClass() - 从被选元素删除一个或多个类
@@ -1846,7 +1844,7 @@ $(document).ready(function(){
 </html>
 ```
 
-## css() 方法
+## 5.15、css() 方法
 
 设置或返回被选元素的一个或多个样式属性。
 
@@ -1893,11 +1891,11 @@ XML 和 HTML 为不同的目的而设计：
 * XML 被设计用来传输和存储数据，其焦点是数据的内容。
 * HTML 被设计用来显示数据，其焦点是数据的外观。
 
-### 用途
+### 6.1、用途
 
 XML 应用于 Web 开发的许多方面，常用于简化数据的存储和共享。
 
-### XML 语法规则
+### 6.2、XML 语法规则
 
 1. **XML 文档必须有根元素，它是所有其他元素的父元素，比如以下实例中 root 就是根元素**
 
@@ -1959,7 +1957,7 @@ HTML 会把多个连续的空格字符裁减（合并）为一个，在 XML 中�
 
 XML 以 LF 存储换行。
 
-### XML元素
+### 6.3、XML元素
 
 #### 概述
 
@@ -1983,13 +1981,13 @@ XML 元素必须遵循以下命名规则：
 
 可使用任何名称，没有保留的字词。
 
-### XML解析
+### 6.4、XML解析
 
 。。。。
 
 # 7、Tomcat
 
-## JavaWeb概述
+## 7.1、JavaWeb概述
 
 ### 概念
 
@@ -2024,11 +2022,11 @@ javaweb是基于请求和响应来开发的
 
 4. Weblogic
 
-## Tomcat概述
+## 7.2、Tomcat概述
 
 由Apache组织提出的一种web服务器，**提供对jsp和Servlet的支持**，是一种**轻量级**的javaweb容器（服务器），也是当前应用最广的javaweb服务器，并且**免费**
 
-### 与servlet版本对应关系
+>  与servlet版本对应关系
 
 ![image-20210731114737054](https://i.loli.net/2021/07/31/ZLPvEwz2aJoKVrR.png)
 
@@ -2036,7 +2034,7 @@ Servlet程序从2.5版本是现在市面使用最多的版本（xml配置）
 
 Servlet3.0以后，就是注解的版本
 
-## Tomcat使用
+## 7.3、Tomcat使用
 
 ### 安装
 
@@ -2127,7 +2125,7 @@ http://localhost:8080代表webapps文件夹
 
 # 8、Servlet
 
-## 概述
+## 8.1、概述
 
 JavaWeb三大组件：
 
@@ -2139,7 +2137,7 @@ servlet是javaEE规范之一，规范就是接口
 
 Servlet是运行在服务器上的一个java小程序，通过HTTP接收和响应客户端发送过来的请求
 
-## 手动实现Servlet程序
+## 8.2、手动实现Servlet程序
 
 1. 编写一个类去实现servlet接口
 2. 实现service方法，处理请求，并响应数据
@@ -2179,7 +2177,7 @@ web.xml配置文件：
 
 tomcat10有个最大的变动就是包名javax.servlet改成了"jakarta.servlet
 
-## Servlet声明周期
+## 8.3、Servlet声明周期
 
 1. 执行servlet构造器方法
 2. init方法
@@ -2192,7 +2190,7 @@ tomcat10有个最大的变动就是包名javax.servlet改成了"jakarta.servlet
 
 4在web工程停止时调用
 
-## Get、Post请求分发处理
+## 8.4、Get、Post请求分发处理
 
 servelet接口实现类：
 
@@ -2295,7 +2293,7 @@ public class Hello implements Servlet {
 </web-app>
 ```
 
-## HttpServlet类
+## 8.5、HttpServlet类
 
 一般在实际开发项目中，都是使用继承httpservlet类的方式实现servlet程序
 
@@ -2365,11 +2363,11 @@ public class Hello2 extends HttpServlet {
 </html>
 ```
 
-## Servlet类继承体系
+## 8.6、Servlet类继承体系
 
 ![image-20210731211509936](https://i.loli.net/2021/07/31/et1soMiyUY8fFPR.png)
 
-## ServletConfig类
+## 8.7、ServletConfig类
 
 Servlet程序的配置信息类
 
@@ -2399,7 +2397,7 @@ public class Hello implements Servlet {
 }
 ```
 
-## ServletContext类
+## 8.8、ServletContext类
 
 * 是一个接口，表示Servlet上下文对象
 * 一个web工程只有一个servletcontext对象实例
@@ -2449,7 +2447,7 @@ public class Hello2 extends HttpServlet {
 }
 ```
 
-## HTTP协议
+## 8.9、HTTP协议
 
 ### http协议概述
 
@@ -2529,7 +2527,7 @@ HTTP协议中的数据又叫报文
 * 404：表示请求服务器已经收到了，但是要的数据不存在（请求地址错误）
 * 500：表示服务器已经收到请求，但是服务器内部错误（代码错误）
 
-## HttpServletRequest类
+## 8.10、HttpServletRequest类
 
 ### 作用
 
@@ -2771,7 +2769,7 @@ web.xml
 servletContext.getRealPath("/");
 ```
 
-## HttpServletResponse类
+## 8.11、HttpServletResponse类
 
 ### 概述
 
@@ -2912,40 +2910,157 @@ public class Response1 extends HttpServlet {
 
 # 9、jsp
 
-## 概述
+## 9.1、概述
 
-全称是java serverpages：java服务器页面
+全称是java serverpages：java服务器页面，用于动态web
 
 作用：代替servlet程序回传html页面的数据
 
-已逐渐被淘滩
+已逐渐被淘汰
 
-## EL表达式
+> 特点
+
+* jsp页面可以嵌入java代码，为用户提供动态数据
+* html只提供静态
+
+> 原理
+
+* 浏览器向服务器发送请求，不管访问什么资源，都是在访问servlet
+* jsp最终会被转换成一个java类
+* JSP本质上就是一个servlet
+* jsp页面中的java代码会原封不动的输出,html代码会被转换为`out.write("<html>\r\n")`
+
+> 依赖
+
+```xml
+<dependencies>
+    <!--servlet依赖-->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+    </dependency>
+    <!--jsp依赖-->
+    <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>javax.servlet.jsp-api</artifactId>
+        <version>2.3.3</version>
+    </dependency>
+    <!--jstl表达式依赖-->
+    <dependency>
+        <groupId>javax.servlet.jsp.jstl</groupId>
+        <artifactId>jstl-api</artifactId>
+        <version>1.2</version>
+    </dependency>
+    <!--standard标签依赖-->
+    <dependency>
+        <groupId>taglibs</groupId>
+        <artifactId>standard</artifactId>
+        <version>1.1.2</version>
+    </dependency>
+</dependencies>
+```
+
+## 9.2、JSP语法
+
+> JSP表达式
+
+```jsp
+<%= 表达式 %>
+```
+
+```jsp
+<p>
+   今天的日期是: <%= (new java.util.Date()).toLocaleString()%>
+</p>
+```
+
+> JSP注释
+
+```jsp
+<%-- 该部分注释在网页中不会被显示--%> 
+```
+
+> JSP脚本程序
+
+脚本程序可以包含任意量的Java语句、变量、方法或表达式，只要它们在脚本语言中是有效的。
+
+脚本程序的语法格式：
+
+```jsp
+<% 代码片段 %>
+```
+
+```jsp
+<%
+out.println("Your IP address is " + request.getRemoteAddr());
+%>
+```
+
+> JSP声明
+
+一个声明语句可以声明一个或多个变量、方法，供后面的Java代码使用。在JSP文件中，您必须先声明这些变量和方法然后才能使用它们。
+
+JSP声明的语法格式：
+
+```jsp
+<%! declaration; [ declaration; ]+ ... %>
+```
+
+```jsp
+<%! int i = 0; %> 
+<%! int a, b, c; %> 
+<%! Circle a = new Circle(2.0); %> 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 9.2、EL表达式
 
 expression language表达式语言
 
 作用：代替jsp页面中的表达式脚本在jsp页面中进行数据的输出
 
-## jstl标签库
+## 9.3、jstl标签库
 
 jsp标准标签库，替换jsp中的代码脚本，使得jsp页面变得更加简洁
 
 # 10、 文件的上传和下载
 
-## 文件的上传
+## 10.1、文件的上传
 
 1. 有一个form标签，method=post请求
 2. form标签的encType属性值必须为multipart/form-data值
 3. 在form标签中使用input type=file添加上传的文件
 4. 编写服务器代码接收，处理上传的数据
 
-## 文件的下载
+## 10.2、文件的下载
 
 
 
 # 11、Cookie和Session
 
-## Cookie
+## 11.1、Cookie
 
 ### 概述
 
@@ -2959,7 +3074,7 @@ jsp标准标签库，替换jsp中的代码脚本，使得jsp页面变得更加�
 
 
 
-## Session
+## 11.2、Session
 
 - Session就一个接口（HttpSession）
 - Session就是会话，用来伟华客户端和服务器之间关联的一种技术
@@ -2976,7 +3091,7 @@ jsp标准标签库，替换jsp中的代码脚本，使得jsp页面变得更加�
 
 # 13、json
 
-## 概述
+## 13.1、概述
 
 JSON（javascript object notation）是一种轻量级的数据交换格式，易于人阅读和编写，同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，很多语言都提供了对json的支持，使得json成为理想的数据交换格式
 
@@ -2984,7 +3099,7 @@ JSON（javascript object notation）是一种轻量级的数据交换格式，�
 
 数据交换指的是客户端和服务器i之间业务数据的传输格式
 
-## JSON语法
+## 13.2、JSON语法
 
 JSON 语法是 JavaScript 语法的子集。
 
@@ -3037,7 +3152,7 @@ JSON 值可以是：
 
 ![image-20210804154554069](https://gitee.com/tianzhendong/img/raw/master//images/image-20210804154554069.png)
 
-## JSON vs XML
+## 13.3、JSON vs XML
 
 JSON 和 XML 都用于接收 web 服务端的数据。
 
@@ -3067,7 +3182,7 @@ JSON 和 XML在写法上有所不同，如下所示：
 </sites>
 ```
 
-## JSON.parse()
+## 13.4、JSON.parse()
 
 JSON字符串转换为JSON对象
 
@@ -3090,7 +3205,7 @@ JSON.parse(text[, reviver])
 var obj = JSON.parse('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }');
 ```
 
-## JSON.stringify()
+## 13.5、JSON.stringify()
 
 JSON对象转换为JSON字符串
 
@@ -3102,7 +3217,7 @@ var myJSON = JSON.stringify(obj);
 document.getElementById("demo").innerHTML = myJSON;
 ```
 
-## JSON使用
+## 13.6、JSON使用
 
 ```html
 <!DOCTYPE html>
@@ -3132,7 +3247,7 @@ document.getElementById("url").innerHTML=obj.sites[0].url
 </html>
 ```
 
-## JSON在java中使用
+## 13.7、JSON在java中使用
 
 ### JavaBean和JSON转换
 
@@ -3152,7 +3267,7 @@ Person person1 = gson.fronJson(s,Person.class);
 
 # 14、AJAX请求
 
-## 概述
+## 14.1、概述
 
 AJAX = Asynchronous JavaScript and XML（异步的 JavaScript 和 XML）。
 
@@ -3164,7 +3279,7 @@ AJAX 不需要任何浏览器插件，但需要用户允许JavaScript在浏览�
 
 **浏览器通过js异步发起请求，局部更新页面的技术**
 
-## 使用
+## 14.2、使用
 
 * 第一步：创建 XMLHttpRequest 对象
 
