@@ -6,9 +6,18 @@ notebook: JAVA
 
 [toc]
 
-# 12、SSM整合
+# 1、SpringMVC-SSM整合
 
-## 12.1、环境
+## 1.1、环境
+
+> 环境
+
+* IDE：IDEA 2021 1.1
+* 项目管理：Maven ，apache-maven-3.8.1
+* JAVA：JDK 16.01
+* Web服务器：apache-tomcat-9.0.50
+* 数据库：MySQL 8.0.26
+* 数据库管理工具：Navicat premium 15
 
 > 数据库环境
 
@@ -38,7 +47,7 @@ VALUES (1,'java',1,'从入门到放弃'),
   * 配置静态资源
 
 ```xml
-<!--依赖：junit，数据库驱动，连接池，servlet，jsp，mybatis，mybatis-spring，spring-->
+<!--依赖：junit，数据库驱动，连接池，servlet，jsp，mybatis，mybatis-spring，spring,log4j-->
 <dependencies>
     <!--junit-->
     <dependency>
@@ -97,6 +106,13 @@ VALUES (1,'java',1,'从入门到放弃'),
         <groupId>org.springframework</groupId>
         <artifactId>spring-jdbc</artifactId>
         <version>5.3.9</version>
+    </dependency>
+    
+    <!--log4j-->
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.17</version>
     </dependency>
 </dependencies>
 
@@ -162,6 +178,11 @@ mybatis-config.xml
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    
+    <settings>
+        <!--配置log4j，name必须为logImpl，I为大写，value需要使用mybatis提供的哪些，不能有空格-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
     <!--配置数据源，交给spring了-->
 
     <!--配置别名-->
@@ -182,9 +203,36 @@ jdbc.username=root
 jdbc.password=123456
 ```
 
+* log4j.properties
 
+```properties
+#将等级为DEBUG的日志信息输出到console和file这两个目的地，console和file的定义在下面的代码
+log4j.rootLogger=DEBUG,console,file
 
-## 12.2、Mybatis层
+#控制台输出的相关设置
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+log4j.appender.console.Target = System.out
+log4j.appender.console.Threshold=DEBUG
+log4j.appender.console.layout = org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=[%c]-%m%n
+
+#文件输出的相关设置
+log4j.appender.file = org.apache.log4j.RollingFileAppender
+log4j.appender.file.File=./log/tian.log
+log4j.appender.file.MaxFileSize=10mb
+log4j.appender.file.Threshold=DEBUG
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=[%p][%d{yy-MM-dd}][%c]%m%n
+
+#日志输出级别
+log4j.logger.org.mybatis=DEBUG
+log4j.logger.java.sql=DEBUG
+log4j.logger.java.sql.Statement=DEBUG
+log4j.logger.java.sql.ResultSet=DEBUG
+log4j.logger.java.sql.PreparedStatement=DEBUG
+```
+
+## 1.2、Mybatis层
 
 主要是dao层和service层，底层相关，MVC的Model层，数据和业务
 
@@ -269,6 +317,8 @@ public interface BookMapper {
 ```xml
 <mappers>
     <mapper class="com.tian.dao.BookMapper"/>
+    <!--        <mapper resource="com/tian/dao/BookMapper.xml"/>-->
+    <!--        <package name="com.tian.dao"/>-->
 </mappers>
 ```
 
@@ -335,7 +385,7 @@ public class BookServiceImpl implements BookService{
 }
 ```
 
-## 12.3、Spring层
+## 1.3、Spring层
 
 > dao层
 
@@ -367,8 +417,8 @@ spring-dao.xml
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username"/>
-        <property name="password" value="${jdbc.password"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
         <!--c3p0连接池的私有属性-->
         <property name="maxPoolSize" value="30"/>
         <property name="minPoolSize" value="10"/>
@@ -438,7 +488,7 @@ spring-service.xml
 </beans>
 ```
 
-## 12.4、SpringMVC层
+## 1.4、SpringMVC层
 
 > 增加web支持
 
@@ -526,7 +576,7 @@ spring-service.xml
 </beans>
 ```
 
-## 12.5、配置文件整合
+## 1.5、配置文件整合
 
 applicationContext.xml
 
@@ -539,10 +589,313 @@ applicationContext.xml
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-    <import resource="applicationContext.xml"/>
+
     <import resource="spring-dao.xml"/>
     <import resource="spring-service.xml"/>
     <import resource="springmvc-servlet.xml"/>
 </beans>
 ```
+
+# 2、实际业务实现
+
+## 2.1、查询书籍功能
+
+### 查询
+
+将controller和web交互
+
+> controller
+
+*BookController.class*
+
+```java
+@Controller
+@RequestMapping("/book")
+public class BookController {
+   //controller层调用service层
+   @Autowired
+   @Qualifier("BookServiceImpl")
+   private BookService bookService;
+
+   //查询全部书籍，并返回书籍展示页面
+   public String selectAllBook(Model model) {
+      List<Books> books = bookService.selectBookAll();
+      model.addAttribute("list", books);
+      return "allBook";
+   }
+
+}
+```
+
+> jsp
+
+* allBook.jsp
+* index.jsp，设置由首页跳转
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>书籍展示</title>
+</head>
+<body>
+<h1>书籍展示</h1>
+</body>
+</html>
+```
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+  <head>
+    <title>$Title$</title>
+  </head>
+  <body>
+  $END$
+  <h3>
+    <a href="${pageContext.request.contextPath}/book/allBook">进入书籍展示页面</a>
+  </h3>
+  </body>
+</html>
+```
+
+### 错误
+
+```bash
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.tian.service.BookService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true), @org.springframework.beans.factory.annotation.Qualifier("BookServiceImpl")}
+```
+
+bean不存在
+
+> 解决
+
+web.xml中需要引入applicationContxt.xml而不是springmvc-config.xml
+
+### 美化
+
+> 首页
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+  <head>
+    <title>首页</title>
+    <style>
+      a {
+        text-decoration: none;
+        color: black;
+        font-size: 18px;
+      }
+      h3 {
+        width: 180px;
+        height: 38px;
+        margin: 100px auto;
+        text-align: center;
+        line-height: 38px;
+        background: deepskyblue;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+  <h3>
+    <a href="${pageContext.request.contextPath}/book/allBook">进入书籍展示页面</a>
+  </h3>
+  </body>
+</html>
+```
+
+![](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816033535794.png)
+
+> 查询页
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>书籍展示</title>
+</head>
+<body>
+<table align="center" border="1" width="300" height="100" cellspacing="0"><!--设置表格剧中，边框线粗细，每个格子的长宽,单元格之间的间距为0-->
+    <tr align="center">
+        <th colspan="4" bgcolor="#00bfff">书籍列表</th><!--表头，自带加粗居中属性,colspan设置合并1行1列和2列的单元格，rowspan设置跨列合并-->
+    </tr>
+    <tr bgcolor="#ffe4c4">
+        <td align="center"><b>书籍ID</b></td><!--设置字体居中，加粗-->
+        <td align="center"><b>书籍名称</b></td>
+        <td align="center"><b>书籍数量</b></td>
+        <td align="center"><b>书籍描述</b></td>
+    </tr>
+    <c:forEach var="books" items="${list}">
+        <tr align="center" bgcolor="#a9a9a9">
+            <td>${books.bookID}</td>
+            <td>${books.bookName}</td>
+            <td>${books.bookCounts}</td>
+            <td>${books.detail}</td>
+        </tr>
+    </c:forEach>
+</table>
+</body>
+</html>
+```
+
+![image-20210816201951940](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816201951940.png)
+
+## 2.2、添加书籍功能
+
+> 待跳转页面
+
+addBook.jsp
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>添加书籍页面</title>
+</head>
+<body>
+<form action="${pageContext.request.contextPath}/book/addBook" method="post">
+    <table align="center" border="0">
+        <tr>
+            <td>书籍名称: </td>
+            <td><input type="text" name="书籍名称" required></td>
+        </tr>
+        <tr>
+            <td>书籍数量: </td>
+            <td><input type="text" name="书籍数量" required></td>
+        </tr>
+        <tr>
+            <td>书籍描述: </td>
+            <td><input type="text" name="书籍描述"></td>
+        </tr>
+        <tr align="center">
+            <td><input type="reset" value="重置"></td>
+            <td><input type="submit" value="添加"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+```
+
+![image-20210816205546620](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816205546620.png)
+
+> controller
+
+```java
+//  跳转到添加书籍界面
+@RequestMapping("/toAddBook")
+public String toAddBook() {
+   return "addBook";
+}
+
+//添加书籍请求
+@RequestMapping("/addBook")
+public String addBook(Books book) {
+    bookService.addBook(book);
+    return "redirect:/book/allBook";
+}
+```
+
+> 跳转按钮
+
+allBook.jsp
+
+```xml
+<style>
+    #a1{
+    text-decoration: none;
+    }
+</style>
+
+<tr>
+    <td colspan="4" align="center"><a id="a1"  href="${pageContext.request.contextPath}/book/toAddBook">添加书籍</a></td>
+</tr>
+```
+
+![image-20210816210610577](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816210610577.png)
+
+## 2.3、修改、删除书籍
+
+>  按钮
+
+allBook.jsp
+
+```jsp
+<td>
+    &nbsp;<a href="${pageContext.request.contextPath}/book/toUpdateBook/${books.bookID}">修改</a>
+    |
+    <a href="${pageContext.request.contextPath}/book/deleteBook/${books.bookID}">删除</a>&nbsp;
+</td>
+```
+
+![image-20210816221451118](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816221451118.png)
+
+> controller
+
+```java
+	//跳转到修改请求页面
+	@RequestMapping("/toUpdateBook/{bookId}")
+	public String toUpdateBook(@PathVariable("bookId") int id, Model model) {
+		Books books = bookService.selectBookById(id);
+		model.addAttribute("bookSelected", books);
+		return "updateBook";
+	}
+
+	//修改书籍
+	@RequestMapping("/updateBook")
+	public String updateBook(Books books) {
+		bookService.updateBook(books);
+		return "redirect:/book/allBook";
+	}
+
+	//删除书籍
+	@RequestMapping("/deleteBook/{bookId}")
+	public String deleteBook(@PathVariable("bookId") int id) {
+		bookService.deleteBook(id);
+		return "redirect:/book/allBook";
+	}
+}
+```
+
+> 待跳转页面
+
+updateBook.jsp
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>修改书籍</title>
+</head>
+<body>
+<form action="${pageContext.request.contextPath}/book/updateBook" method="post">
+    <%--隐藏于传递不需要用户修改的bookID--%>
+    <input type="hidden" name="bookID" value="${bookSelected.bookID}">
+    <table align="center" border="0">
+        <tr>
+            <td>书籍名称: </td>
+            <td><input type="text" name="bookName" value="${bookSelected.bookName}" required></td>
+        </tr>
+        <tr>
+            <td>书籍数量: </td>
+            <td><input type="text" name="bookCounts" value="${bookSelected.bookCounts}" required></td>
+        </tr>
+        <tr>
+            <td>书籍描述: </td>
+            <td><input type="text" name="detail" value="${bookSelected.detail}"></td>
+        </tr>
+        <tr align="center">
+            <td><input type="reset" value="重置"></td>
+            <td><input type="submit" value="修改"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+```
+
+![image-20210816223906448](https://gitee.com/tianzhendong/img/raw/master//images/image-20210816223906448.png)
+
+
 

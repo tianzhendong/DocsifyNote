@@ -348,18 +348,6 @@ HelloController.class
 然后跳转得到hello.jsp页面
 
 ```java
-package com.tian.controller;
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-/**
- * @author: Tian
- * @time: 2021-08-15 16:34
- **/
 public class HelloController implements Controller {
    @Override
    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -526,17 +514,6 @@ HelloController.class
 然后跳转得到hello.jsp页面
 
 ```java
-package com.tian.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-/**
- * @author: Tian
- * @time: 2021-08-15 20:10
- **/
 @Controller
 @RequestMapping("/hello")       //配置总地址，可以有可无
 public class HelloController {
@@ -576,13 +553,6 @@ public class HelloController {
 > 6. 跳转页面
 
 ```jsp
-<%--
-  Created by IntelliJ IDEA.
-  User: 12038
-  Date: 2021/8/15
-  Time: 20:09
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

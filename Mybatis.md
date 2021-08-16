@@ -145,23 +145,6 @@ XML 配置文件中包含了**对 MyBatis 系统的核心设置**，包括**获�
  **SqlSession中包括了操作数据库的方法**
 
 ```java
-package com.tian.utils;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.PreparedStatement;
-
-/**
- * @program: MybatisStudy
- * @description: mybatis配置类
- * @author: TianZD
- * @create: 2021-08-06 21:44
- **/
 public class MybatisUtils {
    private static SqlSessionFactory sqlSessionFactory = null;
    static {
