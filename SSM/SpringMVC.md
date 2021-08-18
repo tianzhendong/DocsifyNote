@@ -270,6 +270,8 @@ public class LoginServlet extends HttpServlet {
 
 这个是SpringMVC的核心
 
+- 插入dispatcherServlet：alt+ins键，选择servlet，搜索dispatchservlet
+
 - 关联配置文件
 
 - 启动优先级
@@ -281,8 +283,6 @@ public class LoginServlet extends HttpServlet {
   - `/`：匹配所有请求，不包括 *JSP*；
   - `/*`：匹配所有请求及 *JSP*
   - 如果填写了`/*`，*Controller* 处理业务后返回的 JSP页面会再次被拦截请求，会无限嵌套。
-
-alt+ins键，选择servlet，搜索dispatchservlet
 
 ```xml
 <!--配置DispatchServlet：请求分发器、前端控制器-->
@@ -769,7 +769,7 @@ public class HelloController {
 public class RestfulController {
 
     @RequestMapping("/addition/{a}/{b}")
-    public String addition(@PathVariable int a,@PathVariable int b, Model model) {
+    public String addition(@PathVariable("a") int a, @PathVariable("b") int b, Model model) {
         int result = a + b;
         model.addAttribute("result", "结果：" + result);
 
@@ -782,7 +782,7 @@ public class RestfulController {
 
 ```java
 @RequestMapping(value = "/multiplication/{a}/{b}", method = RequestMethod.POST)
-public String multiplication(@PathVariable int a, @PathVariable int b, Model model) {
+public String multiplication(@PathVariable("a") int a, @PathVariable("b") int b, Model model) {
     int result = a * b;
     model.addAttribute("result", "结果：" + result);
 
@@ -794,7 +794,7 @@ public String multiplication(@PathVariable int a, @PathVariable int b, Model mod
 
 ```java
 @PostMapping("/multiplication/{a}/{b}")
-public String multiplication(@PathVariable int a, @PathVariable int b, Model model) {
+public String multiplication(@PathVariable("a") int a, @PathVariable("b") int b, Model model) {
     int result = a * b;
     model.addAttribute("result", "结果：" + result);
 
@@ -827,7 +827,7 @@ public String multiplication(@PathVariable int a, @PathVariable int b, Model mod
 
 ## 7.1、SpringMVC使用视图解析器
 
-通过 *ModelAndView* 对象，根据 ***view\* 名称**和**视图解析器**，映射到指定页面。
+通过 *ModelAndView* 对象，根据 **view 名称**和**视图解析器**，映射到指定页面。
 
 - 使用视图解析器的方式属于**请求转发**，地址栏 *URL* 不会发生改变。
 - 实际页面 *URL* ：（视图解析器前缀） + *viewName* +（视图解析器后缀）
@@ -972,7 +972,7 @@ public void test1(HttpServletRequest request, HttpServletResponse response) thro
 - **提交的域名称**和**处理方法的参数名**是否一致，决定了参数的获取方式；
 - **提交的域名称**和**实体类的属性名**是否一致，决定了参数的获取方式。
 
-### 提交的域名称和处理方法的参数名一致
+>  提交的域名称和处理方法的参数名一致
 
 **提交的域名称**和**处理方法的参数名**一致，会将域名称自动映射到处理方法的参数。
 
@@ -995,7 +995,7 @@ public String test1(Model model, String name) {
 http://localhost:8080/springmvc_03/user/t1?name=tian
 ```
 
-### 提交的域名称和处理方法的参数名不一致
+> 提交的域名称和处理方法的参数名不一致
 
 使用 *@RequestParam* 注解，设置提交的域名称。
 
@@ -1017,11 +1017,11 @@ public String test2(Model model, @RequestParam("username") String name) {
 http://localhost:8080/springmvc_03/user/t1?username=tian
 ```
 
-### 提交对象
+> 提交对象
 
 处理方法使用实体类接收请求参数，**提交的域名称**和**实体类的属性名**必须一致，才能自动映射。
 
-> 实体类：User
+* 实体类：User
 
 ```java
 private int id;
@@ -1029,7 +1029,7 @@ private String name;
 private int age;
 ```
 
-> Controller
+* Controller
 
 ```java
 @PostMapping("/user/t3")
@@ -1041,7 +1041,7 @@ public String test3(Model model, User user) {
 }
 ```
 
-> 表单：用于提交参数
+* 表单：用于提交参数
 
 **域名称**和与**实体类的属性名**必须一致！
 
@@ -1158,7 +1158,7 @@ json用于数据交换
 
 *JSON* 和 *XML* 都用于接收 *web* 服务端的数据，通常使用字符串。
 
-### 对比
+> 对比
 
 **相同点**
 
@@ -1175,7 +1175,7 @@ json用于数据交换
 - *JSON* 读写速度更快；
 - *JSON* 可以使用数组；
 
-### JSON优于XML
+> JSON优于XML
 
 - *JSON* 比 *XML* 更容易解析；
 - *JSON* 可以使用现有的 *JavaScript* 对象解析；
@@ -1320,7 +1320,7 @@ delete person.hobby[0];
   var obj = { "name":"tian", "age":"17" }
   ```
 
-- 使用 ***JSON.parse()*** 方法解析数据，将其转化为 *JavaScript* 对象
+- 使用 ***JSON.stringify()*** 方法将 *JavaScript* 对象转换为 *JSON* 字符串
 
   ```javascript
   var myJson = JSON.stringify(obj);
@@ -1478,7 +1478,7 @@ User obj3 = mapper.readValue(new File("obj.json"), Object.class);
 
 乱码问题有两种解决方案。
 
-1. ***produces\* 属性**
+1. **produces属性**
 
 ```java
 @RequestMapping(value = "/user/j1", produces = "application/json;charset=utf-8")
@@ -1515,7 +1515,7 @@ User obj3 = mapper.readValue(new File("obj.json"), Object.class);
 
 >  Java类
 
-- j1：将 ***User*** 对象转换为 ***JSON\* 字符串**。
+- j1：将 ***User*** 对象转换为 ***JSON* 字符串**。
 
 ```java
 @ResponseBody
@@ -1532,8 +1532,8 @@ public String json1() throws JsonProcessingException {
 
 >  集合
 
-- j2：将 ***List*** 集合转换为 ***JSON\* 字符串**；
-- j3：将 ***Map*** 集合转换为 ***JSON\* 字符串**。
+- j2：将 ***List*** 集合转换为 ***JSON* 字符串**；
+- j3：将 ***Map*** 集合转换为 ***JSON* 字符串**。
 
 ```java
 @ResponseBody
@@ -1619,7 +1619,7 @@ public String json5() throws JsonProcessingException {
 **将以上重复的代码抽取，封装成工具类。**
 
 ```java
-package indi.tian.utils;
+package com.tian.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -1735,7 +1735,7 @@ Object obj2 = JSON.parse(objBytes);
 
 >  Java类
 
-- j1：将 ***User*** 对象转换为 ***JSON\* 字符串**。
+- j1：将 ***User*** 对象转换为 ***JSON* 字符串**。
 
 ```java
 @ResponseBody
@@ -1749,8 +1749,8 @@ public String json1() {
 
 > 集合
 
-- j2：将 ***List*** 集合转换为 ***JSON\* 字符串**；
-- j3：将 ***Map*** 集合转换为 ***JSON\* 字符串**。
+- j2：将 ***List*** 集合转换为 ***JSON* 字符串**；
+- j3：将 ***Map*** 集合转换为 ***JSON* 字符串**。
 
 ```java
 @ResponseBody
@@ -1806,7 +1806,591 @@ public String json5() {
 
 **j1-j5测试结果**
 
-![img](https://img2020.cnblogs.com/blog/2410011/202108/2410011-20210814235801778-754485332.png)
+![img](https://gitee.com/tianzhendong/img/raw/master//images/2410011-20210814235801778-754485332.png)
 
 如果一切正常，但是报 *500*。检查项目结构的 lib 目录中是否有相关 *jar* 包。
 
+# 12、SSM整合SpringMVC
+
+见SSM整合笔记
+
+# 13、Ajax
+
+## 13.1、概述
+
+* AJAX = Asynchronous JavaScript and XML（**异步的 JavaScript 和 XML**）
+
+* AJAX 不是新的编程语言，而是一种使用现有标准的新方法
+* AJAX 是一种用于**创建快速动态网页的技术**
+
+* **AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术**
+
+*AJAX*一个**前后台配合**的技术，它可以让javascript发送http请求，与后台通信，**获取数据和信息**。ajax技术的原理是**实例化xmlhttp对象**，使用此对象与后台通信。
+
+*Jquery*将它封装成了一个函数**$.ajax()**，我们可以直接用这个函数来执行ajax请求。
+
+## 13.2、$.ajax()
+
+> $.ajax()
+
+重要：
+
+* url
+* data
+* success
+
+```js
+$.ajax({          
+       	 url:"发送请求（提交或读取数据）的地址", 
+         dataType:"预期服务器返回数据的类型",  
+         type:"请求方式", 
+         async:"true/false",
+         data:{发送到/读取后台（服务器）的数据},
+         success:function(data){请求成功时执行},      
+         error:function(){请求失败时执行}
+});
+
+```
+
+```js
+$(function(){
+    //请求参数
+    var list = {};
+    //ajax
+    $.ajax({
+        //请求方式
+        type : "POST",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        //请求地址
+        url : "http://127.0.0.1/admin/list/",
+        //数据，json字符串
+        data : JSON.stringify(list),
+        //请求成功
+        success : function(result) {
+            console.log(result);
+        },
+        //请求失败，包含具体的错误信息
+        error : function(e){
+            console.log(e.status);
+            console.log(e.responseText);
+        }
+    });
+});
+```
+
+
+
+> 实例
+
+登陆页面：
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+<%--    <script src="jquery-3.5.1.js"></script>--%>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#button1").click(function (){
+                $.get({
+                    url: "${pageContext.request.contextPath}/a1",
+                    data: {"name":$("#username").val()},
+                    success: function (data) {
+                        if ((data.toString() === 'ok')) {
+                           $("#span1").css("color","green");
+                        }
+                        $("#span1").html(data);
+                    }
+                })
+            })
+        });
+    </script>
+</head>
+<body>
+    用户名：
+    <input type="text" id="username">
+    <button id="button1">校验</button>
+    <span id="span1"></span>
+</body>
+</html>
+```
+
+Controller
+
+```java
+@RestController
+public class AjaxController {
+   @RequestMapping("/a1")
+   public String login(String name) {
+      String msg = "";
+      if ("admin".equals(name)) {
+         msg = "ok";
+      } else {
+         msg = "用户名错误";
+      }
+      return msg;
+   }
+}
+```
+
+![image-20210817221936206](https://gitee.com/tianzhendong/img/raw/master//images/image-20210817221936206.png)
+
+# 14、拦截器
+
+> 概述
+
+在开发一个网站时可能有这样的需求：某些页面只希望几个特定的用户浏览。对于这样的访问权限控制，需要用到拦截器
+
+SpringMVC的处理器拦截器类似于Servlet开发中的过滤器Filter，用于对处理器进行预处理和后处理
+
+> 过滤器、拦截器
+
+过滤器是 servlet 规范中的一部分，任何 Java Web 工程都可以使用，就算在SpringMVC中也可以使用不受限制。在 web.xml 中使用 url-pattern 配置了拦截地址之后，会对所有的访问所有改地址的资源进行拦截。
+
+拦截器是 SpringMVC 框架自己的，只有使用了 SpringMVC 框架的工程才能用。并且拦截器只会拦截访问的控制器方法，不会拦截其他资源，如果访问的是 jsp，html,css,image 或者 js 是不会进行拦截的。
+
+> 使用拦截器
+
+实现HandlerInterceptor 接口
+
+```java
+/**
+ * springmvc中的拦截器对象
+ * 1.编写代码：实现拦截器接口 HandlerInterceptor
+ * 2.配置拦截器
+ */
+public class Demo1Interceptor implements HandlerInterceptor {
+
+    /**
+     * preHandle方法，预处理
+     * 作用：在请求进入指定Controller方法之前，执行的方法（对请求进行验证）
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param handler 请求将要执行的Controller对象
+     * @return 布尔类型：true表示请求放行，继续向后执行（有可能进入下一个拦截器，也有可能进入Controller）
+     *                  false表示拦截请求，请求不能继续向后执行
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("Demo1Interceptor拦截器中的preHandle方法执行了...");
+        return true;
+    }
+
+    /**
+     * postHandle 后处理
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param handler 正在执行的Controller对象
+     * @param modelAndView 模型和视图数据，Controller方法执行完成之后的返回值
+     *
+     * 注意：此方法必须在请求进入Controller之后才会执行，如果没有进入Controller是不会执行的
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("Demo1Interceptor拦截器中的postHandle方法执行了...");
+    }
+
+    /**
+     * afterCompletion 请求处理完成之后
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param handler 已经执行过的Controller对象
+     * @param ex Controller方法抛出的异常对象
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("Demo1Interceptor拦截器中的afterCompletion方法执行了...");
+    }
+}
+```
+
+**方法解析：**
+
+* *preHandle*方法：在请求进入Controller方法之前调用此方法，起到拦截的作用
+  *  如果preHandle方法返回值为true，表示放行（允许进入Controller方法）
+  * 如果preHandle方法返回值为false，表示拦截（不允许进入Controller方法）
+
+* *postHandle*方法
+
+  请求进入Controller方法之后，但未结束之前，调用此方法
+
+  可在返回的模型数据进行处理加工，比如加入公用信息以便页面显示
+
+* *afterCompletion*方法
+  * 请求离开Controller方法之后，调用此方法
+  * 可获取异常信息，记录日志，资源清理等
+
+> 拦截器配置
+
+*web.xml*
+
+```xml
+<!-- 配置拦截器 -->
+<mvc:interceptors>
+    <!-- 一个拦截器 -->
+    <mvc:interceptor>
+        <!-- 配置此拦截器所拦截的路径
+            拦截所有请求：/** 表示所有进入springmvc的请求
+        -->
+        <mvc:mapping path="/**"/>
+        <!-- 注册拦截器对象 -->
+        <bean class="com.newcapec.interceptor.Demo1Interceptor"/>
+    </mvc:interceptor>
+</mvc:interceptors>
+```
+
+> 应用：用户登陆
+
+* controller
+
+```java
+@Controller
+@RequestMapping("/auth")
+public class LoginController {
+
+    @RequestMapping("/login")
+    public String login(String username, String password, HttpSession session, Model model){
+        //模拟查询：根据用户名和密码查询数据
+        if("admin".equals(username) && "123".equals(password)) {
+           //比对成功，用户登录
+           //将用户信息放入session域对象
+           session.setAttribute("loginUser", username);
+           return "index";
+        }
+        model.addAttribute("message", "username or password is invalid");
+        return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("loginUser");
+        session.invalidate();
+        return "login";
+    }
+}
+```
+
+
+
+* 拦截器
+
+```java
+public class LoginInterceptor implements HandlerInterceptor {
+    /**
+     * 身份认证：
+     * 过滤器：
+     * 1.从session域中获取用户的登录信息
+     * 2.判断用户信息是否为空
+     * 3.不为空（表示已登录）放行（doFilter方法）
+     * 4.为空（表示未登录）
+     * 5.判断当前请求是否为登录请求或无需登录可执行请求（身份认证白名单）
+     * 6.如果为白名单请求，放行
+     * 7.如果不是，拦截，跳转login，信息提示...
+     *
+     * 拦截器：
+     * 1.从session域中获取用户的登录信息
+     * 2.判断用户信息是否为空
+     * 3.不为空（表示已登录）放行（返回true）
+     * 4.为空（表示未登录），拦截，跳转login，信息提示...
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("身份认证拦截器执行.....");
+        HttpSession session = request.getSession();
+        Object userInfo = session.getAttribute("loginUser");
+        if(userInfo == null){
+            request.setAttribute("message", "you are not login.");
+            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    }
+}
+```
+
+* 配置
+
+```xml
+<mvc:interceptors>
+    <mvc:interceptor>
+        <mvc:mapping path="/**"/>
+        <!-- 配置拦截器不拦截路径，可使用通配符 -->
+        <mvc:exclude-mapping path="/auth/login"/>
+        <!--<mvc:exclude-mapping path="/demo/**"/>-->
+        <bean class="com.newcapec.interceptor.LoginInterceptor"/>
+    </mvc:interceptor>
+</mvc:interceptors>
+```
+
+* 页面
+
+```html
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <base href="${pageContext.request.contextPath}/">
+    <title>Title</title>
+</head>
+<body>
+    <div style="text-align: center">
+        <h1>用户登录</h1>
+        <div style="color: red;">${message}</div>
+        <form action="auth/login" method="post">
+            <p>用户名：<input type="text" name="username"></p>
+            <p>密&emsp;码：<input type="text" name="password"></p>
+            <p><button>登录</button></p>
+        </form>
+    </div>
+</body>
+</html>
+```
+
+# 15、文件上传和下载
+
+[参考内容](https://www.cnblogs.com/bigsai/p/13406055.html)
+
+## 15.1、文件上传
+
+
+
+在 Spring MVC 中*MultipartResolver*接口用于处理上传请求，将上传请求包装成可以直接获取文件的数据，从而方便操作。
+
+MultpartiResolver 接口有以下两个实现类：
+
+- StandardServletMultipartResolver：使用了 Servlet 3.0 标准的上传方式。
+- **CommonsMultipartResolver**：使用了 Apache 的 commons-fileupload 来完成具体的上传操作。
+
+MultpartiResolver 接口具有以下方法
+
+| 名称                              | 作用                                    |
+| --------------------------------- | --------------------------------------- |
+| byte[] getBytes()                 | 以字节数组的形式返回文件的内容          |
+| String getContentType()           | 返回文件的内容类型                      |
+| InputStream getInputStream()      | 返回一个InputStream，从中读取文件的内容 |
+| String getName()                  | 返回请求参数的名称                      |
+| String getOriginalFillename()     | 返回客户端提交的原始文件名称            |
+| long getSize()                    | 返回文件的大小，单位为字节              |
+| boolean isEmpty()                 | 判断被上传文件是否为空                  |
+| void transferTo(File destination) | 将上传文件保存到目标目录下              |
+
+### 单文件上传
+
+> 导入jar包
+
+Maven 项目在 pom.xml 文件中添加以下依赖。
+
+```xml
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.4</version>
+</dependency>
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.2.2</version>
+</dependency>
+```
+
+> 配置 MultipartResolver
+
+使用 CommonsMultipartReslover 配置 MultipartResolver 解析器，在 springmvc-servlet.xml 中添加代码如下。
+
+```xml
+<!-- 配置MultipartResolver，用于上传文件，使用spring的CommonsMultipartResolver -->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize" value="5000000" />
+    <property name="defaultEncoding" value="UTF-8" />
+</bean>
+```
+
+- defaultEncoding：请求的编码格式，默认为 ISO-8859-1，此处设置为 UTF-8（注：defaultEncoding 必须和 JSP 中的 pageEncoding 一致，以便正确读取表单的内容）。
+- maxUploadSize：上传文件大小上限，单位为字节。
+
+> 编写文件上传表单页面
+
+负责文件上传表单的编码类型必须是“multipart/form-data”类型。
+
+```jsp
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>文件上传</title>
+</head>
+<body>
+    <form action="${pageContext.request.contextPath }/fileupload"
+        method="post" enctype="multipart/form-data">
+        选择文件：<input type="file" name="myfile"><br> 
+        文件描述：<input type="text" name="description"><br> 
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
+```
+
+表单的 enctype 属性指定的是表单数据的编码方式，该属性有以下 3 个值。
+
+- application/x-www-form-urlencoded：这是默认的编码方式，它只处理表单域里的 value 属性值。
+- multipart/form-data：该编码方式以二进制流的方式来处理表单数据，并将文件域指定文件的内容封装到请求参数里。
+- text/plain：该编码方式只有当表单的 action 属性为“mailto：”URL 的形式时才使用，主要适用于直接通过表单发送邮件的方式。
+
+> 编写控制器
+
+```java
+@Controller
+public class FileUploadController {
+    // 得到一个用来记录日志的对象，这样在打印信息时能够标记打印的是哪个类的信息
+    private static final Log logger = LogFactory.getLog(FileUploadController.class);
+    @RequestMapping("getFileUpload")
+    public String getFileUpload() {
+        return "fileUpload";
+    }
+    /**
+     * 单文件上传
+     */
+    @RequestMapping("/fileupload")
+    public String oneFileUpload(@ModelAttribute FileDomain fileDomain, HttpServletRequest request) {
+        /*
+         * 文件上传到服务器的位置“/uploadfiles”,该位置是指 workspace\.metadata\.plugins\org.eclipse
+         * .wst.server.core\tmp0\wtpwebapps, 发布后使用
+         */
+        String realpath = request.getServletContext().getRealPath("uploadfiles");
+        String fileName = fileDomain.getMyfile().getOriginalFilename();
+        File targetFile = new File(realpath, fileName);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        // 上传
+        try {
+            fileDomain.getMyfile().transferTo(targetFile);
+            logger.info("成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "showFile";
+    }
+}
+```
+
+### 多文件上传
+
+> 前端
+
+```html
+<body>
+<h2>同一类别多个文件上传</h2>
+<form name="onfile"  action="onfiles2" method="post" enctype="multipart/form-data">
+    图片：
+    <input type="file" name="img"><br>
+    <input type="file" name="img"><br>
+    <input type="file" name="img"><br>
+    <input type="file" name="img"><br>
+    <input type="submit" value="提交">
+</form>
+</body>
+```
+
+> 服务器
+
+```java
+@PostMapping("onfiles2")
+@ResponseBody
+public String onfiles2(MultipartFile img[]) throws IOException {
+   for(int i=0;i<img.length;i++)
+   {
+       if(!img[i].isEmpty())//文件不空
+       {
+           File imgfile =new File("F:/fileupload/"+img[i].getOriginalFilename());
+           imgfile.createNewFile();
+           img[i].transferTo(imgfile);
+           logger.info(img[i].getOriginalFilename());
+       }
+   }
+    return "sucucess";
+}
+```
+
+## 15.2、文件下载
+
+> 前端
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Springmvc文件下载</title>
+</head>
+<body>
+<h2>Springmvc文件下载</h2>
+个人照片<a href="/download/个人照片.png">个人照片.png</a><br>
+个人简历<a href="/download/个人简历.pdf">个人简历.pdf</a>
+</body>
+</html>
+```
+
+其中href是下载的超链接，download是下载的接口名，而链接最后面部分则是下载资源名称。
+
+
+
+> 服务端
+
+文件下载的原理就是服务端向客户端返回二进制流和信息，而Springmvc通过ResponseEntity完成。我们在controller中编写以下接口实现下载的功能：
+
+```java
+@GetMapping("download/{filename}")
+public ResponseEntity<byte[]>download(@PathVariable String filename) throws IOException {
+    //下载文件的路径(这里绝对路径)
+    String filepath= "F:/download/"+filename;
+    File file =new File(filepath);
+    //创建字节输入流，这里不实用Buffer类
+    InputStream in = new FileInputStream(file);
+    //available:获取输入流所读取的文件的最大字节数
+    byte[] body = new byte[in.available()];
+    //把字节读取到数组中
+    in.read(body);
+    //设置请求头
+    MultiValueMap<String, String> headers = new HttpHeaders();
+    headers.add("Content-Disposition", "attchement;filename=" + file.getName());
+    //设置响应状态
+    HttpStatus statusCode = HttpStatus.OK;
+    in.close();
+    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body, headers, statusCode);
+    return entity;//返回
+}
+```
+
+文件下载非常常见的问题：中文文件名错误显示。这个解决方案也很容易解决，只需将Content-Disposition内容后面的文件名进行url编码即可，具体代码为(替换上面对于部分)：
+
+```java
+headers.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+```
+
+## 15.3、总结
+
+前面所讲文件上传，前端就是form表单用`<input type="file">`表示客户端要上传文件，而服务端主要使用`MultipartFile`或者`MultipartFile[]`分别接收单个文件和多个文件。而在存储到本地也仅仅需要在本地磁盘创建对应文件然后`MultipartFile`调用`transferTo()`方法即可将上传的文件储存。
+
+而文件下载的前端需要一个请求的url链接，服务端需要编写这个链接对应的接口。通过一些名称找到文件在本地真实的位置通过`ResponseEntity`即可将二进制文件返回给客户达到文件下载的功能。而`ResponseEntity`使用也很简单在创建时候只需要传入二进制主体、头和状态码即可成功返回，而这些Springmvc已进行了很好封装你可以直接使用。
+
+而无论是文件上传、多文件上传还是文件下载，一个完整的案例大致都需要这样一个过程：
+
+- 构思需求和页面大体样式
+- 编写前端html页面
+- 编写服务端响应的请求
+- 启动程序运行测试
+
+在其中过程如果有问题可以根据编译器的错误提示、运行时的错误日志找到根源进行修正，这样完整的案例就可以成功完成啦！

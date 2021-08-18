@@ -1367,11 +1367,11 @@ SUN公司为了简化开发人员的（对数据库的统一）操作，提供�
 数据库版本为8.0.26
 
 ```xml
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.26</version>
-        </dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.26</version>
+</dependency>
 ```
 
 2. **编写java程序**
@@ -1382,14 +1382,6 @@ SUN公司为了简化开发人员的（对数据库的统一）操作，提供�
    5. 释放连接
 
 ```java
-package com.jdbc;
-
-import java.sql.*;
-
-/**
- * @author TianZhendong
- * @date 2021/8/5
- */
 public class JdbcTest {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         //1.加载驱动    固定写法
