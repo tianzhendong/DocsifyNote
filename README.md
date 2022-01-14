@@ -1,2 +1,0 @@
-## TianZD's notes
-
