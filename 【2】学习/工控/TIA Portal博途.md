@@ -298,7 +298,7 @@ MB3赋值为1(0000 0011)即M0.1和M0.0赋值为真，其余为假。
 
 ### 实数/浮点数(Real)
 
-浮点数为32为，可以用小数来表示。
+浮点数为32位，可以用小数来表示。
 
 寻址：MD0，ID0，QD0，VD0，DB0.DBD0等。
 
@@ -318,4 +318,92 @@ MB3赋值为1(0000 0011)即M0.1和M0.0赋值为真，其余为假。
 ![img](https://gitee.com/tianzhendong/img/raw/master//images/image.png)
 
 ## 寻址
+
+## Modbus TCP通信
+
+S7-1200 CPU 的库版本 **V4.0** 及以上版本和  S7-1500 CPU 的库版本 V3.x 及以上版本，支持 MODBUS (TCP)
+
+### Modbus TCP 库版本 <= V3.x 和 >= V4.0 间的差异
+
+1. MB_SERVER/MB_CLIENT MODBUS 指令的各个版本间存在以下差别：  
+
+* 地址参数  在版本 V3.x 及更低版本中，Modbus TCP 服务器的地址数据由输入参数“IP_x”指定。 
+* 在版本 V4.0 及更高版本中，则在 CONNECT 输入参数处使用 TCON_IP_V4 和 TCON_Configured  系统数据类型指定。 
+
+2. 如果执行期间出错，对于 Modbus 指令 V4.0 及更高版本，将提供更多可以相应评估的 STATUS 报警。 
+
+### MB_SERVER
+
+> “MB_SERVER”指令作为 Modbus TCP 服务器通过 PROFINET 连接进行通信。“MB_SERVER”指令将处理 Modbus TCP  客户端的连接请求、接收并处理 Modbus 请求并发送响应。
+
+Modbus TCP 服务器可以支持多个 TCP 连接，连接的最大数目取决于所使用的 CPU。
+
+连接服务器时，请记住以下规则：  
+
+* 每个“MB_SERVER”连接都必须使用唯一的背景数据块。 
+* 每个“MB_SERVER”连接都必须使用唯一的连接 ID。 
+* 该指令的各背景数据块都必须使用各自相应的连接 ID。连接 ID 与背景数据块组合成对，对每个连接，组合对都必须唯一。 
+* 对于每个连接，都必须单独调用“MB_SERVER”指令。
+
+#### 参数
+
+![image-20220116192250378](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116192250378.png)
+
+| 参数        | 声明   | 数据类型 | 说明                                                         |
+| ----------- | ------ | -------- | ------------------------------------------------------------ |
+| DISCONNECT  | Input  | BOOL     | 服务器会响应在 CONNECT 参数的 SDT“TCON_IP_v4”中输入的 IP 地址的连接请求。  接受一个连接请求后，可以使用该参数进行控制：1：终止连接初始化。0：在无通信连接时建立被动连接。 |
+| MB_HOLD_REG | InOut  | VARIANT  | 指向“MB_SERVER”指令中 Modbus 保持性寄存器的指针，作为保持性寄存器，可以使用具有优化访问权限的全局数据块，也可以使用位存储器的存储区。 |
+| CONNECT     | InOut  | VARIANT  | 指向连接描述结构的指针，可以使用TCON_IP_v4结构               |
+| NDR         | Output | BOOL     | “New Data Ready”：  0：无新数据 1：从 Modbus 客户端写入的新数据 |
+| DR          | Output | BOOL     | “Data Read”：  0：未读取数据 1：从 Modbus 客户端读取的数据   |
+| ERROR       | Output | BOOL     | 如果在调用“MB_SERVER”指令过程中出错，则将 ERROR 参数的输出设置为“1”。有关错误原因的详细信息，将由 STATUS 参数指定。 |
+| STATUS      | Output | WORD     | 指令的详细状态信息。                                         |
+
+#### TCON_IP_v4结构
+
+![image-20220116193945032](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116193945032.png)
+
+### MB_CLIENT
+
+> “MB_CLIENT”指令作为 Modbus TCP 客户端通过 PROFINET  连接进行通信。通过“MB_CLIENT”指令，可以在客户端和服务器之间建立连接、发送 Modbus 请求、接收响应并控制 Modbus TCP  客户端的连接终端。
+
+#### 参数
+
+![image-20220116194647364](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116194647364.png)
+
+| 参数         | 声明  | 数据类型 | 说明                                                         |
+| ------------ | ----- | -------- | ------------------------------------------------------------ |
+| REQ          | Input | BOOL     | 对 Modbus TCP 服务的 Modbus 查询<br/>REQ 参数受到等级控制。这意味着只要设置了输入 (REQ=true)，指令就会发送通信请求。 |
+| DISCONNECT   | Input | BOOL     | 通过该参数，可以控制与 Modbus 服务器建立和终止连接：  0：与通过 CONNECT 参数组态的连接伙伴（请参见 CONNECT 参数）建立通信连接。 1：断开通信连接。在终止连接的过程中，不执行任何其它功能。成功终止连接后，STATUS 参数将输出值 0003。 而如果在建立连接的过程中设置了参数 REQ，将立即发送 Modbus 请求。 |
+| MB_MODE      | Input | USINT    | 选择 Modbus 的请求模式（读取、写入或诊断）或直接选择 Modbus  功能 |
+| MB_DATA_ADDR | Input | UDINT    |                                                              |
+| MB_DATA_LEN  | Input | UINT     | 数据长度：数据访问的位数或字数                               |
+| MB_DATA_PTR  | InOut | VARIANT  | 指向待从 Modbus 服务器接收的数据或待发送到 Modbus 服务器的数据所在数据缓冲区的指针。 |
+| CONNECT      | InOut | VARIANT  | 指向连接描述结构的指针                                       |
+| DONE         | Out   | BOOL     | 如果最后一个 Modbus 作业成功完成，则输出参数 DONE  中的该位将立即置位为“1”。 |
+| BUSY         | Out   | BOOL     | 0：无正在进行的 Modbus 请求 1：正在处理 Modbus 请求 在建立和终止连接期间，不会设置输出参数 BUSY。 |
+| ERROR        | Out   | BOOL     | 0：无错误 1：出错。出错原因由参数 STATUS 指示。              |
+| STATUS       | Out   | WORD     | 指令的详细状态信息。                                         |
+
+
+
+#### 对应表
+
+![IMG_0138](https://gitee.com/tianzhendong/img/raw/master//images/IMG_0138.PNG)
+
+### STATUS
+
+#### 常规状态错误
+
+![image-20220116195113898](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116195113898.png)
+
+#### 协议错误
+
+![image-20220116195204282](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116195204282.png)
+
+![image-20220116195221559](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116195221559.png)
+
+#### 参数错误
+
+![image-20220116195259568](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116195259568.png)
 
