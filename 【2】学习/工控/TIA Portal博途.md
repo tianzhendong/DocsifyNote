@@ -407,3 +407,27 @@ Modbus TCP 服务器可以支持多个 TCP 连接，连接的最大数目取决�
 
 ![image-20220116195259568](https://gitee.com/tianzhendong/img/raw/master//images/image-20220116195259568.png)
 
+
+
+## TCP通信
+
+[西门子官方教程](http://www.ad.siemens.com.cn/productportal/prods/1500published/1500list/Com_list3.html)
+
+SIMATIC S7- 1500 CPU 集成了 PROFINET 接口，该接口除了具备连接PROFINET 总线通信功能，同时还可用于标准的 TCP 通信。通过组态 TCP 连接或使用开放式通信专用功能块与其它设备建立 TCP 连接以实现通信。
+
+![image-20220117183228434](https://gitee.com/tianzhendong/img/raw/master//images/image-20220117183228434.png)
+
+
+
+![image-20220117183258900](https://gitee.com/tianzhendong/img/raw/master//images/image-20220117183258900.png)
+
+  做客户端时选择PLC主动建立连接，同时下面两个端口都要添加。
+
+![image-20220117183441469](https://gitee.com/tianzhendong/img/raw/master//images/image-20220117183441469.png)
+
+![image-20220117183502107](https://gitee.com/tianzhendong/img/raw/master//images/image-20220117183502107.png)
+
+
+
+
+
