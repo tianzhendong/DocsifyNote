@@ -431,21 +431,22 @@ QModBusTcpClient类>>QModbusClient>>QModbusDevice>>QObject
 | ------------- | ------------------------------------------------------------ |
 | errorOccurred | 有错误时发出                                                 |
 | stateChanged  | 每当设备的状态发生变化时，就会发出这个信号。新状态由状态表示。 |
-|               |                                                              |
+| finished()    | 该信号在应答完成处理时发出。回复可能仍然返回了一个错误。在发出此信号后，应答的数据将不再有更新。 |
 
 
 
 #### 函数
 
-|                          |                                                   |
-| ------------------------ | ------------------------------------------------- |
-| Error error()            | 返回设备的错误状态                                |
-| QString errorString()    | 返回设备错误的描述性错误文本。                    |
-| void disconnectDevice()  | 断开连接的设备。                                  |
-| setConnectionParameter() |                                                   |
-| setTimeout()             |                                                   |
-| setNumberOfRetries()     |                                                   |
-| bool connectDevice()     | 用于设备接入Modbus网络。成功时返回true;否则错误。 |
-| sendReadRequest()        | 发送读请求                                        |
-| sendWriteRequest（）     |                                                   |
+|                                |                                                              |
+| ------------------------------ | ------------------------------------------------------------ |
+| Error error()                  | 返回设备的错误状态                                           |
+| QString errorString()          | 返回设备错误的描述性错误文本。                               |
+| void disconnectDevice()        | 断开连接的设备。                                             |
+| setConnectionParameter()       |                                                              |
+| setTimeout()                   |                                                              |
+| setNumberOfRetries()           |                                                              |
+| bool connectDevice()           | 用于设备接入Modbus网络。成功时返回true;否则错误。            |
+| QMODBUSREPLY sendReadRequest() | 发送读请求                                                   |
+| sendWriteRequest（）           | 发送一个读取read所指向数据的内容的请求。如果没有错误发生，返回一个新的有效的QModbusReply对象，否则为nullptr。Modbus网络可以有多个服务器，每个服务器都有唯一的serverAddress。 |
+| bool isFinished()              | 当回复完成或中止时返回true。                                 |
 
