@@ -38,5 +38,13 @@
 
 [markdown公式](【2】学习\效率\markdown公式.md)
 
+[Frp内网穿透](【2】学习\效率\FRP内网穿透.md)
+
 ### [自动驾驶](【2】学习/自动驾驶)
+
+
+
+### [Linux](【2】学习\Linux)
+
+[Ubuntu更换源](【2】学习\Linux\Ubuntu更换源.md)
 
