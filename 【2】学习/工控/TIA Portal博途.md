@@ -38,7 +38,7 @@ Totally Integrated Automation（ 全集成自动化）,是世界第一款将所�
 
 使用TIA Portal，您不仅可以在一个界面中集成基本软件（STEP 7，WinCC，SINAMICS Startdrive，SIMOCODE ES和SIMOTION SCOUT TIA），还可以集成新功能，例如多用户和能源管理。
 
-![img](https://gitee.com/tianzhendong/img/raw/master//images/image001-26.png)
+<img src="https://gitee.com/tianzhendong/img/raw/master//images/image001-26.png" alt="img"  />
 
 不仅仅是各部分的简单组合：完整软件包的各个组件紧密链接在一起。因此，TIA Portal 提供了用于以高效且（最重要的是）可管理的方式将自动化与数字化联系在一起的各种功能。
 

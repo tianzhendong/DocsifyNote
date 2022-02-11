@@ -28,14 +28,39 @@
         <img src="https://cdn.jsdelivr.net/gh/justacoder99/r2coding@master/img/localsoftware.2x9vakmja2g.png" width=""/>
     </a>
 </p>
-
 ## Markdown插入图片
+
+### 直接插入
 
 ```markdown
 ![图片描述关键词](图片链接地址)
 ```
 
 **[PicGo + Gitee(码云)实现免费markdown图床](https://link.zhihu.com/?target=https%3A//www.jianshu.com/p/b69950a49ae2)**
+
+![](https://gitee.com/tianzhendong/img/raw/master//images/202202111357847.png)
+
+### HTML插入-排版
+
+```html
+<center>
+    <img src ="https://gitee.com/tianzhendong/img/raw/master//images/202202111342399.png"
+         width = "25%">
+    <br>
+    这是图注
+</center>
+```
+
+
+
+<center>
+    <img src ="https://gitee.com/tianzhendong/img/raw/master//images/202202111342399.png"
+         width = "25%">
+    <img src ="https://gitee.com/tianzhendong/img/raw/master//images/202202111342399.png"
+         width = "25%">
+    <br>
+    这是图注
+</center>
 
 ## Markdown插入音频
 
