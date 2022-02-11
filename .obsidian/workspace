@@ -1,0 +1,101 @@
+{
+  "main": {
+    "id": "15a5a6c8380b3495",
+    "type": "split",
+    "children": [
+      {
+        "id": "47ce9b4c9870826f",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "【1】工作/工作记录/2022年1月工作记录.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6bf0287d8efa8809",
+    "type": "split",
+    "children": [
+      {
+        "id": "e1e8fc37da8d1e23",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "62006c36e7df0e68",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "8a360cc54cd83a28",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d65ad102be374817",
+    "type": "split",
+    "children": [
+      {
+        "id": "7b10014be837ab34",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ae7bc704cfc50b82",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "【1】工作/工作记录/2022年1月工作记录.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "47ce9b4c9870826f",
+  "lastOpenFiles": [
+    "【1】工作/工作记录/2022年1月工作记录.md",
+    "【1】工作/工作记录/2022年2月工作记录.md",
+    "【2】学习/Linux/Ubuntu更换源.md",
+    "【0】生活/收录、读书/读书笔记.md",
+    "【2】学习/工控/C#上位机开发.md",
+    "new.md",
+    "README.md",
+    "【0】生活/记事本.md"
+  ]
+}
