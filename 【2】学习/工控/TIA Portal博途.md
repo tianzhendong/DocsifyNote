@@ -409,6 +409,38 @@ Modbus TCP 服务器可以支持多个 TCP 连接，连接的最大数目取决�
 
 
 
+### 实例
+
+![image-20220214153310475](https://gitee.com/tianzhendong/img/raw/master//images/202202141534339.png)
+
+*注意：MB_HOLD_REG中的数量不能大于数据块中数据的数量*
+
+保持性寄存器示例如下，有word（两个字节，16位）类型和Real（4个字节，32位）两种组成，
+
+注意：一个保持性寄存器为16位，两个字节，因此一个**real类型**占用**两个保持性寄存器**
+
+![image-20220214151538122](https://gitee.com/tianzhendong/img/raw/master//images/202202141534418.png)
+
+发送读取请求，需要从0位（00 00）开始，读取15（00 0f）个保持性寄存器：
+
+发送请求：
+
+```
+00 00 00 00 00 06 FF 03 00 00 00 0f
+```
+
+收到回复：
+
+```
+00 00 00 00 00 21 FF 03 1E 00 01 00 02 00 03 00 04 00 05 40 D3 33 33 40 F6 66 66 41 0C CC CD 41 1E 66 66 BF 80 00 00 
+```
+
+其中a1-a5为word类型，分别占用一个保持性寄存器，两个字节表示，如a1（1）表示为：00 01
+
+a6-a10为real类型，占用了两个保持性寄存器，用4个字节表示，如a6（6.6）表示为：40 D3 33 33，a10（-1.0）表示为：BF 80 00 00
+
+注意：浮点数表示遵循[IEEE 754标准](https://www.cnblogs.com/MikeZhang/p/IEEE754FloatEncode20180117.html)，在线转换：http://www.speedfly.cn/tools/hexconvert/
+
 ## TCP通信
 
 [西门子官方教程](http://www.ad.siemens.com.cn/productportal/prods/1500published/1500list/Com_list3.html)
