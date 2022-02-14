@@ -29,14 +29,11 @@
 ## [工控](【2】学习/工控)
 
 * [CodeSys开放式控制系统编程技术](【2】学习\工控\CodeSys开放式控制系统编程技术.md)
-
 * [LABVIEW](【2】学习\工控\LABVIEW.md)
-
 * [ModbusTCP](【2】学习\工控\ModbusTCP.md)
-
 * [QT](【2】学习\工控\QT.md)
-
 * [TIA Portal博途](【2】学习\工控\TIA Portal博途.md)
+* [PLC](【2】学习\工控\PLC.md)
 
 ## [效率](【2】学习/效率)
 
