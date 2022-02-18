@@ -183,9 +183,9 @@ C:\opencv\opencv4.5.5\build\x64\vc15\bin
 
 ### QT使用
 
-新建工程
+#### 新建工程
 
-在pro文件中添加opencv
+#### 在pro文件中添加opencv
 
 ```properties
 INCLUDEPATH+= C:\opencv\opencv4.5.5\build\include\
@@ -200,11 +200,22 @@ LIBS+= -LC:\opencv\opencv4.5.5\build\x64\vc15\lib\
 
 ![image-20220218162023678](https://gitee.com/tianzhendong/img/raw/master//images/202202181620733.png)
 
- 在cpp中加入头文件
+####  在cpp中加入头文件和命名空间
 
 ```c++
 #include "opencv2/opencv.hpp"
+using namespace cv;
 ```
+
+#### 解决中文乱码
+
+```c++
+#if _MSC_VER >= 1600
+#pragma execution_character_set("utf-8")
+#endif
+```
+
+
 
 ![image-20220218162142067](https://gitee.com/tianzhendong/img/raw/master//images/202202181621195.png)
 

@@ -31,7 +31,7 @@
 
 - [Anaconda](【2】学习\机器视觉\Anaconda.md)
 - [opencv配置](【2】学习\机器视觉\opencv配置.md)
-
+- [OpenCV学习](【2】学习\机器视觉\OpenCV学习.md)
 - [手眼标定](【2】学习\机器视觉\手眼标定.md)
 
 ## [C_C++](【2】学习\C_C++)

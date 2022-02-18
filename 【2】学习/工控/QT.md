@@ -137,6 +137,8 @@ Windows 下面如果 pro 文件中 config+=console，就会带一个 cmd 窗口
 
 首先，要把项目中所有的头文件和源文件全都转换成UTF-8+BOM编码保存。
 
+![image-20220218172128013](https://gitee.com/tianzhendong/img/raw/master//images/202202181721125.png)
+
 1\. 第1个问题不存在了。
 
 2\. 第2个问题也不存在了。
@@ -149,7 +151,20 @@ Windows 下面如果 pro 文件中 config+=console，就会带一个 cmd 窗口
 #endif
 ```
 
-这个宏告诉MSVC，执行字符集是UTF-8编码的，别瞎整成GB2312的！还有个好处，就是能用tr包中文，方便日后的翻译。最终效果如下：
+这个宏告诉MSVC，执行字符集是UTF-8编码的，别瞎整成GB2312的！还有个好处，就是能用tr包中文，方便日后的翻译。
+
+或者在pro文件中加入：
+
+```properties
+msvc {
+    QMAKE_CFLAGS += /utf-8
+    QMAKE_CXXFLAGS += /utf-8
+}
+```
+
+
+
+最终效果如下：
 
 ![image-20220218161244977](https://gitee.com/tianzhendong/img/raw/master//images/202202181612073.png)
 
