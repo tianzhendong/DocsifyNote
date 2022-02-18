@@ -4,7 +4,156 @@
 
 ## QT 安装
 
+中国科学技术大学：http://mirrors.ustc.edu.cn/qtproject/
+清华大学：https://mirrors.tuna.tsinghua.edu.cn/qt/
+北京理工大学：http://mirror.bit.edu.cn/qtproject/
+中国互联网络信息中心：https://mirrors.cnnic.cn/qt/
 
+![在这里插入图片描述](https://gitee.com/tianzhendong/img/raw/master//images/202202181559349.png)
+
+![在这里插入图片描述](https://gitee.com/tianzhendong/img/raw/master//images/202202181559285.png)
+
+各模块意思
+Qt Charts是二维图表模块，用于绘制柱状图、饼图、曲线图等常用二维图表。在制作一些需要绘制表格的软件的时候经常会用到，建议勾选
+Qt Quick 3D模块初探,这个是技术预览勾不勾都可以，Quick 3D提供了用于基于Qt Quick创建3D内容或UI的高级API。提供了对现有Qt Quick场景图的扩展，以及对该扩展场景图的渲染器。不过还是在测试阶段，因为我可能会用到，所以我勾了。
+Qt Data Visualization 是三维数据图表模块，用于数据的三维显示，如散点的三维空间分布、三维曲面等。这个如果你勾选了Qt Charts的话，这个基本也要用得到，建议勾选。
+QT lottie animation 这个主要是用来实现复杂的动画效果，如果要用来制作动画或者制作游戏的话菜肴勾选。
+Qt Purchasing、Qt WebEngine、Qt Network Auth(TP)等其他模块，括号里的 TP 表示技术预览。（技术预览就是就算你勾选了，也用不了，就是让你看看而已，哈哈哈）
+Qt Scritp（Deprecated）是脚本模块，括号里的“Deprecated”表示这是个已经过时的模块。
+接下来是tool的选择
+
+------------------------------------------------
+版权声明：本文为CSDN博主「流楚丶格念」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_45525272/article/details/113062352
+
+## 解决Qt-至少需要一个有效且已启用的储存库 问题
+
+[blog.csdn.net](https://blog.csdn.net/asdsa12311/article/details/101935605)
+
+问题如图所示
+
+![image-20220218155724951](https://gitee.com/tianzhendong/img/raw/master//images/202202181557049.png)
+
+解决方法：
+
+1、选择左下角的设置，进入如图界面，然后选择“临时存储库”
+
+![image-20220218155742235](https://gitee.com/tianzhendong/img/raw/master//images/202202181557304.png)
+
+2、手动添加临时储存库要定位一个储存有QT在线安装镜像的地址，这个地址可以从这里选择http://download.qt.io/static/mirrorlist/
+
+在这个网站，显示了各国的qt镜像站点，中国有四个，随便选一个中科大的站点击HTTP会进入一个网络文件夹。
+
+以此进入如下路径：/online/qtsdkrepository/windows\_x86/root/qt/ 。然后把该路径添加到临时存储库中。然后就可以增删组件了。
+
+最终路径如下所示
+
+`https://mirrors.tuna.tsinghua.edu.cn/qt/online/qtsdkrepository/windows_x86/root/qt/`
+
+## Qt程序运行时CMD窗口
+
+Linux 下都是带终端的.
+Windows 下面如果 pro 文件中 config+=console，就会带一个 cmd 窗口
+
+## Qt Creator中显示的汉字变为乱码
+
+[blog.csdn.net](https://blog.csdn.net/liuweilhy/article/details/82321105)
+
+### 问题是什么？
+
+在学习Qt编程的过程中，大多数人都遇到过中文乱码的问题。总结起来有三类：
+
+1\. Qt Creator中显示的汉字变为乱码，编辑器上方有“Could not [decode](https://so.csdn.net/so/search?q=decode&spm=1001.2101.3001.7020) "..." with "UTF-8"-encoding. Editing not possible.”的错误提示。此时，出现乱码的文档是不可编辑的。如下图所示，“你好中文！”这5个中文字符变成了乱码：
+
+![image-20220218160928755](https://gitee.com/tianzhendong/img/raw/master//images/202202181609841.png)
+
+2\. Qt Creator中显示的汉字正常，但编译的时候会出现“常量中有换行符”等一系列错误报警。其实，这也是文字编码的问题。如下图所示：
+
+![image-20220218160959524](https://gitee.com/tianzhendong/img/raw/master//images/202202181609646.png)
+
+3\. 编译时未报错，但生成的程序中文乱码。如下图所示：
+
+![image-20220218161014007](https://gitee.com/tianzhendong/img/raw/master//images/202202181610061.png)
+
+其中，第3条是网上提问的最多的，几乎是所有使用MSVC的初学者都会碰到的问题。很多回答是针对Qt4版本的，Qt5中不可用。
+
+### 为什么会出现这些问题？
+
+在解决问题之前，字符编码知识是必需的。你要知道ASCII、GB2312、GBK、Unicode、UTF-8、UTF-16、BOM是怎么回事。此外，你还要明白源码字符集、执行字符集是什么。详细内容可以在网上搜索一下，俯拾即是。
+
+1\. Qt Creator的编辑器默认使用**UTF-8**（代码页65001）编码来读取文本文件。而Visual Studio保存文件时默认采用的是本地编码，对于简体中文的Windows操作系统，这个编码就是GB2312（代码页936）。如果使用Qt Creator读取由Visual Studio创建的文件，那么编辑器就会以UTF-8编码格式读取GB2312编码格式的文件，出现中文乱码，因为这两套编码系统对汉字编码是不同的。至于英文部分不会乱码，是因为UTF-8和GB2312在单字节字符部分是兼容的。
+
+2\. MSVC在编译时，会根据源代码文件有无BOM来定义源码字符集。如果有BOM，则按BOM解释识别编码；如果没有，则使用本地字符集，对于简体中文的Windows操作系统就是GB2312。那么，当MSVC遇到一个没有BOM的UTF-8编码的文件时，它通常会把文件看作GB2312的来处理。如果文件全是英文没有问题，但如果包含中文，编译器就会出现误读。这种情况下，Qt Creator编辑器是正常的。但对于MSVC编译器，原代码会被它认识成下图这个样子：
+
+![image-20220218161038546](https://gitee.com/tianzhendong/img/raw/master//images/202202181610648.png)
+
+这是我用EverEdit指定本地编码重读后的结果，可以看到汉字出错，末端的引号也没了。
+
+在UTF-8中，一个中文字符（汉字或标点符号）占用3个字节，“你好中文！”这5个中文字符共占用15个字节；而在GB2312中，一个中文字符（汉字或标点符号）占用2个字节，这时，MSVC把UTF-8编码的15个字节加上后面1个字节的英文引号合成16个字节当作8个中文字符处理。之后，MSVC在这一行里直到末尾换行符出现都没有找到下一个引号，它以为你把字符串在这里敲回车换行了，于是报警称“常量中有换行符”，并引出一系列的错误。
+
+不过，当以无BOM的UTF-8编码的字符串正好凑够偶数个字节时（比如偶数个汉字，或奇数个汉字加奇数个英文字母），编译器通常不会报警，因为它以为用GB2312编码读出的是正确的。
+
+3\. 不管源文件是何种编码，只要MSVC能够正确识别，就可以通过编译。但MSVC的执行字符集默认是本地字符集。对我们来说，它生成的可执行文件中的文字是GB2312编码的。而生成的Qt程序以UTF-8编码来识别GB2312编码的文字，对于“你好中文！”这几个字符，采用GB2312编码后再以UFT-8编码来读取，就会变成如下的乱码：
+
+![image-20220218161057717](https://gitee.com/tianzhendong/img/raw/master//images/202202181610774.png)
+
+当以无BOM的UTF-8编码的字符串正好凑够偶数个字节时（比如偶数个汉字，或奇数个汉字加奇数个英文字母），反而不会出现乱码。那是因为，编译器用GB2312编码读出的乱码本身就是UTF-8编码的，现在又用UTF-8解读，自然就正确了。这纯粹是歪打正着。
+
+### 怎么解决这些问题？
+
+首先，你要确定采用哪种源码字符集。你有两个选择：
+
+1\. 采用本地编码字符集（不推荐，跨平台时会比较麻烦，但在Visual Studio环境下配合Add-in工具编程比较方便）；
+
+2\. 采用UTF-8编码字符集（推荐，适合跨平台）。
+
+####  “采用本地编码字符集”方案，解决方法如下：
+
+首先，要把项目中所有的头文件和源文件全都转换成GB2312编码保存。
+
+1\. 第1个问题：在Qt Creator中打开项目，点击左侧工具栏“项目”，在“编辑器”选项卡中把“默认编码”改成“GB2312”。如下图所示：
+
+![image-20220218161128126](https://gitee.com/tianzhendong/img/raw/master//images/202202181611248.png)
+
+话说回来，既然选择本地字符集，大致上是放弃跨平台了。与其用轻量级的Qt Creator，不如用Visual Studio作开发环境更好。
+
+2\. 第2个问题：“常量中有换行符”等一系列报警已不存在了。
+
+3\. 第3个问题：在字符串常量上加QStringLiteral宏或QString::fromLocal8Bit函数，如：
+
+    QString str = "你好中文！";
+
+改为：
+
+    QString str = QStringLiteral("你好中文！");
+
+或者：
+
+    QString str = QString::fromLocal8Bit("你好中文！");
+
+不过，在这两种形式下，你都无法用tr方法来创建翻译了。
+
+#### “采用UTF-8编码字符集”方案，解决方法如下：
+
+首先，要把项目中所有的头文件和源文件全都转换成UTF-8+BOM编码保存。
+
+1\. 第1个问题不存在了。
+
+2\. 第2个问题也不存在了。
+
+3\. 第3个问题，你也可以用上个方案中的方法来解决，但有更好的方法。那就是要用到中文字符的头文件和源文件开头加上MSVC的一个宏：
+
+```c++
+#if _MSC_VER >= 1600
+#pragma execution_character_set("utf-8")
+#endif
+```
+
+这个宏告诉MSVC，执行字符集是UTF-8编码的，别瞎整成GB2312的！还有个好处，就是能用tr包中文，方便日后的翻译。最终效果如下：
+
+![image-20220218161244977](https://gitee.com/tianzhendong/img/raw/master//images/202202181612073.png)
+
+[查看原网页: blog.csdn.net](https://blog.csdn.net/liuweilhy/article/details/82321105)
 
 ## 回顾C++基础
 
