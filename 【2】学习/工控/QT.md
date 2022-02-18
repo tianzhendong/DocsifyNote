@@ -1,7 +1,6 @@
 [toc]
 
 # QT
-
 ## QT 安装
 
 中国科学技术大学：http://mirrors.ustc.edu.cn/qtproject/
