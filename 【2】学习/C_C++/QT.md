@@ -134,6 +134,8 @@ Windows 下面如果 pro 文件中 config+=console，就会带一个 cmd 窗口
 
 #### “采用UTF-8编码字符集”方案，解决方法如下：
 
+**注意：加上后，qdebug输出中文正常，cout输出中文乱码，窗口名称输出中文乱码**
+
 首先，要把项目中所有的头文件和源文件全都转换成UTF-8+BOM编码保存。
 
 ![image-20220218172128013](https://gitee.com/tianzhendong/img/raw/master//images/202202181721125.png)
@@ -151,6 +153,8 @@ Windows 下面如果 pro 文件中 config+=console，就会带一个 cmd 窗口
 ```
 
 这个宏告诉MSVC，执行字符集是UTF-8编码的，别瞎整成GB2312的！还有个好处，就是能用tr包中文，方便日后的翻译。
+
+
 
 或者在pro文件中加入：
 
