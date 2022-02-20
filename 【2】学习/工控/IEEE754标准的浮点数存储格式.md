@@ -2,7 +2,7 @@
 
 
 
-# IEEE754标准的浮点数存储格式
+# IEEE754标准的浮点数存储格式【转载】
 
 操作系统 ： CentOS7.3.1611\_x64
 
@@ -15,6 +15,8 @@ Sign ： 符号位
 Exponent ： 阶码
 
 Fraction ： 有效数字
+
+[在线转换网址](http://www.speedfly.cn/tools/hexconvert/)
 
 ## 32位浮点数存储格式解析
 

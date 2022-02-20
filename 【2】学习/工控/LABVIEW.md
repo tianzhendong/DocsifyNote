@@ -2,7 +2,7 @@
 
 # Labview
 
-## 用LabVIEW打包EXE应用文件和打包程序安装文件的方法
+## 用LabVIEW打包EXE应用文件和打包程序安装文件的方法【转】
 
 [blog.csdn.net](https://blog.csdn.net/weixin_41692285/article/details/87079330)
 

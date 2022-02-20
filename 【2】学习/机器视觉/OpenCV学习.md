@@ -1,6 +1,6 @@
 [toc]
 
-# OpenCV学习
+# OpenCV学习笔记
 
  [OpenCV中文官方文档](http://www.woshicver.com/)
 
