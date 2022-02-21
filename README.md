@@ -37,6 +37,8 @@
 
 - [QT](【2】学习/C_C++/QT.md)
 - [C++相关](【2】学习/C_C++/C++.md)
+- [make、cmake、qmake](【2】学习\C_C++\make、cmake、qmake.md)
+- [QT调用python](【2】学习\C_C++\QT调用Python.md)]
 
 ## [效率](【2】学习/效率)
 

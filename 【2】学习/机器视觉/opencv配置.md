@@ -55,12 +55,6 @@ vs:VisualStudio Community 2017
 
 涉及两种编译器，msvc和mingw，opencv4.1.0支持vc14和vc15，分别对应vs2015和vs2017，若使用mingw编译，需要下载cmake对opencv重新编译生成。
 
-理解版本问题，参照《opencv+QT+vs版本匹配问题》：https://blog.csdn.net/weixin_45086338/article/details/109562733和《Qt+OpenCV配置的血泪史》：https://blog.csdn.net/qq_37124160/article/details/104282623
-
-需要编译opencv的mingw版本，参照《使用MinGW编译OpenCV4源码与配置使用演示》：https://mp.weixin.qq.com/s/5kh93mWJN2IyvpKvHMbU6Q
-
-
-
 Qt配置OpenCV教程，亲测已试过（详细版）https://blog.csdn.net/weixin_43763292/article/details/112975207
 
 在重新编译的过程中，出现了各种各样的问题，最终，cmake编译opencv未完成。
@@ -129,35 +123,6 @@ dotNetFx45_Full_x86_x64.exe、Kits Configuration Installer-x86-en-us.msi、SDKDe
 
 
 
-
-
-（3）  新建工程进行调试
-
-    使用Qt Creator新建一个Qt Widgets Application,依次使用上述三种编译器编译.
-    
-    注意：切换编译器时，需要右键工程进行清除。如果没有清楚会报下述提醒：
-    
-        StartingF:\testcoml\debug\testcoml.exe...
-    
-        程序异常结束。
-    
-        The process was endedforcefully.
-    
-        F:/testcoml/debug/testcoml.exe crashed. 关于这个问题 是由于切换编译器之后没有进行清除
-    
-    编译过程中可能出现的问题：
-    
-        ①  找不到rc.exe（使用msvc 2015 64-bit 和 msvc 2017 64-bit时可能会出现）
-    
-        解决方法：
-    
-        将C:\Program Files(x86)\Windows Kits\10\bin\10.0.17134.0\x64添加到系统环境变量的Path中去。
-    
-        Win10 系统环境变量修改方法：此电脑——属性——高级系统设置——高级——环境变量——系统变量——Path——编辑。将路径复制进去后，点击保存便可。
-    
-        ②  jom(版本号)- empower your cores错误
-    
-        该错误目前没有寻求到更好的解决办法，采用了Qt Creator中选择构建和运行——概要
 ### opencv
 
 #### 下载
@@ -182,7 +147,7 @@ https://opencv.org/releases.html
 C:\opencv\opencv4.5.5\build\x64\vc15\bin
 ```
 
-### QT使用
+### QT使用OpenCV
 
 #### 新建工程
 
@@ -208,15 +173,24 @@ LIBS+= -LC:\opencv\opencv4.5.5\build\x64\vc15\lib\
 using namespace cv;
 ```
 
-#### 解决中文乱码
+#### 测试
 
-```c++
-#if _MSC_VER >= 1600
-#pragma execution_character_set("utf-8")
-#endif
+```c
+#include <QCoreApplication>
+#include "opencv2/opencv.hpp"
+using namespace cv;
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    Mat src = imread("./../../images/book.bmp");
+    imshow("img",src);
+    waitKey(0);
+    destroyAllWindows();
+    return 0;
+}
 ```
 
-
-
-![image-20220218162142067](https://gitee.com/tianzhendong/img/raw/master//images/202202181621195.png)
+![image-20220221145436340](https://gitee.com/tianzhendong/img/raw/master//images/202202211454543.png)
 
