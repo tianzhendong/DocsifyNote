@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
+  
 </head>
 <body>
   <!-- 定义加载时候的动作 -->
@@ -66,8 +67,25 @@
           }
       }
 
-
   </script>
+  <script>
+    // tabs
+      window.$docsify = {
+          tabs: {
+              persist    : true,      // default
+              sync       : true,      // default
+              theme      : 'classic', // default
+              tabComments: true,      // default
+              tabHeadings: true       // default
+                }
+        };
+  </script>
+  <style>
+    :root {
+      --docsifytabs-border-color: #f0f3f1;
+      --docsifytabs-tab-highlight-color: rgb(17, 155, 58);
+    }
+  </style>
   <!-- <script>
 //字数统计
     window.$docsify = {
@@ -103,7 +121,9 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/ga.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
-
-  
+<!-- docsify (latest v4.x.x)-->
+<!-- <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script> -->
+<!-- docsify-tabs (latest v1.x.x) -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>  
 </body>
 </html>
