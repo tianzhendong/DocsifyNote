@@ -1,6 +1,6 @@
 # TianZD
 
-# java  README
+# LINUX README
 
 
 

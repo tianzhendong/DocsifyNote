@@ -1,12 +1,12 @@
-<!-- 学习/_sidebar.md -->
+<!-- Linux/_sidebar.md -->
 
 * [首页](/)
 * [主页](README.md)
-* [机器视觉](机器学习/)
-* [工控](工控/_sidebar.md)
-* [C_C++](C_C++/_sidebar.md)
-* [效率](效率/_sidebar.md)
-* [Linux](Linux/_sidebar.md)
-* [Java](Java学习/_sidebar.md)
-* [自动驾驶](自动驾驶/_sidebar.md)
+* [机器视觉](【2】学习/机器视觉/)
+* [工控](【2】学习/工控/)
+* [C_C++](【2】学习/C_C++/)
+* [效率](【2】学习/效率/)
+* [Linux](【2】学习/Linux/)
+* [Java](【2】学习/Java学习/)
+* [自动驾驶](【2】学习/自动驾驶/)
 
