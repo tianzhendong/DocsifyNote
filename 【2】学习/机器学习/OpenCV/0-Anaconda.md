@@ -1,6 +1,6 @@
-[toc]
-
 # Anaconda
+
+[toc]
 
 ## 介绍
 
@@ -43,7 +43,7 @@ Anaconda Navigator是管理器，可以在里面通过图像化界面管理虚�
 
 安装完成后，在**终端**输入`conda -V`注意v为大写，可以查看conda版本
 
-![image-20220218142336122](C:/Users/12038/AppData/Roaming/Typora/typora-user-images/image-20220218142336122.png)
+![image-20220218142336122](https://gitee.com/tianzhendong/img/raw/master//images/202202230852094.png)
 
 ## 更改源
 
