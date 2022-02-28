@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"> -->
-  <link rel="icon" href="./4.ico">
+  <link rel="icon" href="./5.ico">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
   <!-- 谷歌站点收录 -->
   <meta name="google-site-verification" content="qTFCf1hJ275saQ7H1kin5t2DVpznBKAj0Gi50XMOVMo" />
@@ -41,8 +41,7 @@
     .app-nav{
       position: fixed;
       margin: 0;
-      /* padding: 10px 50px 10px 0; */
-      padding: 10px 0 10px 0;/*上、右、下、左*/
+      padding: 10px 40px 10px 0px;/*上、右、下、左*/
       width: calc(100% - 325px);
       /* background-color: #fff; */
       height: 55px;
@@ -76,11 +75,12 @@
     }
 
     /*侧边栏*/
-    /* .sidebar {
+    .sidebar {
       padding-top: 6px;
+      width: auto;
     }
 
-    aside.sidebar ul li {
+    /* aside.sidebar ul li {
       margin: 0;
       position: relative;
     }
@@ -347,6 +347,7 @@
 <body>
   <!-- 读条显示 -->
   <div id="app">🏃‍🏃‍🏃‍💨 加载中...</div>
+  
   <!-- 右侧显示公众号 -->
   <!-- <div class="aside_container">
     <div class="advertisement">
@@ -364,7 +365,7 @@
     window.$docsify = {
        // 项目名称
       name: 'Tian',
-      logo: 'https://gitee.com/tianzhendong/img/raw/master//images/202202272006565.png',
+      logo: 'https://gitee.com/tianzhendong/img/raw/master//images/202202281213460.png',
           // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
       repo: 'https://gitee.com/tianzhendong/NoteBooks',
 
@@ -376,13 +377,15 @@
       maxLevel: 4,
           // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级（建议配置为2-4）
       subMaxLevel: 3,
+      //主题颜色
+      // themeColor: '#33a9dc',
       auto2top: true,  //当路线改变时,滚动到屏幕的顶部
       loadNavbar: true,//_navbar.md如果为真，则从_navbar.md文件加载navbar ，否则从指定的路径加载
       mergeNavbar: true,//Navbar将在小屏幕上与侧边栏合并
       executeScript: true,//执行页面上的脚本。只解析第一个脚本标记（演示）。如果存在Vue，则默认开
       //subMaxLevel: 6,//在自定义边栏中添加目录（TOC)
       externalLinkTarget: '_blank', //外链打开方式：_blank表示在新标签页中打开
-      onlyCover: true,
+      // onlyCover: true,   //设置后封面不显示导航栏
       topMargin: 60,//调整top
       //executeScript: true,//执行页面上的脚本，仅解析第一个脚本标签
       search: {
@@ -575,13 +578,17 @@
     }
     siteTime();
 </script>
-<!-- <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script> -->
-<!-- <script>
+<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+<script>
   L2Dwidget.init({
     "model": {
       //jsonpath控制显示那个小萝莉模型，
       //(切换模型需要改动)
-      jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json",
+      //https://unpkg.com/live2d-widget-model-模型名称/assets/模型名称.model.json
+      // jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json",
+      // jsonPath: "https://unpkg.com/live2d-widget-model-hijiki/assets/hijiki.model.json",
+      // jsonPath: "https://unpkg.com/live2d-widget-model-tororo/assets/tororo.model.json",
+      jsonPath: "https://unpkg.com/live2d-widget-model-wanko/assets/wanko.model.json",
       "scale": 1
     },
     "display": {
@@ -600,7 +607,7 @@
       "opacityOnHover": 0.2
     }
   });
-</script> -->
+</script>
 </body>
 
 </html>
