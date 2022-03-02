@@ -1,8 +1,0 @@
-# TianZD
-
-# LINUX README
-
-
-
-
-
