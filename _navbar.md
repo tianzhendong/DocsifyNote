@@ -1,7 +1,7 @@
 <!-- _navbar.md -->
 
 * [首页]()
-* [<span class="iconfont icon-icon_fabu"></span>😈 主页](/README.md)
+* [😈 主页](/README.md)
 * [🍵生活](README?id=🍵生活)
   * [记事本](【0】生活/记事本.md)
   * [读书笔记](【0】生活/读书笔记.md)
