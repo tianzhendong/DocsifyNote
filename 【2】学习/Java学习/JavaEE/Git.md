@@ -330,3 +330,40 @@ git mv readme README.md``
 
 此时，我们不需要再使用git add 命令把两个文件一起提交，直接使用git commit即可。
 也就是说，git mv命令比linux的mv命令，省去了git add提交文件到暂存区这个步骤。
+
+
+
+# 【Git】pull遇到错误：error: Your local changes to the following files would be overwritten by merge:
+
+首先取决于你是否想要保存本地修改。（是 /否）
+
+## 是
+
+别急我们有如下三部曲
+
+```bash
+git stash  
+git pull origin master  
+git stash pop  
+```
+
+
+- git stash的时候会把你本地快照，然后git pull 就不会阻止你了，pull完之后这时你的代码并没有保留你的修改。惊了！ 别急，我们之前好像做了什么？
+
+STASH
+这时候执行git stash pop你去本地看会发现发生冲突的本地修改还在，这时候你该commit push啥的就悉听尊便了。
+
+## 否
+
+既然不想保留本地的修改，那好办。直接将本地的状态恢复到上一个commit id 。然后用远程的代码直接覆盖本地就好了。
+
+```bash
+git reset --hard 
+git pull origin master
+```
+
+
+
+------------------------------------------------
+版权声明：本文为CSDN博主「转身雪人」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/nakiri_arisu/article/details/80259531
