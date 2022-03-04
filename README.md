@@ -17,7 +17,7 @@
 
 ---
 
-# 😈**欢迎来到TianZD的个人笔记**
+# 😈**TianZD的个人笔记**
 
 ---
 
@@ -268,6 +268,7 @@
 > Linux大法好！
 
 - [Ubuntu更换源](【2】学习/Linux/Ubuntu更换源.md)
+- [Linux定时执行脚本](【2】学习/Linux/Linux定时执行脚本.md)
 
 ## **🐍Python**
 
@@ -275,6 +276,7 @@
 
 * [PyQT5+Pycharm](【2】学习/Python/PyQT5+Pycharm.md)
 * [Python中[]含义](【2】学习/Python/Python中[]含义.md)
+* [常见问题](【2】学习/Python/常见问题.md)
 
 ---
 
