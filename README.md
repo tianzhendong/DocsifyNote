@@ -101,6 +101,14 @@
 
 ### **OpenCV**
 
+[ OpenCV中文官方文档](http://www.woshicver.com/)
+
+[面向初学者的 OpenCV-Python 教程](http://codec.wang/#/opencv/?id=面向初学者的-opencv-python-教程)
+
+[图像处理100例](https://gitee.com/tianzhendong/ImageProcessing100Wen)
+
+
+
 > 其中OpenCV主要是一些学习笔记
 
 * **OpenCV入门**
