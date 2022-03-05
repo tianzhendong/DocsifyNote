@@ -51,7 +51,9 @@ GitBook也是一个可以用来制作知识库文档以及精美电子书网站�
 
 ## 前置环境
 
-ocsify唯一需要的一个前置工具就是`npm`工具，我想这个大家应该都安装了吧。
+docsify唯一需要的一个前置工具就是`npm`工具
+
+查看是否安装及版本
 
 ![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232334892.png)
 
@@ -147,10 +149,10 @@ https://blog.csdn.net/Lonelyooacz/article/details/103490545
 那么对应的页面访问URL地址将是:
 
 ```
-repository/README.md          =>  http://domain.com
-repository/test.md            =>  http://domain.com/test
-repository/content/README.md  =>  http://domain.com/content/
-repository/content/bigdata.md =>  http://domain.com/content/bigdata
+repository/README.md          =>  http://127.0.0.1:3000/
+repository/test.md            =>  http://127.0.0.1:3000/test
+repository/content/README.md  => http://127.0.0.1:3000/content/
+repository/content/bigdata.md => http://127.0.0.1:3000/content/bigdata
 ```
 
 所以只需要在项目目录里添加其他`.md`文件，或者目录层级，即可形成多页面网站，非常简单易懂！
@@ -172,8 +174,6 @@ docsify提供了多套主题可供使用。
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/pure.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/dolphin.css">
 ```
-
-对我自己来讲，其实这种知识库网站，我不需要花里胡哨的界面/配色，我只要干净/卫生/实用/方便就可以了。
 
 ### 设置封面
 
@@ -261,7 +261,7 @@ logo: 'https://cdn.jsdelivr.net/gh/justacoder99/r2coding@master/img/r2coding_log
 
 ### 设置tabs
 
-在 docsify 之后添加 docsify-tabs 插件`index.html`。
+在`index.html`中添加 docsify-tabs 插件。
 
 ```html
 <!-- docsify (latest v4.x.x)-->
@@ -309,7 +309,7 @@ HTML 注释用于标记选项卡集的开始和结束。当 Markdown 在您的 d
 <!-- tabs:end -->
 ```
 
-使用标题 + 粗体标记定义选项卡集中的选项卡。
+使用**标题 + 粗体**标记定义选项卡集中的选项卡。
 
 标题文本将用作选项卡标签，所有后续内容将与该选项卡相关联，直到下一个选项卡或`tab:end`评论的开始。使用标题 + 粗体标记允许使用标准标记定义选项卡，并确保选项卡内容在您的 docsify 站点（例如 GitHub、GitLab 等）之外呈现时显示带有标题。
 
@@ -355,15 +355,11 @@ Ciao!
 
 https://github.com/fzankl/docsify-plugin-flexible-alerts
 
-
-
 ### 首页html文件
-
-
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
@@ -372,7 +368,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"> -->
-  <link rel="icon" href="./4.ico">
+  <link rel="icon" href="./5.ico">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
   <!-- 谷歌站点收录 -->
   <meta name="google-site-verification" content="qTFCf1hJ275saQ7H1kin5t2DVpznBKAj0Gi50XMOVMo" />
@@ -405,8 +401,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     .app-nav{
       position: fixed;
       margin: 0;
-      /* padding: 10px 50px 10px 0; */
-      padding: 10px 0 10px 0;/*上、右、下、左*/
+      padding: 10px 40px 10px 0px;/*上、右、下、左*/
       width: calc(100% - 325px);
       /* background-color: #fff; */
       height: 55px;
@@ -440,11 +435,12 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     }
 
     /*侧边栏*/
-    /* .sidebar {
+    .sidebar {
       padding-top: 6px;
+      width: 200px;
     }
 
-    aside.sidebar ul li {
+    /* aside.sidebar ul li {
       margin: 0;
       position: relative;
     }
@@ -711,6 +707,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
 <body>
   <!-- 读条显示 -->
   <div id="app">🏃‍🏃‍🏃‍💨 加载中...</div>
+  
   <!-- 右侧显示公众号 -->
   <!-- <div class="aside_container">
     <div class="advertisement">
@@ -728,25 +725,27 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     window.$docsify = {
        // 项目名称
       name: 'Tian',
-      logo: 'https://gitee.com/tianzhendong/img/raw/master//images/202202272006565.png',
+      logo: 'https://gitee.com/tianzhendong/img/raw/master//images/202202281213460.png',
           // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
       repo: 'https://gitee.com/tianzhendong/NoteBooks',
 
           // 侧边栏支持，默认加载的是项目根目录下的_sidebar.md文件
-      loadSidebar: true,
+      // loadSidebar: true,
           // 导航栏支持，默认加载的是项目根目录下的_navbar.md文件
       coverpage: true,
           // 最大支持渲染的标题层级
       maxLevel: 4,
           // 自定义侧边栏后默认不会再生成目录，设置生成目录的最大层级（建议配置为2-4）
       subMaxLevel: 3,
+      //主题颜色
+      // themeColor: '#33a9dc',
       auto2top: true,  //当路线改变时,滚动到屏幕的顶部
       loadNavbar: true,//_navbar.md如果为真，则从_navbar.md文件加载navbar ，否则从指定的路径加载
       mergeNavbar: true,//Navbar将在小屏幕上与侧边栏合并
       executeScript: true,//执行页面上的脚本。只解析第一个脚本标记（演示）。如果存在Vue，则默认开
       //subMaxLevel: 6,//在自定义边栏中添加目录（TOC)
       externalLinkTarget: '_blank', //外链打开方式：_blank表示在新标签页中打开
-      onlyCover: true,
+      // onlyCover: true,   //设置后封面不显示导航栏
       topMargin: 60,//调整top
       //executeScript: true,//执行页面上的脚本，仅解析第一个脚本标签
       search: {
@@ -939,13 +938,17 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     }
     siteTime();
 </script>
-<!-- <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script> -->
-<!-- <script>
+<script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+<script>
   L2Dwidget.init({
     "model": {
       //jsonpath控制显示那个小萝莉模型，
       //(切换模型需要改动)
-      jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json",
+      //https://unpkg.com/live2d-widget-model-模型名称/assets/模型名称.model.json
+      // jsonPath: "https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json",
+      // jsonPath: "https://unpkg.com/live2d-widget-model-hijiki/assets/hijiki.model.json",
+      // jsonPath: "https://unpkg.com/live2d-widget-model-tororo/assets/tororo.model.json",
+      jsonPath: "https://unpkg.com/live2d-widget-model-wanko/assets/wanko.model.json",
       "scale": 1
     },
     "display": {
@@ -964,7 +967,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
       "opacityOnHover": 0.2
     }
   });
-</script> -->
+</script>
 </body>
 
 </html>
@@ -972,38 +975,22 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
 
 ## Nginx部署准备
 
-对于这类网站的部署，我们当然可以部署到`GitHub Pages`服务或者`Gitee Pages`服务上去，这个其实在2019年初聊博客搭建的视频里，就已经演示过了。
+对于这类网站的部署，我们当然可以部署到`GitHub Pages`服务或者`Gitee Pages`服务上去
 
-而这一次呢，我们直接将其部署到云服务器上去。
-
-这里我们准备一台最低配的丐版云服务器即可：
-
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345342.jpeg)
-
-比如这篇文章用到的就是一个1核1G的低配云服务器。
+也直接将其部署到云服务器上去。
 
 ### 安装服务器软件
 
-这里我们就选用Nginx这个Web服务器来驱动网站，因为Nginx服务器除了本身非常轻量，稳定，不耗资源之外，而且性能还好，还特别能扛并发。
+这里选用Nginx这个Web服务器来驱动网站，因为Nginx服务器除了本身非常轻量，稳定，不耗资源之外，而且性能还好，还特别能扛并发。
 
 ![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345781.png)
 
-关于Nginx服务器的部署安装其实我在之前《服务器编程环境和软件设施部署》那一篇文章里就已经聊过了，当时我还写了一个《PDF版本的安装部署手册》：
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345579.png)
-
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345983.png)
-
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345238.png)
-
-
-
-所以我们对照着这个手册操作一下即可，非常简单。
 
 - 首先准备一个`nginx-1.17.10.tar.gz`的安装包，我们将其直接上传到云服务器的`root`⽬录下
 - 在`/usr/local/`下创建`nginx`⽂件夹并进⼊
 
-```
+```shell
 cd /usr/local/
 mkdir nginx
 cd nginx
@@ -1011,30 +998,30 @@ cd nginx
 
 - 将Nginx安装包解压到`/usr/local/nginx`中即可
 
-```
-[root@localhost nginx]# tar zxvf /root/nginx-1.17.10.tar.gz -C ./
+```shell
+tar zxvf /root/nginx-1.17.10.tar.gz -C ./
 ```
 
 解压完之后，在`/usr/local/nginx`⽬录中会出现⼀个`nginx-1.17.10`的目录
 
 - 预先安装额外的几个依赖
 
-```
+```shell
 yum -y install pcre-devel
 yum -y install openssl openssl-devel
 ```
 
 - 接下来编译安装Nginx即可
 
-```
+```shell
 cd nginx-1.17.10
 ./configure
 make && make install
 ```
 
-安装完成后， Nginx的可执⾏⽂件位置位于
+安装完成后， Nginx的可执行文件位置位于
 
-```
+```shell
 /usr/local/nginx/sbin/nginx
 ```
 
@@ -1048,19 +1035,19 @@ make && make install
 
 直接执⾏如下命令即可
 
-```
-[root@localhost sbin]# /usr/local/nginx/sbin/nginx
+```shell
+/usr/local/nginx/sbin/nginx
 ```
 
 - 如果想停⽌Nginx服务，可执⾏：
 
-```
+```shell
 /usr/local/nginx/sbin/nginx -s stop
 ```
 
 - 如果修改了配置⽂件后想重新加载Nginx，可执⾏：
 
-```
+```shell
 /usr/local/nginx/sbin/nginx -s reload
 ```
 
@@ -1076,7 +1063,7 @@ make && make install
 
 接下来我们打开路径`/usr/local/nginx/conf/nginx.conf`下的Nginx服务器配置文件，修改其中最关键的一个`location /`下的`root`目录配置为项目文件夹的路径即可
 
-```
+```shell
 location / {
     root   /usr/local/nginx/www/repository;
     index  index.html index.htm;
@@ -1089,7 +1076,7 @@ location / {
 
 ![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345961.jpeg)
 
-最后再将域名和这个IP一绑定，就OK了，所以整个过程就是这么简单。
+最后再将域名和这个IP一绑定，就OK了
 
 ## nginx服务器添加密码访问
 
@@ -1138,6 +1125,61 @@ chmod 400 /application/nginx/conf/htpasswd  #为了安全设置文件权限
 #3、检查语法并重启
 /application/nginx/sbin/nginx -t
 /application/nginx/sbin/nginx -s reload
+```
+
+## 定时git pull和重启nginx
+
+前提：www中已经设置了git仓库，这里为www下的NoteBooks文件夹
+
+- 拉取最新代码
+
+```shell
+git pull
+```
+
+
+
+- 在NoteBooks下新建自动化脚本
+
+```shell
+vim 111gitpull.sh
+```
+
+- 输入：
+
+```shell
+#!/bin/bash
+cd /usr/local/nginx/www/NoteBooks
+git pull
+/usr/local/nginx/sbin/nginx -s reload
+```
+
+- 设置自动启动，这里每30分钟拉取一次
+
+进入root用户
+
+编辑cron脚本
+
+```shell
+crontab -e
+```
+
+输入：
+
+```shell
+*/30 * * * * /usr/local/nginx/www/NoteBooks/111gitpull.sh
+```
+
+- 将服务自动启动
+
+```shell
+vim /etc/rc.d/rc.local
+```
+
+这个脚本的末尾加上：
+
+```shell
+/sbin/service crond start
 ```
 
 
