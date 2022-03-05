@@ -970,7 +970,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
 </html>
 ```
 
-## 部署准备
+## Nginx部署准备
 
 对于这类网站的部署，我们当然可以部署到`GitHub Pages`服务或者`Gitee Pages`服务上去，这个其实在2019年初聊博客搭建的视频里，就已经演示过了。
 
@@ -1090,6 +1090,57 @@ location / {
 ![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345961.jpeg)
 
 最后再将域名和这个IP一绑定，就OK了，所以整个过程就是这么简单。
+
+## nginx服务器添加密码访问
+
+### 通过htpasswd命令生成用户名及对应密码数据库文件
+
+```shell
+htpasswd -c /htpasswd/passwd.db test
+```
+
+说明：此命令是使用Crypt算法生产一个加密文件passwd.db。
+
+- test是用户名
+- /htpasswd/passwd.db 是密码文件存放地址
+- htpasswd apache的生产密码的插件
+
+把 passwd.db文件设置为777权限
+
+```shell
+chmod 777 文件名
+```
+
+### nginx域名配置文件修改
+
+```shell
+  location / {
+    root   html;
+    index  index.html index.htm index index.jpg;
+    auth_basic 'Restricted';            # 认证名称，随意填写
+    auth_basic_user_file /htpasswd/passwd.db;      # 认证的密码文件，需要生产。
+  }
+```
+
+如果没有安装apache，可以安装如下软件，就有htpasswd这个命令了
+```shell
+yum -y install httpd-tools
+yum -y install httpd  #安装httpd
+which htpasswd  #查看是否安装
+rpm -qf /usr/bin/htpasswd  #查看是否安装
+htpasswd -cb /application/nginx/conf/htpasswd ceshi 123789  #生成密码文件
+chmod 400 /application/nginx/conf/htpasswd  #为了安全设置文件权限
+```
+
+然后重启nginx服务器即可实现nginx服务器添加密码
+
+```shell
+#3、检查语法并重启
+/application/nginx/sbin/nginx -t
+/application/nginx/sbin/nginx -s reload
+```
+
+
 
 ## 配置Gittalk
 
