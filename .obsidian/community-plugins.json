@@ -1,9 +1,16 @@
 [
   "obsidian-image-auto-upload-plugin",
-  "obsidian-outliner",
   "obsidian-mind-map",
   "calendar",
   "table-editor-obsidian",
   "wikilinks-to-mdlinks-obsidian",
-  "obsidian-footnotes"
+  "obsidian-admonition",
+  "obsidian-auto-link-title",
+  "obsidian-collapse-all-plugin",
+  "dataview",
+  "obsidian-emoji-toolbar",
+  "obsidian-outliner",
+  "obsidian-git",
+  "ProxyGithub",
+  "obsidian-excalidraw-plugin"
 ]

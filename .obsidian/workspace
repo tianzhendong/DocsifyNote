@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "README.md",
+            "file": "【1】工作/管片拼装机/管片拼装机.md",
             "mode": "source",
             "source": false
           }
@@ -25,6 +25,7 @@
       {
         "id": "d6bc6b4810d620d9",
         "type": "tabs",
+        "dimension": 71.86234817813765,
         "children": [
           {
             "id": "95cafef89c769570",
@@ -50,6 +51,23 @@
             }
           }
         ]
+      },
+      {
+        "id": "d13e67b4c985b78a",
+        "type": "tabs",
+        "dimension": 28.13765182186235,
+        "children": [
+          {
+            "id": "c9467b70100adeaf",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "【1】工作/管片拼装机/管片拼装机.md"
+              }
+            }
+          }
+        ]
       }
     ],
     "direction": "horizontal",
@@ -69,13 +87,13 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "【1】工作/管片拼装机/管片拼装机.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
-                "backlinkCollapsed": false,
+                "backlinkCollapsed": true,
                 "unlinkedCollapsed": true
               }
             }
@@ -87,25 +105,33 @@
               "type": "calendar",
               "state": {}
             }
+          },
+          {
+            "id": "3dfa649d887c666b",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "active": "a173fdf08e245faa",
   "lastOpenFiles": [
+    "【1】工作/管片拼装机/管片拼装机.md",
+    "【1】工作/工作记录/2022年1月工作记录.md",
     "README.md",
     "test.md",
+    "_coverpage.md",
+    "【2】学习/Linux/Linux定时执行脚本.md",
     "test_assets/5-16471389063781.png",
     "Pasted image 20220313093741.png",
     "test_images/4.png",
-    "5.png",
-    "test.assets/管片拼装机.png.md",
-    "_coverpage.md",
-    "assets/管片拼装机.png.md",
-    "assets/管片拼装机-第 1 页.jpg.md"
+    "5.png"
   ]
 }

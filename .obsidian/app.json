@@ -13,5 +13,8 @@
   "attachmentFolderPath": "/",
   "autoConvertHtml": true,
   "autoPairBrackets": false,
-  "autoPairMarkdown": false
+  "autoPairMarkdown": false,
+  "showFrontmatter": true,
+  "foldHeading": true,
+  "foldIndent": true
 }
