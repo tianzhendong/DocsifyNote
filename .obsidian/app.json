@@ -16,5 +16,6 @@
   "autoPairMarkdown": false,
   "showFrontmatter": true,
   "foldHeading": true,
-  "foldIndent": true
+  "foldIndent": true,
+  "communityPluginSortOrder": "download"
 }

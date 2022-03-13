@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "a173fdf08e245faa",
+        "id": "23fd5ba49d8d6ebd",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "【1】工作/管片拼装机/管片拼装机.md",
+            "file": "README.md",
             "mode": "source",
             "source": false
           }
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "【1】工作/管片拼装机/管片拼装机.md"
+                "file": "README.md"
               }
             }
           }
@@ -87,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "【1】工作/管片拼装机/管片拼装机.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,11 +121,11 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "a173fdf08e245faa",
+  "active": "23fd5ba49d8d6ebd",
   "lastOpenFiles": [
+    "README.md",
     "【1】工作/管片拼装机/管片拼装机.md",
     "【1】工作/工作记录/2022年1月工作记录.md",
-    "README.md",
     "test.md",
     "_coverpage.md",
     "【2】学习/Linux/Linux定时执行脚本.md",
