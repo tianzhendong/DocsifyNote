@@ -1,4 +1,17 @@
 {
   "promptDelete": false,
-  "defaultViewMode": "preview"
+  "defaultViewMode": "source",
+  "mobilePullAction": "editor:save-file",
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "legacyEditor": false,
+  "livePreview": true,
+  "showUnsupportedFiles": true,
+  "showLineNumber": true,
+  "alwaysUpdateLinks": false,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "/",
+  "autoConvertHtml": true,
+  "autoPairBrackets": false,
+  "autoPairMarkdown": false
 }
