@@ -10,12 +10,13 @@
   "showLineNumber": true,
   "alwaysUpdateLinks": false,
   "newFileLocation": "current",
-  "attachmentFolderPath": "/",
+  "attachmentFolderPath": "./",
   "autoConvertHtml": true,
   "autoPairBrackets": false,
   "autoPairMarkdown": false,
   "showFrontmatter": true,
   "foldHeading": true,
   "foldIndent": true,
-  "communityPluginSortOrder": "download"
+  "communityPluginSortOrder": "download",
+  "trashOption": "local"
 }
