@@ -3,7 +3,6 @@
   "obsidian-admonition",
   "table-editor-obsidian",
   "obsidian-auto-link-title",
-  "calendar",
   "obsidian-collapse-all-plugin",
   "dataview",
   "obsidian-emoji-toolbar",
@@ -13,5 +12,6 @@
   "obsidian-mind-map",
   "obsidian-git",
   "obsidian-outliner",
-  "ProxyGithub"
+  "ProxyGithub",
+  "calendar"
 ]
