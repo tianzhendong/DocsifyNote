@@ -1,6 +1,6 @@
 {
   "promptDelete": false,
-  "defaultViewMode": "source",
+  "defaultViewMode": "preview",
   "mobilePullAction": "editor:save-file",
   "useMarkdownLinks": true,
   "newLinkFormat": "relative",
