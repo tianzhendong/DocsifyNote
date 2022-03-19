@@ -9,8 +9,8 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "README.md",
-            "mode": "preview",
+            "file": "【2】学习/C_C++/QT.md",
+            "mode": "source",
             "source": false
           }
         }
@@ -69,7 +69,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "【2】学习/C_C++/QT.md"
               }
             }
           },
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "【2】学习/C_C++/QT.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,15 +112,15 @@
   },
   "active": "23fd5ba49d8d6ebd",
   "lastOpenFiles": [
+    "【2】学习/C_C++/QT.md",
+    "【2】学习/C_C++/make、cmake、qmake.md",
+    "【1】工作/工作记录/2022年3月工作记录.md",
+    "【1】工作/工作记录/2022年2月工作记录.md",
+    "【2】学习/效率/Docsify.md",
     "README.md",
     "test.md",
     "【2】学习/运动控制/PID/抗积分饱和PID.md",
-    "【1】工作/工作记录/2022年3月工作记录.md",
     "【2】学习/Nas/Nas记录.md",
-    "【1】工作/管片拼装机/管片拼装机.md",
-    "【1】工作/工作记录/2022年1月工作记录.md",
-    "_coverpage.md",
-    "【2】学习/Linux/Linux定时执行脚本.md",
-    "test_assets/5-16471389063781.png"
+    "【1】工作/管片拼装机/管片拼装机.md"
   ]
 }
