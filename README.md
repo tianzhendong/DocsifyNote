@@ -226,6 +226,11 @@
 * [PLC](【2】学习/运动控制/下位机/PLC.md)
 * [Portal博途](【2】学习/运动控制/下位机/Portal博途.md)
 
+### **PID**
+
+-  [PID](【2】学习\运动控制\PID\PID.md) 
+-  [抗积分饱和PID](【2】学习\运动控制\PID\抗积分饱和PID.md) 
+
 <!-- tabs:end -->
 
 ## **🚒自动驾驶**
@@ -242,6 +247,7 @@
 * [make、cmake、qmake](【2】学习/C_C++/make、cmake、qmake.md)
 * [QT](【2】学习/C_C++/QT.md)
 * [QT调用Python](【2】学习/C_C++/QT调用Python.md)
+*  [Socket编程](【2】学习\C_C++\Socket编程.md) 
 
 ## **🗼Java学习**
 

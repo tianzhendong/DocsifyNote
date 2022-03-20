@@ -746,7 +746,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 }
 ```
 
+### 设置空间透明
 
+```mode->setFlat(true);```
+
+//就是这句实现按钮透明的效果。
 
 ## QT串口调试工具
 
