@@ -22,7 +22,7 @@ socket编程是网络常用的编程，我们通过在网络中创建socket关�
 
 OSI模型：
 
-![image-20220320151509611](Socket编程_assets/image-20220320151509611.png)
+![image-20220320151509611](https://gitee.com/tianzhendong/img/raw/master/images/202203240941729.png)
 
 TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层中
 
@@ -36,7 +36,7 @@ TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层�
 
 每一抽象层建立在低一层提供的服务上，并且为高一层提供服务，看起来大概是这样子的-
 
-![image-20220320151522484](Socket编程_assets/image-20220320151522484.png)
+![image-20220320151522484](https://gitee.com/tianzhendong/img/raw/master/images/202203240941951.png)
 
 通过上面的图形，由于底一层的需要向高一层的提供服务，我们大致的理解应用程序需要传输层的tcp和网络层的ip协议提供服务，但是我们这章要分析的socket它是在tcpip协议的那一部分呢，就好比，我们的通讯线路已经有明确的规定，我们的驿站要设计在哪个地方一样
 
@@ -44,7 +44,7 @@ TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层�
 
  到目前为止，大致的了解了应用程序和tcpip协议的大致关系，我们只是知道socket编程是在tcp/IP上的网络编程，但是socket在上述的模型的什么位置呢。这个位置被一个天才的理论家或者是抽象的计算机大神提出并且安排出来
 
-![image-20220320151533041](Socket编程_assets/image-20220320151533041.png)
+![image-20220320151533041](https://gitee.com/tianzhendong/img/raw/master/images/202203240942241.png)
 
 我们可以发现socket就在应用程序的传输层和应用层之间，设计了一个socket抽象层，传输层的底一层的服务提供给socket抽象层，socket抽象层再提供给应用层，问题又来了，应用层和socket抽象层之间和传输层，网络层之间如何通讯的呢，了解这个之前，我们还是回到原点
 
@@ -60,13 +60,13 @@ TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层�
 
  三次握手如下图：
 
-![image-20220320151547615](Socket编程_assets/image-20220320151547615.png)
+![image-20220320151547615](https://gitee.com/tianzhendong/img/raw/master/images/202203240942948.png)
 
  根据tcp的三次握手，socket也定义了三次握手，也许是参考tcp的三次握手，一些计算机大神们画出了socket的三次握手的模型图
 
  模型图如下：
 
-![image-20220320151603528](Socket编程_assets/image-20220320151603528.png)
+![image-20220320151603528](https://gitee.com/tianzhendong/img/raw/master/images/202203240942520.png)
 
  在上面图的基础上，如果我们得到上面的图形，需要我们自己开发一些接口，来满足上面的通讯的三次握手，问题就出来了，我们会需要开发哪些函数
 
@@ -84,9 +84,9 @@ TCP/IP协议参考模型把所有的TCP/IP系列协议归类到四个抽象层�
 
  下面大致的按照客户端和服务端将所需的函数详细的列举出来
 
-![image-20220320151644780](Socket编程_assets/image-20220320151644780.png)
+![image-20220320151644780](https://gitee.com/tianzhendong/img/raw/master/images/202203240942432.png)
 
-![image-20220320151652988](Socket编程_assets/image-20220320151652988.png)-
+![image-20220320151652988](https://gitee.com/tianzhendong/img/raw/master/images/202203240942458.png)-
 
 上面的两个图都概述了socket的通讯原理
 

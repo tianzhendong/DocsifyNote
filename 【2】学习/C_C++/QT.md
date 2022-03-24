@@ -1767,7 +1767,7 @@ void Widget::on_btnClose_clicked()
 
 QMessageBox 是 Qt 框架中常用的一个类，可以生成各式各样、各种用途的消息对话框，如图 1 所示。
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641194U7-0.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240942453.gif)
 
 图 1 QMessageBox消息对话框
 
@@ -1781,7 +1781,7 @@ Qt 提供了 6 种通用的 QMessageBox 消息对话框，通过调用 QMessageB
 
 information 对话框常用于给用户提示一些关键的信息，它的外观如下图所示：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641193160-1.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240942112.gif)
 
 图 2 information 消息对话框
 
@@ -1837,7 +1837,7 @@ information() 函数会返回用户按下的按钮。StandardButton 是 QMessage
 
 critical 消息对话框常用于给用户提示“操作错误”或“运行失败”的信息，它的外观如下图所示：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641195425-2.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943807.gif)
 
 图 3 critical 消息对话框
 
@@ -1870,7 +1870,7 @@ StandardButton QMessageBox::critical(QWidget *parent,
 
 question 对话框常用于向用户提出问题并接收用户的答案，它的外观如下图所示：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641195a6-3.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943988.gif)
 
 - 图 4 question消息对话框
 
@@ -1901,7 +1901,7 @@ StandardButton QMessageBox::question(QWidget *parent,
 
 warining 对话框常用于向用户显示一些警告信息，它的外观如下图所示：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F16411a1O-4-164767526900910.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943182.gif)
 
 图 5 warning消息对话框
 
@@ -1930,7 +1930,8 @@ StandardButton QMessageBox::warning(QWidget *parent,
 
 about 对话框常常作为介绍某个产品或某项功能的临时窗口，它的外观如下图所示：
 
-![](QT_assets/202203191535181.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943218.gif)
+
 图 6 about消息对话框
 
 注意，about 对话框没有固定的图标，它显示的图标可能来自父窗口、包含父窗口的顶层窗口等，也可能使用和 information 对话框相同的图标。
@@ -1943,7 +1944,7 @@ void QMessageBox::about(QWidget \*parent, const QString &title, const QString &t
 
 aboutQt 可以看做是 about 对话框的一个具体实例，它只能显示 Qt 的介绍信息，如下图所示：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641196461-6.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943559.gif)
 
 图 7 aboutQt对话框
 
@@ -2052,7 +2053,7 @@ int main(int argc, char *argv[])
 
 程序运行结果如图 8 所示，点击“同意”按钮后，我们会在 Qt Creator 的输出窗口中看到“用户点击了同意按钮”。
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F1641191045-7.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943937.gif)
 
 图 8 自定义的 QMessageBox 对话框
 
@@ -2124,6 +2125,6 @@ int main(int argc, char *argv[])
 
 程序执行结果为：
 
-![](QT_assets/filtersno_upscale()imageUrl=http%3A%2F%2Fc.biancheng.net%2Fuploads%2Fallimg%2F211028%2F16411922F-8.gif)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202203240943430.gif)
 
 [查看原网页: c.biancheng.net](http://c.biancheng.net/view/9421.html)

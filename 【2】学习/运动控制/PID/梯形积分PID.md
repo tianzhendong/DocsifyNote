@@ -10,15 +10,15 @@
 
 在PID控制其中，积分项的作用是消除余差，为了尽量减小余差，应提高积分项的运算精度。在积分项中，默认是按矩形方式来计算积分，将矩形积分改为梯形积分可以提高运算精度。其计算公式为：
 
-![img](梯形积分PID_assets/564295-20180513112030001-1959553383.png)
+![img](https://gitee.com/tianzhendong/img/raw/master/images/202203240933693.png)
 
 于是如果在位置型PID算法中引入梯形积分则可以修改计算公式如下：
 
-![img](梯形积分PID_assets/564295-20180513112038866-1534384623.png)
+![img](https://gitee.com/tianzhendong/img/raw/master/images/202203240933649.png)
 
 同样要在增量型PID算法中引入梯形积分则可以修改计算公式如下：
 
-![img](梯形积分PID_assets/564295-20180513112047225-232926171.png)
+![img](https://gitee.com/tianzhendong/img/raw/master/images/202203240933612.png)
 
 ## 算法实现
 
