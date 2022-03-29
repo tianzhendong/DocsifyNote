@@ -378,23 +378,29 @@ git pull origin master
 ## 创建标签
 
 `git tag <tag_name>`   #为当前分支指向的commit记录创建标签
+
  `git tag <tag_name> <hash_val>`   #为指定的commitId创建标签
+
  `git tag -a <tag_name> -m "msg" <hash_val>`   #创建标签同时添加说明信息
 
 ## 查看标签
 
 `git tag`   #查看所有标签名称
+
  `git show <tag_name>`   #查看标签的详细信息(包含commit的信息)
+
  `git tag -ln [tag_name]`  #显示标签名及其描述信息
 
 ## 远程推送标签
 
 `git push <remote_name> <tag_name>`  #将标签推送到远程服务器
+
  `git push <remote_name> --tags`  #将本地的全部tag推送到远程服务器
 
 ## 删除标签
 
 `git tag -d <tag_name>` #删除本地的标签
+
 `git push <remote_name> :refs/tags/<tag_name>` #删除远程标签
 
 ## 标签内容提取
@@ -408,11 +414,13 @@ git archive --format=zip --output=src/xxx.zip <tag_name>` #提取为zip格式，
 ## 切换标签
 
 如果我们不想直接提取出标签的代码，而是希望在指定标签下继续进行开发，此时可以切换到标签。
+
 `git checkout <tag_name>` #切换到指定标签
 
 **示例：**切换到v0.8标签进行开发，此时提示我们处于`detached HEAD state`(分离头指针状态)，即说明HEAD指针没有指向具体的分支，查看HEAD指针它直接指向了一个commit对象，此时进行开发操作没有任何意义。
 
 如果想要退出`detached HEAD state`，很简单只需要切换回指定分支就可以了，如`git checkout master`
+
  如果想要在当前tag下继续开发，可以新建一个分支并让HEAD指向分支就可以了。
 
 
