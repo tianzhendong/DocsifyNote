@@ -6,43 +6,53 @@
 
 frp的服务器端，一般命名为frps，配置文件是frps.ini，首先需要下载frp，可以在(https://[github](https://so.csdn.net/so/search?q=github&spm=1001.2101.3001.7020).com/fatedier/frp/releases)下载最新版的frp。（此处以 frp\_0.32.0\_linux\_amd64 为例）.
 
-    Wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_amd64.tar.gz
-    tar -zxvf frp_0.32.0_linux_amd64.tar.gz
-    cd frp_0.32.0_linux_amd64
+```shell
+Wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_amd64.tar.gz
+tar -zxvf frp_0.32.0_linux_amd64.tar.gz
+cd frp_0.32.0_linux_amd64
+```
 
 
 ​        
 
 进入frp\_0.32.0\_linux\_amd64文件夹，打开frps.ini进行服务器端配置
 
-    vim frps.ini   
+```shell
+vim frps.ini   
+```
 
 
 ​        
 
 如果出现无法写入的错误请使用
 
-    sudo vim frps.ini
+```shell
+sudo vim frps.ini
+```
 
 
 ​        
 
 在frps.ini文件中配置如下：
 
-    [common]
-    bind_port = 7000 #绑定的端口，需要与客户端中 server_port 参数保持一致
-    vhost_http_port = 80 #虚拟主机运行在本机的端口，如果 vps 有服务占用了端口，应当更换
-    dashboard_port = dashboard_port_number #frp 后台服务页面的端口，如果设置 8000，便可通过 http://yourip:8000 来访问 frps 的后台页面
-    dashboard_user = dashboard_user_name #：frp 后台服务页面的管理员用户名
-    dashboard_pwd = dashboard_pwd_value #frp 后台服务页面的管理员密码
-    privilege_token = privilege_token_value #自定义值，必须与客户端中的 privilege_token 保持一致
+```shell
+[common]
+bind_port = 7000 #绑定的端口，需要与客户端中 server_port 参数保持一致
+vhost_http_port = 80 #虚拟主机运行在本机的端口，如果 vps 有服务占用了端口，应当更换
+dashboard_port = dashboard_port_number #frp 后台服务页面的端口，如果设置 8000，便可通过 http://yourip:8000 来访问 frps 的后台页面
+dashboard_user = dashboard_user_name #：frp 后台服务页面的管理员用户名
+dashboard_pwd = dashboard_pwd_value #frp 后台服务页面的管理员密码
+privilege_token = privilege_token_value #自定义值，必须与客户端中的 privilege_token 保持一致
+```
 
 
 ​        
 
 配置完成之后，便可以通过如下命令启动 frps：
 
-    ./frps -c ./frps.ini #启动服务端frp
+```shell
+./frps -c ./frps.ini #启动服务端frp
+```
 
 
 ​        
@@ -51,38 +61,46 @@ frp的服务器端，一般命名为frps，配置文件是frps.ini，首先需�
 
 客户端一般命名为frpc，配置文件是frpc.ini，首先需要下载frp，可以在https://github.com/fatedier/frp/releases下载最新版的frp。（此处以 frp\_0.32.0\_linux\_amd64 为例）
 
-    wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_amd64.tar.gz
-    tar -zxvf frp_0.32.0_linux_amd64.tar.gz
-    cd frp_0.32.0_linux_amd64
+```shell
+wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32.0_linux_amd64.tar.gz
+tar -zxvf frp_0.32.0_linux_amd64.tar.gz
+cd frp_0.32.0_linux_amd64
+```
 
 
 ​        
 
 进入frp\_0.32.0\_linux\_amd64文件夹，打开frps.ini进行服务器端配置
 
-    vim frpc.ini   #无法写入添加sudo权限
+```shell
+vim frpc.ini   #无法写入添加sudo权限
+```
 
 
 ​        
 
 在frpc.ini文件中配置如下：
 
-    [common]
-    server_addr = your_server_ip #服务器端的 ip
-    server_port = 7000 #服务器端的端口，即 bind_port
-    privilege_token = privilege_token_value #同服务器端的 privilege_token 保持一致
-    [ssh]
-    type = tcp
-    local_ip = 127.0.0.1
-    local_port = 22
-    remote_port = remote_port_number #远程端口，即 ssh 连接树莓派时的端口
+```shell
+[common]
+server_addr = your_server_ip #服务器端的 ip
+server_port = 7000 #服务器端的端口，即 bind_port
+privilege_token = privilege_token_value #同服务器端的 privilege_token 保持一致
+[ssh]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 22
+remote_port = remote_port_number #远程端口，即 ssh 连接树莓派时的端口
+```
 
 
 ​        
 
 配置完成之后，便可以通过如下命令启动 frps：
 
-    ./frpc -c ./frpc.ini #启动客户端frp
+```sh
+./frpc -c ./frpc.ini #启动客户端frp
+```
 
 
 ​        
@@ -91,42 +109,50 @@ frp的服务器端，一般命名为frps，配置文件是frps.ini，首先需�
 
 服务端自启动：
 
-    sudo vim /lib/systemd/system/frps.service #进入frps.service文件编写
-    #写入下列命令
-    [Unit]
-    Description=fraps service
-    After=network.target network-online.target syslog.target
-    Wants=network.target network-online.target
-     
-    [Service]
-    Type=simple
-    ExecStart=/your/path/frps -c /your/path/frps.ini #启动服务的命令（此处写你的frps的实际安装目录）
-     #路径为实际安装路径，比如frp在usr用户的frp下，应该配置为ExecStart=/home/usr/frp/frps -c /home/usr/frp/frps.ini
-    [Install]
-    WantedBy=multi-user.target
+```sh
+sudo vim /lib/systemd/system/frps.service #进入frps.service文件编写
+#写入下列命令
+[Unit]
+Description=fraps service
+After=network.target network-online.target syslog.target
+Wants=network.target network-online.target
+ 
+[Service]
+Type=simple
+ExecStart=/your/path/frps -c /your/path/frps.ini #启动服务的命令（此处写你的frps的实际安装目录）
+ #路径为实际安装路径，比如frp在usr用户的frp下，应该配置为ExecStart=/home/usr/frp/frps -c /home/usr/frp/frps.ini
+[Install]
+WantedBy=multi-user.target
+```
 
 
 ​        
 
 然后启动 frps
 
-    sudo systemctl start frps
+```sh
+sudo systemctl start frps
+```
 
 
 ​        
 
 再打开自启动
 
-    sudo systemctl enable frps
+```sh
+sudo systemctl enable frps
+```
 
 
 ​        
 
 此外
 
-    sudo systemctl restart frps #重启
-    sudo systemctl stop frps #停止
-    sudo systemctl status frps #查看应用日志
+```sh
+sudo systemctl restart frps #重启
+sudo systemctl stop frps #停止
+sudo systemctl status frps #查看应用日志
+```
 
 
 ​        

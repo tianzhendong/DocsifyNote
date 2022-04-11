@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "【1】工作/收获.md",
+            "file": "【2】学习/C_C++/Socket编程.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "【1】工作/收获.md"
+                "file": "【2】学习/C_C++/Socket编程.md"
               }
             }
           },
@@ -93,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "【1】工作/收获.md",
+                "file": "【2】学习/C_C++/Socket编程.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,19 +108,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 110
+    "width": 171
   },
   "active": "23fd5ba49d8d6ebd",
   "lastOpenFiles": [
+    "【2】学习/C_C++/Socket编程.md",
+    "【2】学习/C_C++/C++.md",
+    "【2】学习/Nas/Nas记录.md",
+    "【2】学习/_sidebar.md",
     "【1】工作/收获.md",
+    "【1】工作/实习期考核.md",
+    "【1】工作/工作记录/test.md",
+    "【1】工作/工作记录/2022年4月工作记录.md",
     "【1】工作/【3】管片拼装机/微型盾构管片自动拼装.md",
-    "【1】工作/【3】管片拼装机/数据/3月11号一次完整的过程.png",
-    "_coverpage.md",
-    "【2】学习/C_C++/QT.md",
-    "【2】学习/C_C++/make、cmake、qmake.md",
-    "【1】工作/工作记录/2022年3月工作记录.md",
-    "【1】工作/工作记录/2022年2月工作记录.md",
-    "【2】学习/效率/Docsify.md",
-    "README.md"
+    "【1】工作/【3】管片拼装机/数据/3月11号一次完整的过程.png"
   ]
 }
