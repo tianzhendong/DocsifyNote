@@ -1,7 +1,4 @@
-<center>
-    <img src = https://gitee.com/tianzhendong/img/raw/master//images/TianZD.png width = "">
-</center>
-
+![](图标/TianZD.png)
 
 <br>
 

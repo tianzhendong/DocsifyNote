@@ -1115,16 +1115,16 @@ yum -y install httpd-tools
 yum -y install httpd  #安装httpd
 which htpasswd  #查看是否安装
 rpm -qf /usr/bin/htpasswd  #查看是否安装
-htpasswd -cb /application/nginx/conf/htpasswd ceshi 123789  #生成密码文件
-chmod 400 /application/nginx/conf/htpasswd  #为了安全设置文件权限
+htpasswd -cb /usr/local/nginx/conf/htpasswd ceshi 123789  #生成密码文件
+chmod 400 /usr/local/nginx/conf/htpasswd  #为了安全设置文件权限
 ```
 
 然后重启nginx服务器即可实现nginx服务器添加密码
 
 ```shell
 #3、检查语法并重启
-/application/nginx/sbin/nginx -t
-/application/nginx/sbin/nginx -s reload
+/usr/local/nginx/sbin/nginx -t
+/usr/local/nginx/sbin/nginx -s reload
 ```
 
 ## 定时git pull和重启nginx
