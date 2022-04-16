@@ -26,13 +26,13 @@ Miniconda包括Conda、Python
 
 下载后一路NEXT
 
-![第五步2](https://gitee.com/tianzhendong/img/raw/master//images/202202181420521.png)
+![第五步](https://gitee.com/tianzhendong/img/raw/master/images/202202181420521.png)
 
 第一个选项是添加环境变量，默认是没有勾选的，请务必勾选上，如果这里不勾选，后续安装完成后想要自行添加环境变量会非常麻烦。勾选完后点击 Install 安装。如果忘了勾选可以卸载重装。
 
 安装完成后在开始菜单会多出一个快捷方式，也就是Anaconda下的4个子程序：
 
-![开始菜单](https://gitee.com/tianzhendong/img/raw/master//images/202202181421240.png)
+![开始菜单](https://gitee.com/tianzhendong/img/raw/master/images/202202181421240.png)
 
 其中Anaconda Prompt 就是我们的cmd
 
