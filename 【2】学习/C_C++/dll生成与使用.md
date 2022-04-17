@@ -34,19 +34,21 @@
 
 ## Clion+msvc
 
+生成的dll可以在使用同一编译器的不同sdk之间相互调用，但是要注意导出的是x86还是amd64
+
 ### 生成DLL
 
 #### 新建项目
 
 C++库-类型选择shared
 
-![image-20220415075952640](assets/dll生成与使用/image-20220415075952640.png)
+![image-20220415075952640](https://gitee.com/tianzhendong/img/raw/master/images/202204161759934.png)
 
 #### 新建文件
 
 右键项目，新建C/C++源文件（或者直接新建一个类），并勾选创建关联头
 
-![image-20220415080306293](assets/dll生成与使用/image-20220415080306293.png)
+![image-20220415080306293](https://gitee.com/tianzhendong/img/raw/master/images/202204161800789.png)
 
 #### 编写c++
 
@@ -117,7 +119,7 @@ int Student::getAge() {
 
 在debug目录下生成了.dll、.lib文件，后续主要用到.dll、.lib和.h文件
 
-![image-20220415081755593](assets/dll生成与使用/image-20220415081755593.png)
+![image-20220415081755593](https://gitee.com/tianzhendong/img/raw/master/images/202204161800737.png)
 
 ### 测试
 
@@ -147,13 +149,13 @@ dumpbin -exports Dll1.dll
 
 #### 新建项目
 
-![image-20220415082005386](assets/dll生成与使用/image-20220415082005386.png)
+![image-20220415082005386](https://gitee.com/tianzhendong/img/raw/master/images/202204161800823.png)
 
 #### 在项目根目录新建lib文件夹
 
 将上述生成的.dll   .lib 和编写的.h文件复制到lib中
 
-![image-20220415104232406](assets/dll生成与使用/image-20220415104232406.png)
+![image-20220415104232406](https://gitee.com/tianzhendong/img/raw/master/images/202204161800779.png)
 
 #### cmakelist.txt添加：
 
@@ -180,7 +182,7 @@ target_link_libraries(${PROJECT_NAME}
 
 #### 运行/调试配置：
 
-![image-20220415082456066](assets/dll生成与使用/image-20220415082456066.png)
+![image-20220415082456066](https://gitee.com/tianzhendong/img/raw/master/images/202204161801274.png)
 
 #### 调用
 
@@ -420,7 +422,7 @@ int main() {
 }
 ```
 
-![image-20220415131004040](assets/dll生成与使用/image-20220415131004040.png)
+![image-20220415131004040](https://gitee.com/tianzhendong/img/raw/master/images/202204161801691.png)
 
 
 
@@ -493,11 +495,11 @@ int main() {
 
 选择`具有导出项的DLL动态链接库`
 
-![image-20220415205304326](assets/dll生成与使用/image-20220415205304326-16500273243314.png)
+![image-20220415205304326](https://gitee.com/tianzhendong/img/raw/master/images/202204161801655.png)
 
 
 
-![image-20220415205923849](assets/dll生成与使用/image-20220415205923849.png)
+![image-20220415205923849](https://gitee.com/tianzhendong/img/raw/master/images/202204161801582.png)
 
 
 
@@ -543,7 +545,7 @@ void hello2() {
 
 在项目中定义.def 文件，该文件为模块导出文件
 
-![image-20220415210130710](assets/dll生成与使用/image-20220415210130710.png)
+![image-20220415210130710](https://gitee.com/tianzhendong/img/raw/master/images/202204161801369.png)
 
 编写.def
 
@@ -555,11 +557,11 @@ EXPORTS
 
 如果是vs平台，需要在连接器中添加.def文件，如果是通过上述方式添加的.def，会自动添加
 
-![image-20220415210911123](assets/dll生成与使用/image-20220415210911123.png)
+![image-20220415210911123](https://gitee.com/tianzhendong/img/raw/master/images/202204161801001.png)
 
 然后点击 “ 生成解决方案 ” ，就可以在工程目录的 debug 目录或者 release 目录下（这取决你生成的是debug版本还是release版本）生成了动态链接库的相关文件。第三方调用时关键的文件为 **.lib文件** 和 **.dll文件** 以及工程目录下的 **.h头文件** 
 
-![image-20220415211216385](assets/dll生成与使用/image-20220415211216385.png)
+![image-20220415211216385](https://gitee.com/tianzhendong/img/raw/master/images/202204161801637.png)
 
 ### 调用
 
@@ -591,14 +593,14 @@ int main()
 }
 ```
 
-![image-20220415211932141](assets/dll生成与使用/image-20220415211932141.png)
+![image-20220415211932141](https://gitee.com/tianzhendong/img/raw/master/images/202204161801293.png)
 
 ##### 在解决方案管理面板中添加头文件和资源文件
 
 添加一个现有项头文件，在文件夹中找到第三方库的头文件( .h )，添加进新建立的项目。
 添加一个现有项资源文件，在文件夹中找到第三方库的库文件( .lib )，添加进新建立的项目。
 
-![image-20220415212042047](assets/dll生成与使用/image-20220415212042047.png)
+![image-20220415212042047](https://gitee.com/tianzhendong/img/raw/master/images/202204161801281.png)
 
 ```c
 #include <iostream>
@@ -632,13 +634,13 @@ int main()
 
 VS2019 自带的工具 dumpbin.exe 可以查看编译后的 动态链接库对应的 函数名。
 
-![image-20220415212305795](assets/dll生成与使用/image-20220415212305795.png)
+![image-20220415212305795](https://gitee.com/tianzhendong/img/raw/master/images/202204161801247.png)
 
 打开命令行，输入命令 `dumpbin -exports Dll2.dll`
 
 这里采用博客中的内容：
 
-![img](assets/dll生成与使用/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWVraW5nMTAx,size_16,color_FFFFFF,t_70-16500290923565.png)
+![img](https://gitee.com/tianzhendong/img/raw/master/images/202204161801007.png)
 
 所以 addFunc 不能直接使用，只能用被 name Mangling 后的名字 ，这里 **addFunc** 编译后的名字是 **?addFunc@@YAHHH@Z**
 
@@ -691,7 +693,7 @@ int main()
 * 把 **CPPDLL.dll** 文件放到 debug 目录下，
 * 然后在项目中引入 **CPPDLL.lib** 文件。 **链接器** -> **输入** -> **附加依赖项** -> **编辑**
 
-![img](assets/dll生成与使用/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZyZWVraW5nMTAx,size_16,color_FFFFFF,t_70-16500292084187.png)
+![img](https://gitee.com/tianzhendong/img/raw/master/images/202204161802483.png)
 
 ```c
 #include <iostream>
@@ -855,11 +857,11 @@ void Student2::student2Hello() {
 
 ### 建立netframework项目
 
-![image-20220415183057359](assets/dll生成与使用/image-20220415183057359.png)
+![image-20220415183057359](https://gitee.com/tianzhendong/img/raw/master/images/202204161802422.png)
 
 ### 将两个dll文件放到debug目录下
 
-![image-20220415183130534](assets/dll生成与使用/image-20220415183130534.png)
+![image-20220415183130534](https://gitee.com/tianzhendong/img/raw/master/images/202204161802830.png)
 
 ### 调用
 
@@ -906,15 +908,15 @@ namespace ConsoleApp3
 
 - 新建dll项目
 
-![image-20220416163601291](assets/dll生成与使用/image-20220416163601291.png)
+![image-20220416163601291](https://gitee.com/tianzhendong/img/raw/master/images/202204161802876.png)
 
-![image-20220416163629764](assets/dll生成与使用/image-20220416163629764.png)
+![image-20220416163629764](https://gitee.com/tianzhendong/img/raw/master/images/202204161802629.png)
 
-![image-20220416163646551](assets/dll生成与使用/image-20220416163646551.png)
+![image-20220416163646551](https://gitee.com/tianzhendong/img/raw/master/images/202204161802040.png)
 
 生成后的结构如下（这里用的的DllDemo1）：
 
-![image-20220416171503348](assets/dll生成与使用/image-20220416171503348.png)
+![image-20220416171503348](https://gitee.com/tianzhendong/img/raw/master/images/202204161802235.png)
 
 其中_global.h自带两个系统默认导出宏
 
@@ -986,27 +988,27 @@ int myadd(int a, int b){
 
 #### 新建c++控制台项目
 
-![image-20220416172129620](assets/dll生成与使用/image-20220416172129620.png)
+![image-20220416172129620](https://gitee.com/tianzhendong/img/raw/master/images/202204161802293.png)
 
 #### 构建项目，生成debug目录
 
 #### 将dll文件放到debug目录
 
-![image-20220416172227912](assets/dll生成与使用/image-20220416172227912.png)
+![image-20220416172227912](https://gitee.com/tianzhendong/img/raw/master/images/202204161802638.png)
 
 #### 将lib文件放到工程目录下
 
-![image-20220416172258532](assets/dll生成与使用/image-20220416172258532.png)
+![image-20220416172258532](https://gitee.com/tianzhendong/img/raw/master/images/202204161802366.png)
 
 #### 右键项目，添加lib库
 
-![](assets/dll生成与使用/image-20220416172328609.png)
+![](https://gitee.com/tianzhendong/img/raw/master/images/202204161802541.png)
 
 **选择外部库**
 
 选择刚才的lib文件，取消平台下的linux，mac，取消为debug版本添加d作为哦后缀，点击完成代码就被添加进call.pro
 
-![image-20220416172524995](assets/dll生成与使用/image-20220416172524995.png)
+![image-20220416172524995](https://gitee.com/tianzhendong/img/raw/master/images/202204161808242.png)
 
 #### 调用
 
@@ -1038,7 +1040,7 @@ int main(int argc, char *argv[])
 
 右键项目，添加两个.h文件
 
-![image-20220416175017723](assets/dll生成与使用/image-20220416175017723.png)
+![image-20220416175017723](https://gitee.com/tianzhendong/img/raw/master/images/202204161802804.png)
 
 引入头文件
 
