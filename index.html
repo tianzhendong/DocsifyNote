@@ -23,7 +23,6 @@
   <!-- <link rel="stylesheet" href="https://gitee.com/tianzhendong/docisy-plug-in/raw/master/plugin/custom.css"> -->
     <!-- alert -->
   <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
-
   <!-- 友链 -->
   <!-- <link rel="stylesheet" href="https://gitee.com/tianzhendong/docisy-plug-in/raw/master/plugin/css/friends-link.css"> -->
   <!-- 自定义特色样式：by myself -->
@@ -460,20 +459,40 @@
           }
         }
       },
-      
+     
+     'flexible-alerts': {
+        note: {
+          label: {
+            '/de-DE/': 'Hinweis',
+            '/': 'Note'
+          }
+        },
+        tip: {
+          label: {
+            '/de-DE/': 'Tipp',
+            '/': 'Tip'
+          }
+        },
+        warning: {
+          label: {
+            '/de-DE/': 'Warnung',
+            '/': 'Warning'
+          }
+        },
+        attention: {
+          label: {
+            '/de-DE/': 'Achtung',
+            '/': 'Attention'
+          }
+        }
+      } 
 
 
     }
     
 
-  </script>  
-    <script>
-      window.$docsify = {
-        'flexible-alerts': {
-          style: 'flat'
-        }
-      };
-    </script>
+  </script> 
+
   <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
   <!-- <script src="//unpkg.com/docsify"></script> -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js" data-ga="UUA-176075611-1"></script>
