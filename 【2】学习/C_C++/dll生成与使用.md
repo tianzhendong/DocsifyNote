@@ -42,7 +42,7 @@
 
 C++库-类型选择shared
 
-![image-20220415075952640](https://gitee.com/tianzhendong/img/raw/master/images/202204161759934.png)
+![image-20220415075952640](https://gitee.com/tianzhendong/img/raw/master/images/202204280931661.png)
 
 #### 新建文件
 

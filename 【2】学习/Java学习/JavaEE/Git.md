@@ -425,3 +425,6 @@ git archive --format=zip --output=src/xxx.zip <tag_name>` #提取为zip格式，
 
 
 
+## 强制推送
+
+`git push -f origin master`强制推送到origin远程的master分支上
