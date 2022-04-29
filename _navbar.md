@@ -4,10 +4,8 @@
 * [😈 主页](/README.md)
 * [🍵生活](README?id=🍵生活)
 * [📅工作](README?id=📅工作)
-  
 * [📒学习](README?id=📒学习)
   * [🤖机器人](README?id=🤖机器人)
-  * [🚜盾构机相关](README?id=🚜盾构机相关)
   * [⏰效率](README?id=⏰效率)
   * [🚀运动控制](README?id=🚀运动控制)
   * [🚒自动驾驶](README?id=🚒自动驾驶)
