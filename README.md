@@ -6,12 +6,12 @@
 <p align="center">
 <a href="https://github.com/TianZhendong" target="\_blank"><img src="https://img.shields.io/badge/Github-TianZD-red.svg"></a>
 <a href="https://gitee.com/tianzhendong/NoteBooks" target="\_blank"><img src="https://img.shields.io/badge/Gitee-TianZD-blue.svg"></a>
-<a href=" " target="\_blank"><img src="https://img.shields.io/badge/bilibili-哔哩哔哩-critical"></a>
 <a href="https://blog.csdn.net/tianzhendong?spm=1000.2115.3001.5343" target="\_blank"><img src="https://img.shields.io/badge/CSDN-TianZD-red.svg"></a>
 <a href="" target="\_blank">
-<img src="https://img.shields.io/badge/微信联系作者-WeChat-green.svg" alt="微信联系">
+<img src="https://img.shields.io/badge/个人主页-hexo-green.svg" alt="hexo主页">
 </a>
 </p>
+
 
 
 
