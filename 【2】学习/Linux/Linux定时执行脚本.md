@@ -2,7 +2,13 @@
 
 # Linux定时执行脚本
 
-sudo crontab -e
+## 创建
+
+输入：
+
+`sudo crontab -e`
+
+输入：
 
 ```shell
 5 * * * *每小时第5分钟执行
@@ -29,10 +35,11 @@ vim /etc/rc.d/rc.local
 
 现在Cron这个服务已经在进程里面了，我们就可以用这个服务了，Cron服务提供以下几种接口供大家使用：
 
+## 编辑
+
 1、直接用crontab命令编辑
 
-cron
-服务提供crontab命令来设定cron服务的，以下是这个命令的一些参数与说明：
+cron服务提供crontab命令来设定cron服务的，以下是这个命令的一些参数与说明：
 
 `crontab -u `//设定某个用户的cron服务，一般root用户在执行这个命令的时候需要此参数
 
