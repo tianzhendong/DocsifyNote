@@ -1,4 +1,4 @@
-![](图标/TianZD.png)
+![](./TianZD.png)
 
 <br>
 
