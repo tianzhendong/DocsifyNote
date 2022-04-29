@@ -10,11 +10,13 @@
 
 <br>
 
-# 不再更新，只更新hexo
+注：不再更新，只更新hexo
 
 <br>
 
-[主页](README.md)    [hexo](http://tianzd.cn)
+[本站主页](README.md)    [hexo](http://tianzd.cn)
+
+
 
 
 
