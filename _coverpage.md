@@ -1,4 +1,4 @@
-![](./assets/TianZD.png)
+![](https://gitee.com/tianzhendong/img/raw/master//images/TianZD.png)
 
 <br>
 
