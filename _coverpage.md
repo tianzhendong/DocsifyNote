@@ -1,4 +1,4 @@
-![](./TianZD.png)
+![](./assets/TianZD.png)
 
 <br>
 
@@ -14,7 +14,7 @@
 
 <br>
 
-[本站主页](README.md)    [hexo](http://tianzd.cn)
+[本站主页](README.md)    [hexo](http://tianzhendong.github.io)
 
 
 

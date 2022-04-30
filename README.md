@@ -1,6 +1,6 @@
 <p align="center">
 <a href="http://127.0.0.1:3000/" target="\_blank">
-<img src="./TianZD.png" width=""/>
+<img src="./assets/TianZD.png" width=""/>
 </a>
 </p>
 <p align="center">
