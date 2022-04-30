@@ -1,13 +1,13 @@
 <p align="center">
-<a href="http://127.0.0.1:3000/" target="\_blank">
+<a href="https://tianzhendong.github.io/DocsifyNote/" target="\_blank">
 <img src="https://gitee.com/tianzhendong/img/raw/master//images/TianZD.png" width=""/>
 </a>
 </p>
 <p align="center">
 <a href="https://github.com/TianZhendong" target="\_blank"><img src="https://img.shields.io/badge/Github-TianZD-red.svg"></a>
-<a href="https://gitee.com/tianzhendong/NoteBooks" target="\_blank"><img src="https://img.shields.io/badge/Gitee-TianZD-blue.svg"></a>
+<a href="https://gitee.com/tianzhendong" target="\_blank"><img src="https://img.shields.io/badge/Gitee-TianZD-blue.svg"></a>
 <a href="https://blog.csdn.net/tianzhendong?spm=1000.2115.3001.5343" target="\_blank"><img src="https://img.shields.io/badge/CSDN-TianZD-red.svg"></a>
-<a href="" target="\_blank">
+<a href="https://tianzhendong.github.io" target="\_blank">
 <img src="https://img.shields.io/badge/个人主页-hexo-green.svg" alt="hexo主页">
 </a>
 </p>
