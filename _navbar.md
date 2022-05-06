@@ -15,5 +15,5 @@
   * [💻Linux](README?id=💻linux)
   * [🐍Python](README?id=🐍python)
   * [🐶人工智能](README?id=🐶人工智能)
-* [hexo博客](https://tianzhendong.github.io)
+* [hexo博客](http://www.tianzd.cn)
 
