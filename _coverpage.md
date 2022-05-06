@@ -14,7 +14,7 @@
 
 <br>
 
-[本站主页](README.md)    [hexo](http://tianzhendong.github.io)
+[本站主页](README.md)    [hexo](http://tianzd.cn)
 
 
 
