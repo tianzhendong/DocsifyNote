@@ -28,6 +28,7 @@
         <img src="https://cdn.jsdelivr.net/gh/justacoder99/r2coding@master/img/localsoftware.2x9vakmja2g.png" width=""/>
     </a>
 </p>
+
 ## Markdown插入图片
 
 ### 直接插入
@@ -62,6 +63,7 @@
     这是图注
 </center>
 
+
 ## Markdown插入音频
 
 ### 使用audio 标签
@@ -78,6 +80,7 @@
 
 
 
+
 ### 使用iframe标签
 
 我们以网易云音乐为例 1.首先在网易云音乐播放界面，点击生成外链播放器
@@ -90,6 +93,7 @@
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1858139145&auto=0&height=66">
 </iframe>
+
 
 
 ## Markdown插入视频
@@ -227,6 +231,44 @@ $$
 分式有两种表示方法。第一种，使用`\frac ab`，其中`\frac`作用于气候的两个组a和b，结果为$\frac ab$。如果分子或分母不是单个字符，需要使用`{}`来分组。第二种，使用`\over`来分隔一个组的前后两部分，如`{a+1\over b+1}`：${a+1\over b+1}$。
 
 根式使用`\sqrt[a]b`来表示。其中，方括号内的值用来表示开几次方，省略方括号则表示开方，如`\sqrt[4]{\frac xy}`：$\sqrt[4]{\frac xy}$，`\sqrt{x^3}`：$\sqrt{x^3}$。
+
+#### 矩阵
+
+```latex
+\left[ \begin{matrix}
+x11 & x12 \\x21 & x22\\
+\end{matrix} \right]
+```
+
+前后用\left和\right包围，[]标识用方括号
+$$
+\left[ \begin{matrix}
+x11 & x12 \\x21 & x22\\
+\end{matrix} \right]
+$$
+
+```latex
+\left[\begin{matrix}
+p_{11}&p_{12}\\p_{21}&p_{22}\\
+\end{matrix}\right]_k^-=\left[\begin{matrix}
+1&dt\\0&1\\
+\end{matrix}\right]
+\left[\begin{matrix}
+p_{11}&p_{12}\\p_{21}&p_{22}\\
+\end{matrix}\right]_{k-1}
+\left[\begin{matrix}
+1&0\\dt&1\\
+\end{matrix}\right]
++\left[\begin{matrix}
+Q_{11}&Q_{12}\\Q_{21}&Q_{22}\\
+\end{matrix}\right]
+```
+
+$$
+\left[\begin{matrix}p_{11}&p_{12}\\p_{21}&p_{22}\\\end{matrix}\right]_k^-=\left[\begin{matrix}1&dt\\0&1\\\end{matrix}\right]\left[\begin{matrix}p_{11}&p_{12}\\p_{21}&p_{22}\\\end{matrix}\right]_{k-1}\left[\begin{matrix}1&0\\dt&1\\\end{matrix}\right]+\left[\begin{matrix}Q_{11}&Q_{12}\\Q_{21}&Q_{22}\\\end{matrix}\right]
+$$
+
+
 
 ####  字体
 

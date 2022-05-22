@@ -10,15 +10,14 @@
 
 <br>
 
-注：不再更新，只更新hexo
+<!-- 注：不再更新，只更新hexo -->
 
 <br>
 
 [本站主页](README.md)    [hexo](http://www.tianzd.cn)
 
-
-
-
+<!-- 背景图片 -->
+<!-- ![123](./assets/beijing.jpg) -->
 
 <!-- 背景色 -->
 ![color](./)
