@@ -1,6 +1,6 @@
 <p align="center">
 <a href="http://www.tianzd.cn:90" target="\_blank">
-<img src="https://gitee.com/tianzhendong/img/raw/master//images/TianZD.png" width=""/>
+<img src="assets/TianZD.png" width=""/>
 </a>
 </p>
 <p align="center">

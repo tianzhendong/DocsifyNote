@@ -12,7 +12,7 @@
 
 这是一个大家用得非常广泛的静态博客，两年前咱们这里就已经演示过它的使用以及部署上线。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232332738.png)
+![图片](./assets/202202232332738.png)
 
 工具地址：https://hexo.io
 
