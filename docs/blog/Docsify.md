@@ -8,11 +8,13 @@
 
 其实做这种网站，完全不用自己手写，现成的工具太多了，这地方随便举几个典型例子吧。
 
+
+
 ### Hexo
 
 这是一个大家用得非常广泛的静态博客，两年前咱们这里就已经演示过它的使用以及部署上线。
 
-![图片](./assets/202202232332738.png)
+![图片](./assets/Docsify/202202232332738.png)
 
 工具地址：https://hexo.io
 
@@ -20,7 +22,7 @@
 
 一款基于Vue框架驱动的静态网站生成器，比较符合用于知识文档网站的建站需求，现在用的小伙伴也很多。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232332139.png)
+![图片](./assets/Docsify/202202232332139.png)
 
 工具地址：https://vuepress.vuejs.org/
 
@@ -28,7 +30,7 @@
 
 docsify同样是一个很好用的知识文档网站生成框架，轻量简便，而且无需构建，写完内容就可以直接发布，界面干净又卫生。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232332353.png)
+![图片](./assets/Docsify/202202232332353.png)
 
 工具地址：https://docsify.js.org/
 
@@ -45,7 +47,7 @@ docsify同样是一个很好用的知识文档网站生成框架，轻量简便�
 
 GitBook也是一个可以用来制作知识库文档以及精美电子书网站的工具框架，不少技术电子书文档都是用它来做的。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232332503.png)
+![图片](./assets/Docsify/202202232332503.png)
 
 工具地址：https://github.com/GitbookIO/gitbook
 
@@ -55,11 +57,11 @@ docsify唯一需要的一个前置工具就是`npm`工具
 
 查看是否安装及版本
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232334892.png)
+![图片](./assets/Docsify/202202232334892.png)
 
 如果没有的话，直接在本地电脑上安装一个`node.js`环境就可以了。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232334539.jpeg)
+![图片](./assets/Docsify/202202232334539.jpeg)
 
 不管是macOS还是Windows系统，直接去`https://nodejs.org/`官网下载个安装包就可以了，直接下一步下一步即可，安装完成之后会包含npm工具。
 
@@ -95,13 +97,13 @@ docsify init
 docsify serve
 ```
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232337249.png)
+![图片](./assets/Docsify/202202232337249.png)
 
 我们会发现docsify会帮我们在`localhost:3000`启动一个知识库网站。
 
 然后在浏览器打开`http://localhost:3000`即可看见网站效果。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232337010.png)
+![图片](./assets/Docsify/202202232337010.png)
 
 当然，这时候的页面看起来非常简陋，几乎什么也没有。
 
@@ -116,7 +118,7 @@ docsify serve
 
 所以我们只需要直接编辑生成的这个README.md文件就能更新网站的内容。
 
-![image-20220223233926608](https://gitee.com/tianzhendong/img/raw/master//images/202202232339692.png)
+![image-20220223233926608](./assets/Docsify/202202232339692.png)
 
 `coverpage`：封面
 
@@ -163,7 +165,7 @@ docsify提供了多套主题可供使用。
 
 直接修改`index.html`中引入的CSS文件即可修改网站主题。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232343575.png)
+![图片](./assets/Docsify/202202232343575.png)
 
 目前提供有好几套主题可供选择：
 
@@ -185,11 +187,11 @@ coverpage: true
 
 这样既可开启封面功能。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342034.png)
+![图片](./assets/Docsify/202202232342034.png)
 
 封面功能开启之后，我们可以直接去项目文件夹里创建一个`_coverpage.md`文件来制作封面内容。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342150.png)
+![图片](./assets/Docsify/202202232342150.png)
 
 比如我们这地方，添加了`_coverpage.md`文件之后，在里面写上如下几段文字：
 
@@ -206,7 +208,7 @@ coverpage: true
 
 在网页上渲染之后，即可看到如下效果：
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342169.png)
+![图片](./assets/Docsify/202202232342169.png)
 
 所以其操作是非常简单的。
 
@@ -218,15 +220,15 @@ coverpage: true
 loadNavbar: true
 ```
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232343460.png)
+![图片](./assets/Docsify/202202232343460.png)
 
 导航栏功能开启之后，我们可以直接去项目文件夹里创建一个`_navbar.md`文件来制作导航栏菜单内容。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342788.png)
+![图片](./assets/Docsify/202202232342788.png)
 
 比如我们这地方，添加了`_navbar.md`导航栏之后的效果大致如下：
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342908.png)
+![图片](./assets/Docsify/202202232342908.png)
 
 
 
@@ -238,11 +240,11 @@ loadNavbar: true
 repo: 'https://github.com/rd2coding/Road2Coding'
 ```
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342609.png)
+![图片](./assets/Docsify/202202232342609.png)
 
 设置完成后的效果如下，还是很萌的，鼠标移到上面，小尾巴还能摇一摇。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342876.png)
+![图片](./assets/Docsify/202202232342876.png)
 
 ### 设置logo
 
@@ -253,11 +255,11 @@ name: 'Road To Coding',
 logo: 'https://cdn.jsdelivr.net/gh/justacoder99/r2coding@master/img/r2coding_logo_sidebar.1na4hwjnopq8.png'
 ```
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342324.png)
+![图片](./assets/Docsify/202202232342324.png)
 
 比如这地方设置了logo图片之后，效果大致如下：
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232342942.png)
+![图片](./assets/Docsify/202202232342942.png)
 
 ### 设置tabs
 
@@ -349,7 +351,7 @@ Ciao!
 
 效果：
 
-![image-20220224000446534](https://gitee.com/tianzhendong/img/raw/master//images/202202240004587.png)
+![image-20220224000446534](./assets/Docsify/202202240004587.png)
 
 ### alert插件
 
@@ -533,7 +535,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     .markdown-section pre:before {
       content: '';
       display: block;
-      background: url(https://gitee.com/tianzhendong/img/raw/master//images/202202280805295.png);
+      background: url(./assets/Docsify/202202280805295.png);
       height: 30px;
       background-size: 40px;
       background-repeat: no-repeat;
@@ -725,7 +727,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
     window.$docsify = {
        // 项目名称
       name: 'Tian',
-      logo: 'https://gitee.com/tianzhendong/img/raw/master//images/202202281213460.png',
+      logo: './assets/Docsify/202202281213460.png',
           // 仓库地址，点击右上角的Github章鱼猫头像会跳转到此地址
       repo: 'https://gitee.com/tianzhendong/NoteBooks',
 
@@ -983,7 +985,7 @@ https://github.com/fzankl/docsify-plugin-flexible-alerts
 
 这里选用Nginx这个Web服务器来驱动网站，因为Nginx服务器除了本身非常轻量，稳定，不耗资源之外，而且性能还好，还特别能扛并发。
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345781.png)
+![图片](./assets/Docsify/202202232345781.png)
 
 
 
@@ -1057,7 +1059,7 @@ make && make install
 
 然后我们可以直接将本地的项目文件夹`repository`上传到`www`目录里即可
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345234.png)
+![图片](./assets/Docsify/202202232345234.png)
 
 ### Nginx配置和访问
 
@@ -1070,11 +1072,11 @@ location / {
 }
 ```
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345404.png)
+![图片](./assets/Docsify/202202232345404.png)
 
 然后我们直接在浏览器中访问云服务器的公网IP，就可以访问该知识库网站了：
 
-![图片](https://gitee.com/tianzhendong/img/raw/master//images/202202232345961.jpeg)
+![图片](./assets/Docsify/202202232345961.jpeg)
 
 最后再将域名和这个IP一绑定，就OK了
 
@@ -1110,6 +1112,7 @@ chmod 777 文件名
 ```
 
 如果没有安装apache，可以安装如下软件，就有htpasswd这个命令了
+
 ```shell
 yum -y install httpd-tools
 yum -y install httpd  #安装httpd

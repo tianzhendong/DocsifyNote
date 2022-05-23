@@ -1,4 +1,7 @@
+
 [toc]
+
+
 
 # Markdown
 
@@ -39,7 +42,7 @@
 
 **[PicGo + Gitee(码云)实现免费markdown图床](https://link.zhihu.com/?target=https%3A//www.jianshu.com/p/b69950a49ae2)**
 
-![](https://gitee.com/tianzhendong/img/raw/master//images/202202111357847.png)
+![](./assets/markdown/202202111357847.png)
 
 ### HTML插入-排版
 
@@ -85,11 +88,11 @@
 
 我们以网易云音乐为例 1.首先在网易云音乐播放界面，点击生成外链播放器
 
-![image-20220211111954460](https://gitee.com/tianzhendong/img/raw/master//images/202202111119569.png)
+![image-20220211111954460](./assets/markdown/202202111119569.png)
 
 
 
-![image-20220211112012621](https://gitee.com/tianzhendong/img/raw/master/images/202204171928201.png)
+![image-20220211112012621](./assets/markdown/202204171928201.png)
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1858139145&auto=0&height=66">
 </iframe>
@@ -279,13 +282,13 @@ $$
 
 ### MarkDown符号大全
 
-![这里写图片描述](https://gitee.com/tianzhendong/img/raw/master//images/20171219090613513)
+![这里写图片描述](./assets/markdown/20171219090613513.gif)
 
-![img](https://gitee.com/tianzhendong/img/raw/master//images/20171219090626403)
+![img](./assets/markdown/20171219090626403.gif)
 
-![img](https://gitee.com/tianzhendong/img/raw/master//images/20171219090708939)
+![img](./assets/markdown/20171219090708939.gif)
 
-![这里写图片描述](https://gitee.com/tianzhendong/img/raw/master//images/20171219090742617)
+![这里写图片描述](./assets/markdown/20171219090742617.gif)
 
-![这里写图片描述](https://gitee.com/tianzhendong/img/raw/master//images/20171219090751456)
+![这里写图片描述](./assets/markdown/20171219090751456.gif)
 

@@ -1,4 +1,4 @@
-<!-- 学习/_sidebar.md -->
+<!-- _sidebar.md -->
 
 * [首页]()
 * [主页](README.md)
